@@ -1,880 +1,261 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comprehensive Geometry Revision - All Topics</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-
-    body {
-        font-family: Arial, sans-serif;
-        background: #f0f2f5;
-        padding: 20px;
-    }
-
-    .container {
-        max-width: 1100px;
-        margin: 0 auto;
-        background: white;
-        border-radius: 15px;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        overflow: hidden;
-    }
-
-    header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 40px;
-        text-align: center;
-    }
-
-    h1 {
-        margin: 0;
-        font-size: 2.8em;
-        margin-bottom: 10px;
-    }
-
-    .content {
-        padding: 40px;
-    }
-
-    .topic {
-        margin-bottom: 80px;
-        border: 3px solid #667eea;
-        border-radius: 15px;
-        padding: 30px;
-        background: #f8f9fa;
-    }
-
-    .topic-number {
-        display: inline-block;
-        background: #667eea;
-        color: white;
-        padding: 8px 15px;
-        border-radius: 50px;
-        font-weight: bold;
-        margin-bottom: 15px;
-    }
-
-    .topic h2 {
-        color: #667eea;
-        font-size: 2em;
-        margin: 0 0 20px 0;
-    }
-
-    h3 {
-        color: #764ba2;
-        font-size: 1.3em;
-        margin: 20px 0 15px 0;
-        border-left: 4px solid #764ba2;
-        padding-left: 10px;
-    }
-
-    p {
-        font-size: 1.05em;
-        color: #333;
-        line-height: 1.7;
-        margin: 12px 0;
-    }
-
-    .highlight {
-        background: #ffeb3b;
-        padding: 3px 8px;
-        font-weight: bold;
-        border-radius: 3px;
-    }
-
-    .curiosity {
-        background: #fff9c4;
-        border-left: 5px solid #fbc02d;
-        padding: 15px;
-        margin: 15px 0;
-        border-radius: 5px;
-    }
-
-    .curiosity strong {
-        color: #f57f17;
-    }
-
-    .formula-box {
-        background: #e3f2fd;
-        border: 2px solid #2196f3;
-        padding: 15px;
-        margin: 15px 0;
-        border-radius: 8px;
-        font-size: 1.1em;
-        text-align: center;
-        font-weight: bold;
-        color: #1976d2;
-    }
-
-    .example-section {
-        background: #f3e5f5;
-        border-left: 5px solid #9c27b0;
-        padding: 15px;
-        margin: 15px 0;
-        border-radius: 5px;
-    }
-
-    .example-section strong {
-        color: #9c27b0;
-    }
-
-    .step {
-        background: white;
-        border-left: 4px solid #4caf50;
-        padding: 12px;
-        margin: 8px 0;
-        border-radius: 3px;
-    }
-
-    .answer {
-        background: #e8f5e9;
-        border-left: 4px solid #2e7d32;
-        padding: 12px;
-        margin: 8px 0;
-        border-radius: 3px;
-        color: #1b5e20;
-        font-weight: bold;
-    }
-
-    .key-points {
-        background: #fce4ec;
-        border: 2px solid #e91e63;
-        padding: 15px;
-        margin: 15px 0;
-        border-radius: 8px;
-    }
-
-    .key-points strong {
-        color: #c2185b;
-    }
-
-    .key-points ul {
-        list-style-position: inside;
-        margin: 10px 0;
-    }
-
-    .key-points li {
-        margin: 8px 0;
-        color: #333;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 20px 0;
-        background: white;
-    }
-
-    th, td {
-        padding: 12px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-    }
-
-    th {
-        background: #667eea;
-        color: white;
-    }
-
-    tr:hover {
-        background: #f5f5f5;
-    }
-
-    footer {
-        background: #667eea;
-        color: white;
-        padding: 30px;
-        text-align: center;
-    }
-
-    .toc {
-        background: #e3f2fd;
-        border: 2px solid #2196f3;
-        padding: 20px;
-        border-radius: 10px;
-        margin-bottom: 40px;
-    }
-
-    .toc h3 {
-        color: #2196f3;
-        border: none;
-        padding: 0;
-        margin-bottom: 15px;
-    }
-
-    .toc-item {
-        margin: 8px 0;
-        font-size: 1.05em;
-    }
-
-    .toc-item a {
-        color: #667eea;
-        text-decoration: none;
-        font-weight: bold;
-    }
-
-    .formula-list {
-        background: white;
-        padding: 15px;
-        margin: 15px 0;
-        border-radius: 8px;
-        border: 1px solid #ddd;
-    }
-
-    .practice-problems {
-        background: #fff3cd;
-        border: 2px solid #ffc107;
-        border-radius: 10px;
-        padding: 20px;
-        margin: 20px 0;
-    }
-
-    .problem-item {
-        background: white;
-        padding: 15px;
-        margin: 12px 0;
-        border-left: 4px solid #ff6b6b;
-        border-radius: 5px;
-    }
-
-    .difficulty {
-        display: inline-block;
-        background: #ff9800;
-        color: white;
-        padding: 4px 10px;
-        border-radius: 20px;
-        font-size: 0.9em;
-        margin-left: 10px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>JULIAN</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;overflow:hidden;font-family:'Outfit',sans-serif;width:100vw;height:100vh}
+canvas{position:fixed;top:0;left:0;width:100%;height:100%}
+.wm-wrap{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;pointer-events:none;display:flex;flex-direction:column;align-items:center;gap:4px;user-select:none}
+.wm-topic{font-size:clamp(18px,3.5vw,36px);font-weight:300;color:rgba(255,109,0,0.5);letter-spacing:0.45em;text-transform:uppercase}
+.wm-name{font-size:clamp(80px,20vw,300px);font-weight:800;color:#FF6D00;text-shadow:0 0 80px rgba(255,109,0,0.9),0 0 160px rgba(255,109,0,0.6),0 0 250px rgba(255,109,0,0.2);letter-spacing:0.06em;white-space:nowrap;line-height:0.85}
+.stamp{position:fixed;bottom:20px;right:20px;z-index:3;pointer-events:none;user-select:none}
+.stamp-pill{display:flex;align-items:center;gap:8px;padding:8px 18px 8px 16px;border-radius:100px;background:rgba(255,109,0,0.12);border:1px solid rgba(255,109,0,0.5);box-shadow:0 0 30px rgba(255,109,0,0.25),0 0 60px rgba(255,109,0,0.1);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.stamp-dot{width:8px;height:8px;border-radius:50%;background:#FF6D00;box-shadow:0 0 12px rgba(255,109,0,0.9)}
+.stamp-txt{font-size:clamp(10px,1.5vw,14px);font-weight:600;color:rgba(255,109,0,0.9);letter-spacing:0.12em;white-space:nowrap}
 </style>
-
-
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>📐 COMPREHENSIVE GEOMETRY REVISION</h1>
-            <p>All 8 Topics with Detailed Explanations, Curiosities & Complete Answers</p>
-        </header>
-
-
-    <div class="content">
-        <!-- TABLE OF CONTENTS -->
-        <div class="toc">
-            <h3>📚 Table of Contents</h3>
-            <div class="toc-item">1️⃣ Lines and Angles</div>
-            <div class="toc-item">2️⃣ Similar & Congruent Triangles</div>
-            <div class="toc-item">3️⃣ Polygons</div>
-            <div class="toc-item">4️⃣ Plane Shapes - Perimeter</div>
-            <div class="toc-item">5️⃣ Area of Irregular Shapes</div>
-            <div class="toc-item">6️⃣ Area of Plane Shapes</div>
-            <div class="toc-item">7️⃣ Solid Shapes 1 (Cuboid, Cube, Cylinder)</div>
-            <div class="toc-item">8️⃣ Solid Shapes 2 (Cone, Pyramid, Frustum)</div>
-        </div>
-
-        <!-- TOPIC 1: LINES AND ANGLES -->
-        <div class="topic">
-            <span class="topic-number">TOPIC 1</span>
-            <h2>Lines and Angles</h2>
-
-            <h3>What You Need to Know</h3>
-            <p>An <span class="highlight">angle</span> is the opening/space between two rays meeting at a point (vertex).</p>
-
-            <div class="curiosity">
-                <strong>🌍 Curiosity:</strong> The ancient Babylonians divided a circle into 360 degrees around 3000 BC! They chose 360 because it's divisible by many numbers (2, 3, 4, 5, 6, 8, 9, 10, etc.), making calculations easier. This is why we still use 360° today!
-            </div>
-
-            <h3>Key Angle Types</h3>
-            <div class="key-points">
-                <strong>Types of Angles:</strong>
-                <ul>
-                    <li>Acute: 0° - 90° (small, sharp)</li>
-                    <li>Right: 90° (perfect corner)</li>
-                    <li>Obtuse: 90° - 180° (large, wide)</li>
-                    <li>Straight: 180° (flat line)</li>
-                    <li>Reflex: 180° - 360° (long way around)</li>
-                </ul>
-            </div>
-
-            <h3>Important Relationships</h3>
-            <div class="formula-box">
-                Complementary Angles: Add to 90° → Comp = 90° - angle<br>
-                Supplementary Angles: Add to 180° → Supp = 180° - angle<br>
-                Vertically Opposite Angles: Always EQUAL<br>
-                Angles on a Line: Add to 180°<br>
-                Angles Around a Point: Add to 360°
-            </div>
-
-            <h3>Worked Examples with Solutions</h3>
-            <div class="example-section">
-                <strong>Example 1: Complementary Angles</strong><br>
-                Find the complementary angle of 37°<br>
-                <div class="step">Complementary = 90° - 37° = 53°</div>
-                <div class="answer">Answer: 53°</div>
-            </div>
-
-            <div class="example-section">
-                <strong>Example 2: Vertically Opposite Angles</strong><br>
-                Two lines cross. One angle is 68°. Find all four angles.<br>
-                <div class="step">Angle A = 68°</div>
-                <div class="step">Angle C (opposite) = 68°</div>
-                <div class="step">Angle B (on line) = 180° - 68° = 112°</div>
-                <div class="step">Angle D (opposite B) = 112°</div>
-                <div class="answer">Answer: 68°, 112°, 68°, 112°</div>
-            </div>
-
-            <div class="practice-problems">
-                <strong>Practice Problems & Answers</strong><br>
-                <div class="problem-item">
-                    <strong>1. Supplementary Angles</strong><br>
-                    If one angle is 157°, find its supplementary angle.<br>
-                    <div class="answer">Answer: 180° - 157° = 23°</div>
-                </div>
-                <div class="problem-item">
-                    <strong>2. Angles Around a Point</strong><br>
-                    Five angles around a point are 70°, 85°, 75°, 90°, and ?<br>
-                    <div class="answer">Answer: 360° - (70+85+75+90) = 360° - 320° = 40°</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TOPIC 2: SIMILAR & CONGRUENT TRIANGLES -->
-        <div class="topic">
-            <span class="topic-number">TOPIC 2</span>
-            <h2>Similar & Congruent Triangles</h2>
-
-            <h3>What You Need to Know</h3>
-            <p><span class="highlight">Congruent:</span> Exactly the same (same size & shape)<br>
-            <span class="highlight">Similar:</span> Same shape, different size (proportional)</p>
-
-            <div class="curiosity">
-                <strong>🎨 Curiosity:</strong> Map makers use similar triangles! When creating maps, they scale down real-world distances using similar triangles. A 100 km real distance might become 10 cm on a map, maintaining the same proportions!
-            </div>
-
-            <h3>Congruence Rules (3 ways to prove)</h3>
-            <div class="formula-box">
-                SSS: All 3 sides equal<br>
-                SAS: Two sides & angle between equal<br>
-                ASA: Two angles & side between equal
-            </div>
-
-            <h3>Similarity Rules (3 ways to prove)</h3>
-            <div class="formula-box">
-                AAA: All 3 angles equal<br>
-                SSS Proportional: All sides in same ratio<br>
-                SAS Proportional: Two sides in same ratio & angle equal
-            </div>
-
-            <h3>Worked Examples with Solutions</h3>
-            <div class="example-section">
-                <strong>Example 1: Check if Congruent</strong><br>
-                Triangle A: sides 5, 7, 8. Triangle B: sides 5, 7, 8<br>
-                <div class="step">All three sides match (SSS rule)</div>
-                <div class="answer">Answer: YES, CONGRUENT</div>
-            </div>
-
-            <div class="example-section">
-                <strong>Example 2: Check if Similar & Find Scale</strong><br>
-                Triangle A: sides 3, 4, 6. Triangle B: sides 6, 8, 12<br>
-                <div class="step">Ratio: 3:6 = 1:2, 4:8 = 1:2, 6:12 = 1:2</div>
-                <div class="step">All ratios are the same</div>
-                <div class="answer">Answer: YES, SIMILAR with scale 1:2</div>
-            </div>
-
-            <div class="practice-problems">
-                <strong>Practice Problems & Answers</strong><br>
-                <div class="problem-item">
-                    <strong>1. Missing Side in Similar Triangle</strong><br>
-                    Triangle A: sides 2, 3, 4. Triangle B: sides 4, 6, ?<br>
-                    Find the missing side if B is similar to A with ratio 1:2<br>
-                    <div class="answer">Answer: 4 × 2 = 8</div>
-                </div>
-                <div class="problem-item">
-                    <strong>2. Real World Problem</strong><br>
-                    A model car is 8 cm. Real car is 400 cm. Model door is 1.5 cm wide. How wide is real door?<br>
-                    <div class="answer">Answer: Ratio = 400/8 = 50. Real door = 1.5 × 50 = 75 cm</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TOPIC 3: POLYGONS -->
-        <div class="topic">
-            <span class="topic-number">TOPIC 3</span>
-            <h2>Polygons</h2>
-
-            <h3>What You Need to Know</h3>
-            <p>A <span class="highlight">polygon</span> is a closed shape with straight sides. The name tells you how many sides!</p>
-
-            <div class="curiosity">
-                <strong>🐝 Curiosity:</strong> Honeycomb uses HEXAGONS! Bees create hexagonal cells because hexagons use the least amount of wax while storing the most honey. It's nature's perfect geometry optimization!
-            </div>
-
-            <h3>Types of Polygons</h3>
-            <table>
-                <tr>
-                    <th>Name</th>
-                    <th>Sides</th>
-                    <th>Sum of Angles</th>
-                </tr>
-                <tr>
-                    <td>Triangle</td>
-                    <td>3</td>
-                    <td>180°</td>
-                </tr>
-                <tr>
-                    <td>Quadrilateral</td>
-                    <td>4</td>
-                    <td>360°</td>
-                </tr>
-                <tr>
-                    <td>Pentagon</td>
-                    <td>5</td>
-                    <td>540°</td>
-                </tr>
-                <tr>
-                    <td>Hexagon</td>
-                    <td>6</td>
-                    <td>720°</td>
-                </tr>
-                <tr>
-                    <td>Heptagon</td>
-                    <td>7</td>
-                    <td>900°</td>
-                </tr>
-                <tr>
-                    <td>Octagon</td>
-                    <td>8</td>
-                    <td>1080°</td>
-                </tr>
-            </table>
-
-            <h3>Key Formula</h3>
-            <div class="formula-box">
-                Sum of Interior Angles = (n - 2) × 180°<br>
-                where n = number of sides
-            </div>
-
-            <h3>Regular Polygons</h3>
-            <p>In a <span class="highlight">regular polygon</span>, all sides are equal and all angles are equal.</p>
-            <div class="formula-box">
-                Each angle in regular polygon = [(n - 2) × 180°] ÷ n
-            </div>
-
-            <h3>Worked Examples with Solutions</h3>
-            <div class="example-section">
-                <strong>Example 1: Sum of Angles in Pentagon</strong><br>
-                <div class="step">(5 - 2) × 180° = 3 × 180° = 540°</div>
-                <div class="answer">Answer: 540°</div>
-            </div>
-
-            <div class="example-section">
-                <strong>Example 2: Find Missing Angle</strong><br>
-                Hexagon with angles 100°, 110°, 120°, 130°, 125°, and ?<br>
-                <div class="step">Sum = (6-2) × 180° = 720°</div>
-                <div class="step">100+110+120+130+125 = 585°</div>
-                <div class="step">Missing = 720° - 585° = 135°</div>
-                <div class="answer">Answer: 135°</div>
-            </div>
-
-            <div class="practice-problems">
-                <strong>Practice Problems & Answers</strong><br>
-                <div class="problem-item">
-                    <strong>1. Each angle in regular octagon</strong><br>
-                    <div class="answer">Answer: [(8-2)×180°] ÷ 8 = 1080° ÷ 8 = 135°</div>
-                </div>
-                <div class="problem-item">
-                    <strong>2. Pentagon with angles 105°, 115°, 120°, 110°, and ?</strong><br>
-                    <div class="answer">Answer: 540° - 450° = 90°</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TOPIC 4: PLANE SHAPES - PERIMETER -->
-        <div class="topic">
-            <span class="topic-number">TOPIC 4</span>
-            <h2>Plane Shapes - Properties & Perimeter</h2>
-
-            <h3>What is Perimeter?</h3>
-            <p><span class="highlight">Perimeter</span> is the distance AROUND the edge of a shape, measured in linear units (cm, m, etc.)</p>
-
-            <div class="curiosity">
-                <strong>🏃 Curiosity:</strong> Running track perimeters are 400 meters (internationally standard)! The outer edge is 400m, but staggered start lines account for the different arc distances each runner runs.
-            </div>
-
-            <h3>Perimeter Formulas</h3>
-            <div class="formula-list">
-                <strong>Rectangle:</strong> P = 2(l + w)<br>
-                <strong>Square:</strong> P = 4s<br>
-                <strong>Parallelogram:</strong> P = 2(a + b)<br>
-                <strong>Triangle:</strong> P = a + b + c<br>
-                <strong>Trapezoid:</strong> P = a + b + c + d<br>
-                <strong>Circle (Circumference):</strong> C = 2πr = πd (where π ≈ 3.14)
-            </div>
-
-            <h3>Worked Examples with Solutions</h3>
-            <div class="example-section">
-                <strong>Example 1: Rectangle Perimeter</strong><br>
-                Length 15 cm, Width 8 cm<br>
-                <div class="step">P = 2(15 + 8) = 2(23) = 46 cm</div>
-                <div class="answer">Answer: 46 cm</div>
-            </div>
-
-            <div class="example-section">
-                <strong>Example 2: Circle Circumference</strong><br>
-                Radius 7 cm (π ≈ 3.14)<br>
-                <div class="step">C = 2 × 3.14 × 7 = 43.96 cm</div>
-                <div class="answer">Answer: 43.96 cm</div>
-            </div>
-
-            <div class="practice-problems">
-                <strong>Practice Problems & Answers</strong><br>
-                <div class="problem-item">
-                    <strong>1. Parallelogram with sides 12 cm and 9 cm</strong><br>
-                    <div class="answer">Answer: P = 2(12 + 9) = 2(21) = 42 cm</div>
-                </div>
-                <div class="problem-item">
-                    <strong>2. Triangle with sides 5 cm, 6 cm, 7 cm</strong><br>
-                    <div class="answer">Answer: P = 5 + 6 + 7 = 18 cm</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TOPIC 5: AREA OF IRREGULAR SHAPES -->
-        <div class="topic">
-            <span class="topic-number">TOPIC 5</span>
-            <h2>Area of Irregular Shapes</h2>
-
-            <h3>What You Need to Know</h3>
-            <p><span class="highlight">Irregular shapes</span> don't have simple formulas. Break them into regular shapes or use special methods!</p>
-
-            <div class="curiosity">
-                <strong>📍 Curiosity:</strong> Surveyors use the "breaking into triangles" method to measure irregular land plots! They triangulate from known points to calculate the exact area of property with irregular boundaries.
-            </div>
-
-            <h3>Three Methods</h3>
-            <div class="formula-box">
-                Method 1: Break into regular shapes → Add areas<br>
-                Method 2: Subtract from larger shape → Large - Cut-outs<br>
-                Method 3: Grid counting → Count full + partial squares
-            </div>
-
-            <h3>Worked Examples with Solutions</h3>
-            <div class="example-section">
-                <strong>Example 1: L-Shape (Method 1)</strong><br>
-                Vertical: 5×15, Horizontal: 8×6<br>
-                <div class="step">Area 1 = 5 × 15 = 75 cm²</div>
-                <div class="step">Area 2 = 8 × 6 = 48 cm²</div>
-                <div class="step">Total = 75 + 48 = 123 cm²</div>
-                <div class="answer">Answer: 123 cm²</div>
-            </div>
-
-            <div class="example-section">
-                <strong>Example 2: Rectangle with Cut-Out (Method 2)</strong><br>
-                Large: 20×15, Cut-out: 3×4<br>
-                <div class="step">Large area = 20 × 15 = 300 cm²</div>
-                <div class="step">Cut-out = 3 × 4 = 12 cm²</div>
-                <div class="step">Final = 300 - 12 = 288 cm²</div>
-                <div class="answer">Answer: 288 cm²</div>
-            </div>
-
-            <div class="practice-problems">
-                <strong>Practice Problems & Answers</strong><br>
-                <div class="problem-item">
-                    <strong>1. T-Shape: Top 10×5, Bottom+sides 15×10 minus top overlaps</strong><br>
-                    <div class="answer">Answer: (15×10) - (2×2.5×5) = 150 - 25 = 125 cm² (or use method 1)</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TOPIC 6: AREA OF PLANE SHAPES -->
-        <div class="topic">
-            <span class="topic-number">TOPIC 6</span>
-            <h2>Area of Plane Shapes</h2>
-
-            <h3>What You Need to Know</h3>
-            <p><span class="highlight">Area</span> is the space INSIDE a shape, measured in square units (cm², m², etc.)</p>
-
-            <div class="curiosity">
-                <strong>🌾 Curiosity:</strong> Ancient Egyptians used area formulas to calculate tax on farmland! The more area your land, the more tax you paid. This is one reason geometry was so important in ancient Egypt!
-            </div>
-
-            <h3>All Area Formulas</h3>
-            <table>
-                <tr>
-                    <th>Shape</th>
-                    <th>Formula</th>
-                </tr>
-                <tr>
-                    <td><strong>Rectangle</strong></td>
-                    <td>A = l × w</td>
-                </tr>
-                <tr>
-                    <td><strong>Square</strong></td>
-                    <td>A = s²</td>
-                </tr>
-                <tr>
-                    <td><strong>Triangle</strong></td>
-                    <td>A = ½ × b × h</td>
-                </tr>
-                <tr>
-                    <td><strong>Parallelogram</strong></td>
-                    <td>A = b × h</td>
-                </tr>
-                <tr>
-                    <td><strong>Trapezoid</strong></td>
-                    <td>A = ½ × (b₁ + b₂) × h</td>
-                </tr>
-                <tr>
-                    <td><strong>Circle</strong></td>
-                    <td>A = πr²</td>
-                </tr>
-            </table>
-
-            <h3>Important Reminder</h3>
-            <div class="key-points">
-                <strong>HEIGHT vs SIDE:</strong>
-                <ul>
-                    <li>For triangles & parallelograms: Use PERPENDICULAR height, not slant side!</li>
-                    <li>Height is the vertical distance, measured at 90° to the base</li>
-                </ul>
-            </div>
-
-            <h3>Worked Examples with Solutions</h3>
-            <div class="example-section">
-                <strong>Example 1: Triangle Area</strong><br>
-                Base 14 cm, Height 9 cm<br>
-                <div class="step">A = ½ × 14 × 9 = ½ × 126 = 63 cm²</div>
-                <div class="answer">Answer: 63 cm²</div>
-            </div>
-
-            <div class="example-section">
-                <strong>Example 2: Trapezoid Area</strong><br>
-                Bases 8 cm and 12 cm, Height 6 cm<br>
-                <div class="step">A = ½ × (8 + 12) × 6 = ½ × 20 × 6 = ½ × 120 = 60 cm²</div>
-                <div class="answer">Answer: 60 cm²</div>
-            </div>
-
-            <div class="practice-problems">
-                <strong>Practice Problems & Answers</strong><br>
-                <div class="problem-item">
-                    <strong>1. Circle with radius 8 cm (π ≈ 3.14)</strong><br>
-                    <div class="answer">Answer: A = 3.14 × 8² = 3.14 × 64 = 200.96 cm²</div>
-                </div>
-                <div class="problem-item">
-                    <strong>2. Parallelogram base 18 cm, height 7 cm</strong><br>
-                    <div class="answer">Answer: A = 18 × 7 = 126 cm²</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TOPIC 7: SOLID SHAPES 1 -->
-        <div class="topic">
-            <span class="topic-number">TOPIC 7</span>
-            <h2>Solid Shapes 1 - Cuboid, Cube & Cylinder</h2>
-
-            <h3>What You Need to Know</h3>
-            <p><span class="highlight">3D shapes</span> have volume (space inside) and surface area (total exterior). Use CUBIC units for volume!</p>
-
-            <div class="curiosity">
-                <strong>📦 Curiosity:</strong> Shipping boxes are often cuboids because they pack efficiently and stack easily! A cube is a special cuboid that uses the least wrapping paper for the most volume.
-            </div>
-
-            <h3>Formulas</h3>
-            <table>
-                <tr>
-                    <th>Shape</th>
-                    <th>Volume</th>
-                    <th>Surface Area</th>
-                </tr>
-                <tr>
-                    <td><strong>Cuboid</strong></td>
-                    <td>V = l × w × h</td>
-                    <td>SA = 2(lw + wh + lh)</td>
-                </tr>
-                <tr>
-                    <td><strong>Cube</strong></td>
-                    <td>V = s³</td>
-                    <td>SA = 6s²</td>
-                </tr>
-                <tr>
-                    <td><strong>Cylinder</strong></td>
-                    <td>V = πr²h</td>
-                    <td>SA = 2πr² + 2πrh</td>
-                </tr>
-            </table>
-
-            <h3>Worked Examples with Solutions</h3>
-            <div class="example-section">
-                <strong>Example 1: Cuboid Volume & SA</strong><br>
-                l=10, w=6, h=5<br>
-                <div class="step">V = 10 × 6 × 5 = 300 cm³</div>
-                <div class="step">SA = 2(60 + 30 + 50) = 2(140) = 280 cm²</div>
-                <div class="answer">Answer: V = 300 cm³, SA = 280 cm²</div>
-            </div>
-
-            <div class="example-section">
-                <strong>Example 2: Cylinder Volume</strong><br>
-                r=4, h=10 (π ≈ 3.14)<br>
-                <div class="step">V = 3.14 × 4² × 10 = 3.14 × 16 × 10 = 502.4 cm³</div>
-                <div class="answer">Answer: 502.4 cm³</div>
-            </div>
-
-            <div class="practice-problems">
-                <strong>Practice Problems & Answers</strong><br>
-                <div class="problem-item">
-                    <strong>1. Cube with side 6 cm</strong><br>
-                    <div class="answer">Answer: V = 6³ = 216 cm³, SA = 6×36 = 216 cm²</div>
-                </div>
-                <div class="problem-item">
-                    <strong>2. Cylinder r=3, h=8 (π≈3.14)</strong><br>
-                    <div class="answer">Answer: V = 3.14×9×8 = 226.08 cm³</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TOPIC 8: SOLID SHAPES 2 -->
-        <div class="topic">
-            <span class="topic-number">TOPIC 8</span>
-            <h2>Solid Shapes 2 - Cone, Pyramid & Frustum</h2>
-
-            <h3>What You Need to Know</h3>
-            <p>These are <span class="highlight">tapered shapes</span> (cone & pyramid) or <span class="highlight">truncated versions</span> (frustum).</p>
-
-            <div class="curiosity">
-                <strong>🗿 Curiosity:</strong> The Great Pyramids of Egypt are SQUARE PYRAMIDS! They were built so precisely that corners point to cardinal directions (North, South, East, West). Engineers used angle calculations similar to what you're learning!
-            </div>
-
-            <h3>Formulas</h3>
-            <table>
-                <tr>
-                    <th>Shape</th>
-                    <th>Volume Formula</th>
-                </tr>
-                <tr>
-                    <td><strong>Cone</strong></td>
-                    <td>V = ⅓πr²h</td>
-                </tr>
-                <tr>
-                    <td><strong>Pyramid (Square)</strong></td>
-                    <td>V = ⅓ × s² × h</td>
-                </tr>
-                <tr>
-                    <td><strong>Frustum (Cone)</strong></td>
-                    <td>V = ⅓πh(r₁² + r₂² + r₁r₂)</td>
-                </tr>
-            </table>
-
-            <h3>Key Facts</h3>
-            <div class="key-points">
-                <strong>All use ⅓ (one-third)!</strong>
-                <ul>
-                    <li>Cone volume = ⅓ of cylinder volume (same base & height)</li>
-                    <li>Pyramid volume = ⅓ of cuboid volume (same base & height)</li>
-                    <li>Frustum = cone/pyramid with top cut off</li>
-                    <li>For frustum: r₁ = top radius, r₂ = bottom radius</li>
-                </ul>
-            </div>
-
-            <h3>Slant Height Formula</h3>
-            <div class="formula-box">
-                For cones: l² = h² + r²<br>
-                (Pythagorean theorem - always find square root!)
-            </div>
-
-            <h3>Worked Examples with Solutions</h3>
-            <div class="example-section">
-                <strong>Example 1: Cone Volume</strong><br>
-                r=5, h=12 (π ≈ 3.14)<br>
-                <div class="step">V = ⅓ × 3.14 × 5² × 12</div>
-                <div class="step">= ⅓ × 3.14 × 25 × 12 = ⅓ × 942 = 314 cm³</div>
-                <div class="answer">Answer: 314 cm³</div>
-            </div>
-
-            <div class="example-section">
-                <strong>Example 2: Pyramid Volume</strong><br>
-                Square base side 8 cm, height 10 cm<br>
-                <div class="step">Base area = 8² = 64 cm²</div>
-                <div class="step">V = ⅓ × 64 × 10 = ⅓ × 640 = 213.33 cm³</div>
-                <div class="answer">Answer: 213.33 cm³</div>
-            </div>
-
-            <div class="example-section">
-                <strong>Example 3: Frustum Volume</strong><br>
-                r₁=3, r₂=6, h=9 (π ≈ 3.14)<br>
-                <div class="step">V = ⅓ × 3.14 × 9 × (9 + 36 + 18)</div>
-                <div class="step">= ⅓ × 3.14 × 9 × 63 = ⅓ × 1,782.18 = 594.06 cm³</div>
-                <div class="answer">Answer: 594.06 cm³</div>
-            </div>
-
-            <div class="practice-problems">
-                <strong>Practice Problems & Answers</strong><br>
-                <div class="problem-item">
-                    <strong>1. Cone with radius 7 cm, height 15 cm (π≈3.14)</strong><br>
-                    <div class="answer">Answer: V = ⅓×3.14×49×15 = ⅓×2,307.9 = 769.3 cm³</div>
-                </div>
-                <div class="problem-item">
-                    <strong>2. Slant height of cone with h=8, r=6</strong><br>
-                    <div class="answer">Answer: l² = 64+36 = 100, so l = √100 = 10 cm</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- SUMMARY & TIPS -->
-        <div class="topic">
-            <span class="topic-number">FINAL TIPS</span>
-            <h2>Exam Tips & Quick Reference</h2>
-
-            <h3>Common Mistakes to Avoid</h3>
-            <div class="key-points">
-                <ul>
-                    <li>❌ Forgetting to take square root: If l² = 169, answer is l = 13, NOT l² = 169!</li>
-                    <li>❌ Mixing up formulas: Circle AREA = πr² (not 2πr!)</li>
-                    <li>❌ Using side instead of height: For triangles, ALWAYS use perpendicular height!</li>
-                    <li>❌ Forgetting ÷ 3: Cones and pyramids use ⅓ in volume!</li>
-                    <li>❌ Wrong units: Volume = cm³, Area = cm², Perimeter = cm</li>
-                </ul>
-            </div>
-
-            <h3>Remember These Key Values</h3>
-            <div class="formula-box">
-                π ≈ 3.14 (always!)<br>
-                Full circle = 360°<br>
-                Straight line = 180°<br>
-                Right angle = 90°<br>
-                √4 = 2, √9 = 3, √16 = 4, √25 = 5, √100 = 10, √169 = 13
-            </div>
-
-            <h3>Quick Topic Checklist</h3>
-            <div class="key-points">
-                <ul>
-                    <li>✓ Topic 1: Know angle relationships</li>
-                    <li>✓ Topic 2: SSS, SAS, ASA for congruent; AAA, proportional for similar</li>
-                    <li>✓ Topic 3: (n-2)×180° for angle sum</li>
-                    <li>✓ Topic 4: Different multipliers (×2, ×4, just add)</li>
-                    <li>✓ Topic 5: Three methods - break, subtract, count</li>
-                    <li>✓ Topic 6: Know all 6 shape formulas</li>
-                    <li>✓ Topic 7: Cuboid, Cube, Cylinder formulas</li>
-                    <li>✓ Topic 8: Use ⅓! Find square roots!</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        <h3>🎓 Congratulations!</h3>
-        <p>You've completed all 8 Geometry Topics!</p>
-        <p>Practice these problems, remember the curiosities, and you'll ace your exam! 📐💪</p>
-    </footer>
+<canvas id="c"></canvas>
+<div class="wm-wrap">
+  <div class="wm-topic">LOOPS</div>
+  <div class="wm-name">JULIAN</div>
 </div>
+<div class="stamp">
+  <div class="stamp-pill">
+    <div class="stamp-dot"></div>
+    <div class="stamp-txt">YOU DO THIS TOO</div>
+  </div>
+</div>
+<script>
+const c=document.getElementById('c'),ctx=c.getContext('2d');
+const RM=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+const CR=255,CG=109,CB=0; // Electric Orange (Behavior)
+const ER=255,EG=0,EB=60; // Crimson Red (Warning/Anxiety)
+let W,H,cx,cy;
+const N=180;
+let pts=[];
+let t0=0,lastPhase='';
+let executeFlash = 0;
+let warningAlpha = 0;
 
+function sz(){
+  const d=devicePixelRatio||1;W=innerWidth;H=innerHeight;
+  c.width=W*d;c.height=H*d;c.style.width=W+'px';c.style.height=H+'px';
+  ctx.setTransform(d,0,0,d,0,0);cx=W/2;cy=H/2;
+  init();
+}
+
+function init(){
+  pts=[];
+  for(let i=0;i<N;i++){
+    pts.push({
+      x:cx+(Math.random()-0.5)*W,
+      y:cy+(Math.random()-0.5)*H,
+      vx:(Math.random()-0.5)*0.8,
+      vy:(Math.random()-0.5)*0.8,
+      angle:0, 
+      locked:false,
+      sz:2+Math.random()*3.5,bright:0.6+Math.random()*0.4,
+      trail:[]
+    });
+  }
+  t0=performance.now();lastPhase='';
+  executeFlash = 0;
+  warningAlpha = 0;
+}
+
+// 5s drift, 5s execute, 5s release
+const CY=15;
+const PH=[
+  ['drift1',0,5],
+  ['execute',5,10],
+  ['drift2',10,15]
+];
+
+function getPhase(t){
+  const ct=t%CY;
+  for(const[n,s,e]of PH)if(ct>=s&&ct<e)return{name:n,p:(ct-s)/(e-s)};
+  return{name:'drift1',p:1};
+}
+
+function applyPhase(name){
+  if(name===lastPhase)return;lastPhase=name;
+  if(name==='execute'){
+    executeFlash = 1.0; // Trigger bright flash
+    warningAlpha = 1.0; // Warning drops in instantly
+    for(let i=0;i<N;i++){
+      pts[i].locked = true;
+      pts[i].angle = (i/N) * Math.PI * 2;
+    }
+  } else if(name==='drift2'){
+    warningAlpha = 0; // Warning vanishes instantly
+    for(let i=0;i<N;i++){
+      const p=pts[i];
+      if(p.locked){
+        const dx=p.x-cx,dy=p.y-cy,d=Math.max(1,Math.sqrt(dx*dx+dy*dy));
+        p.vx=(dx/d)*7+(Math.random()-0.5)*3;
+        p.vy=(dy/d)*7+(Math.random()-0.5)*3;
+        p.locked=false;
+      }
+    }
+  }
+}
+
+function drawWarningSign(alpha, t){
+    const scale = Math.min(W,H) * 0.006;
+    ctx.save();
+    ctx.translate(cx, cy);
+    
+    // Pulsate the size slightly
+    const pulse = 1 + Math.sin(t*20)*0.05;
+    ctx.scale(scale * pulse, scale * pulse);
+    
+    // Intense Red Glow
+    const g=ctx.createRadialGradient(0,0,0,0,0,100);
+    g.addColorStop(0,'rgba('+ER+','+EG+','+EB+','+(alpha*0.5)+')');
+    g.addColorStop(1,'rgba('+ER+','+EG+','+EB+',0)');
+    ctx.fillStyle=g;ctx.fillRect(-100,-100,200,200);
+    
+    // Draw Triangle Outline (Thick)
+    ctx.strokeStyle='rgba('+ER+','+EG+','+EB+','+alpha+')';
+    ctx.lineWidth=6;
+    ctx.lineJoin='round';
+    ctx.beginPath();
+    ctx.moveTo(-40, 35);
+    ctx.lineTo(40, 35);
+    ctx.lineTo(0, -50);
+    ctx.closePath();
+    ctx.stroke();
+    
+    // Draw Exclamation Mark Line
+    ctx.strokeStyle='rgba('+ER+','+EG+','+EB+','+alpha+')';
+    ctx.lineWidth=10;
+    ctx.lineCap='round';
+    ctx.beginPath();
+    ctx.moveTo(0, -25);
+    ctx.lineTo(0, 10);
+    ctx.stroke();
+    
+    // Draw Exclamation Mark Dot
+    ctx.beginPath();
+    ctx.arc(0, 25, 6, 0, Math.PI*2);
+    ctx.fillStyle='rgba('+ER+','+EG+','+EB+','+alpha+')';
+    ctx.fill();
+    
+    ctx.restore();
+}
+
+function frame(now){
+  const el=(now-t0)/1000;
+  const{name,p}=getPhase(el);
+  applyPhase(name);
+
+  if(!RM){
+    const loopR=Math.min(W,H)*0.14; // Tight cage radius around the warning
+    
+    if(name==='drift1'){
+      for(let i=0;i<N;i++){
+        const pt=pts[i];
+        pt.vx+=(Math.random()-0.5)*0.2;
+        pt.vy+=(Math.random()-0.5)*0.2;
+        pt.vx*=0.95;pt.vy*=0.95;
+        pt.x+=pt.vx;pt.y+=pt.vy;
+      }
+    }
+    else if(name==='execute'){
+      const speed=0.14; // Frantic, high-speed numbing spin
+      
+      for(let i=0;i<N;i++){
+        const pt=pts[i];
+        if(pt.locked){
+          pt.angle+=speed;
+          // Add a slight wobble to make it look like a grinding jaw/blur
+          const wobble = Math.sin(el*40 + i) * 5;
+          pt.x=cx+Math.cos(pt.angle)*(loopR+wobble);
+          pt.y=cy+Math.sin(pt.angle)*(loopR+wobble);
+        }
+      }
+    }
+    else if(name==='drift2'){
+      for(let i=0;i<N;i++){
+        const pt=pts[i];
+        pt.vx+=(Math.random()-0.5)*0.2;
+        pt.vy+=(Math.random()-0.5)*0.2;
+        pt.vx*=0.95;pt.vy*=0.95;
+        pt.x+=pt.vx;pt.y+=pt.vy;
+      }
+    }
+
+    for(let i=0;i<N;i++){
+      const pt=pts[i];
+      pt.trail.push({x:pt.x,y:pt.y});
+      const maxT=pt.locked?20:6; // Very long blurry trails to show speed
+      while(pt.trail.length>maxT)pt.trail.shift();
+    }
+    
+    executeFlash *= 0.85; // Fade out the flash
+  }
+
+  ctx.fillStyle='#000';ctx.fillRect(0,0,W,H);
+
+  // Draw Warning Sign First (so particles overlap it)
+  if(warningAlpha > 0.01){
+    drawWarningSign(warningAlpha, el);
+  }
+
+  // Draw trails
+  for(let i=0;i<N;i++){
+    const pt=pts[i];
+    if(pt.trail.length<2)continue;
+    for(let j=1;j<pt.trail.length;j++){
+      const f=j/pt.trail.length;
+      const a=f*0.7*pt.bright; // Brighter trails
+      ctx.beginPath();
+      ctx.moveTo(pt.trail[j-1].x,pt.trail[j-1].y);
+      ctx.lineTo(pt.trail[j].x,pt.trail[j].y);
+      ctx.strokeStyle='rgba('+CR+','+CG+','+CB+','+a+')';
+      ctx.lineWidth=pt.sz*f*2;ctx.lineCap='round';ctx.stroke();
+    }
+  }
+
+  // Draw particles with intense glow
+  for(let i=0;i<N;i++){
+    const pt=pts[i];
+    const a=pt.locked?1:pt.bright;
+    const s=pt.locked?pt.sz*1.5:pt.sz; // Particles grow when locked
+
+    // Wide outer glow
+    ctx.beginPath();ctx.arc(pt.x,pt.y,s*6,0,Math.PI*2);
+    ctx.fillStyle='rgba('+CR+','+CG+','+CB+','+(a*0.1)+')';ctx.fill();
+    
+    // Mid glow
+    ctx.beginPath();ctx.arc(pt.x,pt.y,s*2.5,0,Math.PI*2);
+    ctx.fillStyle='rgba('+CR+','+CG+','+CB+','+(a*0.3)+')';ctx.fill();
+    
+    // Core
+    ctx.beginPath();ctx.arc(pt.x,pt.y,s,0,Math.PI*2);
+    ctx.fillStyle='rgba('+CR+','+CG+','+CB+','+(a*0.9)+')';ctx.fill();
+    
+    // White hot center when executing
+    if(pt.locked){
+      ctx.beginPath();ctx.arc(pt.x,pt.y,s*0.4,0,Math.PI*2);
+      ctx.fillStyle='rgba(255,255,255,'+a+')';ctx.fill();
+    }
+  }
+
+  // Execution flash overlay
+  if(executeFlash > 0.01){
+    ctx.fillStyle='rgba(255,255,255,'+executeFlash+')';
+    ctx.fillRect(0,0,W,H);
+  }
+
+  if(!RM)requestAnimationFrame(frame);
+}
+sz();requestAnimationFrame(frame);window.addEventListener('resize',sz);
+</script>
 </body>
 </html>
