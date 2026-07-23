@@ -3,26 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>JULIAN</title>
+<title>ELI</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#000;overflow:hidden;font-family:'Outfit',sans-serif;width:100vw;height:100vh}
 canvas{position:fixed;top:0;left:0;width:100%;height:100%}
 .wm-wrap{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;pointer-events:none;display:flex;flex-direction:column;align-items:center;gap:4px;user-select:none}
-.wm-topic{font-size:clamp(18px,3.5vw,36px);font-weight:300;color:rgba(255,109,0,0.5);letter-spacing:0.45em;text-transform:uppercase}
-.wm-name{font-size:clamp(80px,20vw,300px);font-weight:800;color:#FF6D00;text-shadow:0 0 80px rgba(255,109,0,0.9),0 0 160px rgba(255,109,0,0.6),0 0 250px rgba(255,109,0,0.2);letter-spacing:0.06em;white-space:nowrap;line-height:0.85}
+.wm-topic{font-size:clamp(18px,3.5vw,36px);font-weight:300;color:rgba(245,158,11,0.5);letter-spacing:0.45em;text-transform:uppercase}
+.wm-name{font-size:clamp(80px,20vw,300px);font-weight:800;color:#FBBF24;text-shadow:0 0 80px rgba(251,191,36,0.9),0 0 160px rgba(251,191,36,0.6),0 0 250px rgba(251,191,36,0.2);letter-spacing:0.06em;white-space:nowrap;line-height:0.85}
 .stamp{position:fixed;bottom:20px;right:20px;z-index:3;pointer-events:none;user-select:none}
-.stamp-pill{display:flex;align-items:center;gap:8px;padding:8px 18px 8px 16px;border-radius:100px;background:rgba(255,109,0,0.12);border:1px solid rgba(255,109,0,0.5);box-shadow:0 0 30px rgba(255,109,0,0.25),0 0 60px rgba(255,109,0,0.1);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-.stamp-dot{width:8px;height:8px;border-radius:50%;background:#FF6D00;box-shadow:0 0 12px rgba(255,109,0,0.9)}
-.stamp-txt{font-size:clamp(10px,1.5vw,14px);font-weight:600;color:rgba(255,109,0,0.9);letter-spacing:0.12em;white-space:nowrap}
+.stamp-pill{display:flex;align-items:center;gap:8px;padding:8px 18px 8px 16px;border-radius:100px;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.5);box-shadow:0 0 30px rgba(251,191,36,0.25),0 0 60px rgba(251,191,36,0.1);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.stamp-dot{width:8px;height:8px;border-radius:50%;background:#FBBF24;box-shadow:0 0 12px rgba(251,191,36,0.9)}
+.stamp-txt{font-size:clamp(10px,1.5vw,14px);font-weight:600;color:rgba(251,191,36,0.9);letter-spacing:0.12em;white-space:nowrap}
 </style>
 </head>
 <body>
 <canvas id="c"></canvas>
 <div class="wm-wrap">
   <div class="wm-topic">LOOPS</div>
-  <div class="wm-name">JULIAN</div>
+  <div class="wm-name">ELI</div>
 </div>
 <div class="stamp">
   <div class="stamp-pill">
@@ -33,14 +33,14 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%}
 <script>
 const c=document.getElementById('c'),ctx=c.getContext('2d');
 const RM=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-const CR=255,CG=109,CB=0; // Electric Orange (Behavior)
-const ER=255,EG=0,EB=60; // Crimson Red (Warning/Anxiety)
+const CR=251,CG=191,CB=36; // Amber/Gold (Behavior)
+const WR=255,WG=255,WB=255; // White (Clock/Schedule)
 let W,H,cx,cy;
 const N=180;
 let pts=[];
 let t0=0,lastPhase='';
 let executeFlash = 0;
-let warningAlpha = 0;
+let clockAlpha = 0;
 
 function sz(){
   const d=devicePixelRatio||1;W=innerWidth;H=innerHeight;
@@ -65,7 +65,7 @@ function init(){
   }
   t0=performance.now();lastPhase='';
   executeFlash = 0;
-  warningAlpha = 0;
+  clockAlpha = 0;
 }
 
 // 5s drift, 5s execute, 5s release
@@ -86,13 +86,13 @@ function applyPhase(name){
   if(name===lastPhase)return;lastPhase=name;
   if(name==='execute'){
     executeFlash = 1.0; // Trigger bright flash
-    warningAlpha = 1.0; // Warning drops in instantly
+    clockAlpha = 1.0; // Clock drops in instantly
     for(let i=0;i<N;i++){
       pts[i].locked = true;
-      pts[i].angle = (i/N) * Math.PI * 2;
+      pts[i].angle = (i/N) * Math.PI * 2; // Perfectly even rigid formation
     }
   } else if(name==='drift2'){
-    warningAlpha = 0; // Warning vanishes instantly
+    clockAlpha = 0; // Clock vanishes instantly
     for(let i=0;i<N;i++){
       const p=pts[i];
       if(p.locked){
@@ -105,45 +105,82 @@ function applyPhase(name){
   }
 }
 
-function drawWarningSign(alpha, t){
-    const scale = Math.min(W,H) * 0.006;
+function drawClock(alpha, t){
+    const scale = Math.min(W,H) * 0.005;
     ctx.save();
     ctx.translate(cx, cy);
+    ctx.scale(scale, scale);
     
-    // Pulsate the size slightly
-    const pulse = 1 + Math.sin(t*20)*0.05;
-    ctx.scale(scale * pulse, scale * pulse);
+    // Intense White Glow
+    const g=ctx.createRadialGradient(0,0,0,0,0,120);
+    g.addColorStop(0,'rgba('+WR+','+WG+','+WB+','+(alpha*0.4)+')');
+    g.addColorStop(1,'rgba('+WR+','+WG+','+WB+',0)');
+    ctx.fillStyle=g;ctx.fillRect(-120,-120,240,240);
     
-    // Intense Red Glow
-    const g=ctx.createRadialGradient(0,0,0,0,0,100);
-    g.addColorStop(0,'rgba('+ER+','+EG+','+EB+','+(alpha*0.5)+')');
-    g.addColorStop(1,'rgba('+ER+','+EG+','+EB+',0)');
-    ctx.fillStyle=g;ctx.fillRect(-100,-100,200,200);
-    
-    // Draw Triangle Outline (Thick)
-    ctx.strokeStyle='rgba('+ER+','+EG+','+EB+','+alpha+')';
-    ctx.lineWidth=6;
-    ctx.lineJoin='round';
+    // Clock Face Circle
+    ctx.strokeStyle='rgba('+WR+','+WG+','+WB+','+alpha+')';
+    ctx.lineWidth=4;
     ctx.beginPath();
-    ctx.moveTo(-40, 35);
-    ctx.lineTo(40, 35);
-    ctx.lineTo(0, -50);
-    ctx.closePath();
+    ctx.arc(0, 0, 60, 0, Math.PI*2);
     ctx.stroke();
     
-    // Draw Exclamation Mark Line
-    ctx.strokeStyle='rgba('+ER+','+EG+','+EB+','+alpha+')';
-    ctx.lineWidth=10;
+    // Ticks and Numbers
+    ctx.textAlign='center';
+    ctx.textBaseline='middle';
+    for(let i=0;i<12;i++){
+        const angle=(i*30 - 90)*Math.PI/180; // Start at top (12)
+        const x1=Math.cos(angle)*50;
+        const y1=Math.sin(angle)*50;
+        const x2=Math.cos(angle)*58;
+        const y2=Math.sin(angle)*58;
+        
+        // Ticks
+        ctx.strokeStyle='rgba('+WR+','+WG+','+WB+','+alpha+')';
+        ctx.lineWidth=(i%3===0)?6:2; // Thicker at 12, 3, 6, 9
+        ctx.lineCap='round';
+        ctx.beginPath();
+        ctx.moveTo(x1,y1);
+        ctx.lineTo(x2,y2);
+        ctx.stroke();
+        
+        // Numbers
+        const numX=Math.cos(angle)*40;
+        const numY=Math.sin(angle)*40;
+        ctx.font='bold 14px Outfit';
+        ctx.fillStyle='rgba('+WR+','+WG+','+WB+','+(alpha*0.9)+')';
+        ctx.fillText((i===0?12:i), numX, numY);
+    }
+    
+    // Clock Hands (All locked at 12:00:00)
+    
+    // Hour Hand (Short, Thick)
+    ctx.strokeStyle='rgba('+WR+','+WG+','+WB+','+alpha+')';
+    ctx.lineWidth=6;
     ctx.lineCap='round';
     ctx.beginPath();
-    ctx.moveTo(0, -25);
-    ctx.lineTo(0, 10);
+    ctx.moveTo(0, 10);
+    ctx.lineTo(0, -30);
     ctx.stroke();
     
-    // Draw Exclamation Mark Dot
+    // Minute Hand (Longer, Medium)
+    ctx.lineWidth=4;
     ctx.beginPath();
-    ctx.arc(0, 25, 6, 0, Math.PI*2);
-    ctx.fillStyle='rgba('+ER+','+EG+','+EB+','+alpha+')';
+    ctx.moveTo(0, 10);
+    ctx.lineTo(0, -45);
+    ctx.stroke();
+    
+    // Second Hand (Thinnest, Red to pop like an alarm)
+    ctx.strokeStyle='rgba(255, 60, 60, '+alpha+')';
+    ctx.lineWidth=2;
+    ctx.beginPath();
+    ctx.moveTo(0, 15);
+    ctx.lineTo(0, -50);
+    ctx.stroke();
+    
+    // Center Dot
+    ctx.beginPath();
+    ctx.arc(0, 0, 5, 0, Math.PI*2);
+    ctx.fillStyle='rgba('+WR+','+WG+','+WB+','+alpha+')';
     ctx.fill();
     
     ctx.restore();
@@ -155,7 +192,7 @@ function frame(now){
   applyPhase(name);
 
   if(!RM){
-    const loopR=Math.min(W,H)*0.14; // Tight cage radius around the warning
+    const loopR=Math.min(W,H)*0.14; // Mechanical ring radius around the clock
     
     if(name==='drift1'){
       for(let i=0;i<N;i++){
@@ -167,16 +204,15 @@ function frame(now){
       }
     }
     else if(name==='execute'){
-      const speed=0.14; // Frantic, high-speed numbing spin
+      const speed=0.10; // Fast, rigid, mechanical marching speed
       
       for(let i=0;i<N;i++){
         const pt=pts[i];
         if(pt.locked){
           pt.angle+=speed;
-          // Add a slight wobble to make it look like a grinding jaw/blur
-          const wobble = Math.sin(el*40 + i) * 5;
-          pt.x=cx+Math.cos(pt.angle)*(loopR+wobble);
-          pt.y=cy+Math.sin(pt.angle)*(loopR+wobble);
+          // NO wobble. Perfectly rigid and uniform to represent a schedule.
+          pt.x=cx+Math.cos(pt.angle)*loopR;
+          pt.y=cy+Math.sin(pt.angle)*loopR;
         }
       }
     }
@@ -193,7 +229,7 @@ function frame(now){
     for(let i=0;i<N;i++){
       const pt=pts[i];
       pt.trail.push({x:pt.x,y:pt.y});
-      const maxT=pt.locked?20:6; // Very long blurry trails to show speed
+      const maxT=pt.locked?18:6; // Long blurry trails to show mechanical speed
       while(pt.trail.length>maxT)pt.trail.shift();
     }
     
@@ -202,9 +238,9 @@ function frame(now){
 
   ctx.fillStyle='#000';ctx.fillRect(0,0,W,H);
 
-  // Draw Warning Sign First (so particles overlap it)
-  if(warningAlpha > 0.01){
-    drawWarningSign(warningAlpha, el);
+  // Draw Clock First (so particles overlap it)
+  if(clockAlpha > 0.01){
+    drawClock(clockAlpha, el);
   }
 
   // Draw trails
