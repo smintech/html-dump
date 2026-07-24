@@ -3,26 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>ELI</title>
+<title>TRUTH: THE TRAP & BENEFIT</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#000;overflow:hidden;font-family:'Outfit',sans-serif;width:100vw;height:100vh}
 canvas{position:fixed;top:0;left:0;width:100%;height:100%}
 .wm-wrap{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;pointer-events:none;display:flex;flex-direction:column;align-items:center;gap:4px;user-select:none}
-.wm-topic{font-size:clamp(18px,3.5vw,36px);font-weight:300;color:rgba(245,158,11,0.5);letter-spacing:0.45em;text-transform:uppercase}
-.wm-name{font-size:clamp(80px,20vw,300px);font-weight:800;color:#FBBF24;text-shadow:0 0 80px rgba(251,191,36,0.9),0 0 160px rgba(251,191,36,0.6),0 0 250px rgba(251,191,36,0.2);letter-spacing:0.06em;white-space:nowrap;line-height:0.85}
+.wm-topic{font-size:clamp(18px,3.5vw,36px);font-weight:300;color:rgba(255,255,255,0.8);letter-spacing:0.45em;text-transform:uppercase}
+.wm-name{font-size:clamp(40px,10vw,160px);font-weight:800;color:#FFFFFF;text-shadow:0 0 80px rgba(255,255,255,1),0 0 160px rgba(255,255,255,0.8),0 0 250px rgba(255,255,255,0.3);letter-spacing:0.04em;white-space:nowrap;line-height:0.85}
 .stamp{position:fixed;bottom:20px;right:20px;z-index:3;pointer-events:none;user-select:none}
-.stamp-pill{display:flex;align-items:center;gap:8px;padding:8px 18px 8px 16px;border-radius:100px;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.5);box-shadow:0 0 30px rgba(251,191,36,0.25),0 0 60px rgba(251,191,36,0.1);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-.stamp-dot{width:8px;height:8px;border-radius:50%;background:#FBBF24;box-shadow:0 0 12px rgba(251,191,36,0.9)}
-.stamp-txt{font-size:clamp(10px,1.5vw,14px);font-weight:600;color:rgba(251,191,36,0.9);letter-spacing:0.12em;white-space:nowrap}
+.stamp-pill{display:flex;align-items:center;gap:8px;padding:8px 18px 8px 16px;border-radius:100px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.6);box-shadow:0 0 30px rgba(255,255,255,0.3),0 0 60px rgba(255,255,255,0.1);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.stamp-dot{width:8px;height:8px;border-radius:50%;background:#FFFFFF;box-shadow:0 0 12px rgba(255,255,255,1)}
+.stamp-txt{font-size:clamp(10px,1.5vw,14px);font-weight:600;color:rgba(255,255,255,1);letter-spacing:0.12em;white-space:nowrap}
 </style>
 </head>
 <body>
 <canvas id="c"></canvas>
 <div class="wm-wrap">
-  <div class="wm-topic">LOOPS</div>
-  <div class="wm-name">ELI</div>
+  <div class="wm-topic">TRUTH</div>
+  <div class="wm-name">THE TRAP</div>
 </div>
 <div class="stamp">
   <div class="stamp-pill">
@@ -33,19 +33,49 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%}
 <script>
 const c=document.getElementById('c'),ctx=c.getContext('2d');
 const RM=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-const CR=251,CG=191,CB=36; // Amber/Gold (Behavior)
-const WR=255,WG=255,WB=255; // White (Clock/Schedule)
 let W,H,cx,cy;
 const N=180;
 let pts=[];
 let t0=0,lastPhase='';
 let executeFlash = 0;
-let clockAlpha = 0;
+
+const FURN_COLORS=[
+  [34,211,238], // Couch (Cyan)
+  [255,109,0],  // Door (Orange)
+  [251,191,36]  // Fridge (Amber)
+];
+let furniture=[];
+let room={};
 
 function sz(){
   const d=devicePixelRatio||1;W=innerWidth;H=innerHeight;
   c.width=W*d;c.height=H*d;c.style.width=W+'px';c.style.height=H+'px';
   ctx.setTransform(d,0,0,d,0,0);cx=W/2;cy=H/2;
+  const s=Math.min(W,H)*0.0018;
+  
+  // 3D Room Math
+  const rw = W * 0.8, rh = H * 0.65;
+  const dx = W * 0.15, dy = -H * 0.15; // Vanishing point offset
+  room = {
+    fTL: {x: cx - rw/2, y: cy - rh/2},
+    fTR: {x: cx + rw/2, y: cy - rh/2},
+    fBR: {x: cx + rw/2, y: cy + rh/2},
+    fBL: {x: cx - rw/2, y: cy + rh/2},
+    bTL: {x: cx - rw/2 + dx, y: cy - rh/2 + dy},
+    bTR: {x: cx + rw/2 + dx, y: cy - rh/2 + dy},
+    bBR: {x: cx + rw/2 + dx, y: cy + rh/2 + dy},
+    bBL: {x: cx - rw/2 + dx, y: cy + rh/2 + dy}
+  };
+  
+  // Position furniture inside the 3D room
+  furniture=[
+    // Couch sits on the right side of the floor
+    {type:'couch', x:cx + W*0.15, y:cy + H*0.2, w:140*s, h:70*s, color:FURN_COLORS[0]},
+    // Fridge sits on the left side of the floor
+    {type:'fridge', x:cx - W*0.2, y:cy + H*0.15, w:75*s, h:120*s, color:FURN_COLORS[2]},
+    // Door is on the back wall
+    {type:'door', x:cx + dx, y:cy + dy + 10*s, w:60*s, h:130*s, color:FURN_COLORS[1]}
+  ];
   init();
 }
 
@@ -55,135 +85,175 @@ function init(){
     pts.push({
       x:cx+(Math.random()-0.5)*W,
       y:cy+(Math.random()-0.5)*H,
-      vx:(Math.random()-0.5)*0.8,
-      vy:(Math.random()-0.5)*0.8,
-      angle:0, 
-      locked:false,
-      sz:2+Math.random()*3.5,bright:0.6+Math.random()*0.4,
-      trail:[]
+      vx:(Math.random()-0.5)*1.5,vy:(Math.random()-0.5)*1.5,
+      angle:0,locked:false,targetFurn:i%3,
+      sz:2.5+Math.random()*3.5,bright:0.6+Math.random()*0.4,trail:[]
     });
   }
   t0=performance.now();lastPhase='';
-  executeFlash = 0;
-  clockAlpha = 0;
+  executeFlash=0;
 }
 
-// 5s drift, 5s execute, 5s release
+// 5s erratic (wasting energy), 10s trapped/efficient (the trap)
 const CY=15;
-const PH=[
-  ['drift1',0,5],
-  ['execute',5,10],
-  ['drift2',10,15]
-];
+const PH=[['erratic',0,5],['trapped',5,15]];
 
-function getPhase(t){
-  const ct=t%CY;
-  for(const[n,s,e]of PH)if(ct>=s&&ct<e)return{name:n,p:(ct-s)/(e-s)};
-  return{name:'drift1',p:1};
-}
+function getPhase(t){const ct=t%CY;for(const[n,s,e]of PH)if(ct>=s&&ct<e)return{name:n,p:(ct-s)/(e-s)};return{name:'erratic',p:1}}
 
 function applyPhase(name){
   if(name===lastPhase)return;lastPhase=name;
-  if(name==='execute'){
-    executeFlash = 1.0; // Trigger bright flash
-    clockAlpha = 1.0; // Clock drops in instantly
+  if(name==='trapped'){
+    executeFlash=1.0;
     for(let i=0;i<N;i++){
-      pts[i].locked = true;
-      pts[i].angle = (i/N) * Math.PI * 2; // Perfectly even rigid formation
+      pts[i].locked=true;
+      pts[i].angle=(i/N)*Math.PI*2;
     }
-  } else if(name==='drift2'){
-    clockAlpha = 0; // Clock vanishes instantly
+  } else if(name==='erratic'){
     for(let i=0;i<N;i++){
-      const p=pts[i];
-      if(p.locked){
-        const dx=p.x-cx,dy=p.y-cy,d=Math.max(1,Math.sqrt(dx*dx+dy*dy));
-        p.vx=(dx/d)*7+(Math.random()-0.5)*3;
-        p.vy=(dy/d)*7+(Math.random()-0.5)*3;
-        p.locked=false;
-      }
+      pts[i].locked=false;
+      pts[i].vx=(Math.random()-0.5)*4;
+      pts[i].vy=(Math.random()-0.5)*4;
     }
   }
 }
 
-function drawClock(alpha, t){
-    const scale = Math.min(W,H) * 0.005;
+function draw3DRoomBack(){
+  ctx.save();
+  ctx.strokeStyle='rgba(34, 211, 238, 0.4)';
+  ctx.lineWidth=2;
+  ctx.shadowColor='rgba(34, 211, 238, 0.8)';
+  ctx.shadowBlur=10;
+  
+  // Back Wall
+  ctx.beginPath();
+  ctx.moveTo(room.bTL.x, room.bTL.y); ctx.lineTo(room.bTR.x, room.bTR.y); ctx.lineTo(room.bBR.x, room.bBR.y); ctx.lineTo(room.bBL.x, room.bBL.y); ctx.closePath();
+  ctx.stroke();
+  
+  // Connecting Lines (Back to Front)
+  ctx.beginPath();
+  ctx.moveTo(room.fTL.x, room.fTL.y); ctx.lineTo(room.bTL.x, room.bTL.y);
+  ctx.moveTo(room.fTR.x, room.fTR.y); ctx.lineTo(room.bTR.x, room.bTR.y);
+  ctx.moveTo(room.fBR.x, room.fBR.y); ctx.lineTo(room.bBR.x, room.bBR.y);
+  ctx.moveTo(room.fBL.x, room.fBL.y); ctx.lineTo(room.bBL.x, room.bBL.y);
+  ctx.stroke();
+  
+  // Floor Grid
+  ctx.strokeStyle='rgba(34, 211, 238, 0.15)';
+  ctx.lineWidth=1;
+  ctx.shadowBlur=0;
+  const gridLines=5;
+  for(let i=1;i<gridLines;i++){
+    const t=i/gridLines;
+    // Depth lines
+    const p1={x:room.fBL.x+(room.bBL.x-room.fBL.x)*t, y:room.fBL.y+(room.bBL.y-room.fBL.y)*t};
+    const p2={x:room.fBR.x+(room.bBR.x-room.fBR.x)*t, y:room.fBR.y+(room.bBR.y-room.fBR.y)*t};
+    ctx.beginPath(); ctx.moveTo(p1.x,p1.y); ctx.lineTo(p2.x,p2.y); ctx.stroke();
+    // Width lines
+    const p3={x:room.fBL.x+(room.fBR.x-room.fBL.x)*t, y:room.fBL.y+(room.fBR.y-room.fBL.y)*t};
+    const p4={x:room.bBL.x+(room.bBR.x-room.bBL.x)*t, y:room.bBL.y+(room.bBR.y-room.bBL.y)*t};
+    ctx.beginPath(); ctx.moveTo(p3.x,p3.y); ctx.lineTo(p4.x,p4.y); ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function draw3DRoomFront(){
+  ctx.save();
+  ctx.strokeStyle='rgba(255, 255, 255, 0.6)';
+  ctx.lineWidth=3;
+  ctx.shadowColor='rgba(34, 211, 238, 1)';
+  ctx.shadowBlur=15;
+  ctx.lineJoin='round';
+  
+  // Front Face Frame
+  ctx.beginPath();
+  ctx.moveTo(room.fTL.x, room.fTL.y); ctx.lineTo(room.fTR.x, room.fTR.y); ctx.lineTo(room.fBR.x, room.fBR.y); ctx.lineTo(room.fBL.x, room.fBL.y); ctx.closePath();
+  ctx.stroke();
+  ctx.restore();
+}
+
+function drawFurniture(){
+  for(const f of furniture){
     ctx.save();
-    ctx.translate(cx, cy);
-    ctx.scale(scale, scale);
+    ctx.translate(f.x,f.y);
     
-    // Intense White Glow
-    const g=ctx.createRadialGradient(0,0,0,0,0,120);
-    g.addColorStop(0,'rgba('+WR+','+WG+','+WB+','+(alpha*0.4)+')');
-    g.addColorStop(1,'rgba('+WR+','+WG+','+WB+',0)');
-    ctx.fillStyle=g;ctx.fillRect(-120,-120,240,240);
+    // Massive background glow
+    const g=ctx.createRadialGradient(0,0,0,0,0,Math.max(f.w,f.h)*1.5);
+    g.addColorStop(0,`rgba(${f.color[0]},${f.color[1]},${f.color[2]},0.15)`);
+    g.addColorStop(1,`rgba(${f.color[0]},${f.color[1]},${f.color[2]},0)`);
+    ctx.fillStyle=g;ctx.fillRect(-f.w*1.5,-f.h*1.5,f.w*3,f.h*3);
     
-    // Clock Face Circle
-    ctx.strokeStyle='rgba('+WR+','+WG+','+WB+','+alpha+')';
-    ctx.lineWidth=4;
-    ctx.beginPath();
-    ctx.arc(0, 0, 60, 0, Math.PI*2);
-    ctx.stroke();
-    
-    // Ticks and Numbers
-    ctx.textAlign='center';
-    ctx.textBaseline='middle';
-    for(let i=0;i<12;i++){
-        const angle=(i*30 - 90)*Math.PI/180; // Start at top (12)
-        const x1=Math.cos(angle)*50;
-        const y1=Math.sin(angle)*50;
-        const x2=Math.cos(angle)*58;
-        const y2=Math.sin(angle)*58;
-        
-        // Ticks
-        ctx.strokeStyle='rgba('+WR+','+WG+','+WB+','+alpha+')';
-        ctx.lineWidth=(i%3===0)?6:2; // Thicker at 12, 3, 6, 9
-        ctx.lineCap='round';
-        ctx.beginPath();
-        ctx.moveTo(x1,y1);
-        ctx.lineTo(x2,y2);
-        ctx.stroke();
-        
-        // Numbers
-        const numX=Math.cos(angle)*40;
-        const numY=Math.sin(angle)*40;
-        ctx.font='bold 14px Outfit';
-        ctx.fillStyle='rgba('+WR+','+WG+','+WB+','+(alpha*0.9)+')';
-        ctx.fillText((i===0?12:i), numX, numY);
-    }
-    
-    // Clock Hands (All locked at 12:00:00)
-    
-    // Hour Hand (Short, Thick)
-    ctx.strokeStyle='rgba('+WR+','+WG+','+WB+','+alpha+')';
-    ctx.lineWidth=6;
+    ctx.strokeStyle=`rgba(${f.color[0]},${f.color[1]},${f.color[2]},1)`;
+    ctx.lineWidth=3;
+    ctx.lineJoin='round';
     ctx.lineCap='round';
-    ctx.beginPath();
-    ctx.moveTo(0, 10);
-    ctx.lineTo(0, -30);
-    ctx.stroke();
+    ctx.shadowColor=`rgba(${f.color[0]},${f.color[1]},${f.color[2]},1)`;
+    ctx.shadowBlur=15;
+    ctx.fillStyle='rgba(10, 10, 10, 0.8)';
     
-    // Minute Hand (Longer, Medium)
-    ctx.lineWidth=4;
-    ctx.beginPath();
-    ctx.moveTo(0, 10);
-    ctx.lineTo(0, -45);
-    ctx.stroke();
-    
-    // Second Hand (Thinnest, Red to pop like an alarm)
-    ctx.strokeStyle='rgba(255, 60, 60, '+alpha+')';
-    ctx.lineWidth=2;
-    ctx.beginPath();
-    ctx.moveTo(0, 15);
-    ctx.lineTo(0, -50);
-    ctx.stroke();
-    
-    // Center Dot
-    ctx.beginPath();
-    ctx.arc(0, 0, 5, 0, Math.PI*2);
-    ctx.fillStyle='rgba('+WR+','+WG+','+WB+','+alpha+')';
-    ctx.fill();
-    
+    if(f.type==='couch'){
+      const w=f.w, h=f.h;
+      ctx.beginPath();
+      ctx.moveTo(-w/2, h/2); ctx.lineTo(-w/2, -h/4);
+      ctx.quadraticCurveTo(-w/2, -h/2, -w/2 + w*0.12, -h/2);
+      ctx.lineTo(w/2 - w*0.12, -h/2);
+      ctx.quadraticCurveTo(w/2, -h/2, w/2, -h/4);
+      ctx.lineTo(w/2, h/2); ctx.closePath();
+      ctx.fill(); ctx.stroke();
+      
+      ctx.beginPath();
+      ctx.moveTo(-w/2 + w*0.12, -h/4); ctx.lineTo(w/2 - w*0.12, -h/4);
+      ctx.stroke();
+      
+      ctx.beginPath();
+      ctx.moveTo(-w/6, -h/4); ctx.lineTo(-w/6, h/2);
+      ctx.moveTo(w/6, -h/4); ctx.lineTo(w/6, h/2);
+      ctx.stroke();
+      
+      ctx.beginPath();
+      ctx.moveTo(-w/2 + 12, h/2); ctx.lineTo(-w/2 + 12, h/2 + 10);
+      ctx.moveTo(w/2 - 12, h/2); ctx.lineTo(w/2 - 12, h/2 + 10);
+      ctx.stroke();
+      
+    } else if(f.type==='door'){
+      const w=f.w, h=f.h;
+      ctx.fillRect(-w/2, -h/2, w, h);
+      ctx.strokeRect(-w/2, -h/2, w, h);
+      ctx.strokeRect(-w/2 + 8, -h/2 + 8, w - 16, h*0.4);
+      ctx.strokeRect(-w/2 + 8, h/2 - h*0.4 - 8, w - 16, h*0.4);
+      
+      ctx.beginPath();
+      ctx.arc(w/2 - 10, 0, 4, 0, Math.PI*2);
+      ctx.fillStyle=`rgba(${f.color[0]},${f.color[1]},${f.color[2]},1)`;
+      ctx.fill();
+      
+    } else if(f.type==='fridge'){
+      const w=f.w, h=f.h;
+      ctx.fillRect(-w/2, -h/2, w, h);
+      ctx.strokeRect(-w/2, -h/2, w, h);
+      
+      ctx.beginPath();
+      ctx.moveTo(-w/2, -h/2 + h*0.3); ctx.lineTo(w/2, -h/2 + h*0.3);
+      ctx.stroke();
+      
+      // Shelves
+      ctx.beginPath();
+      ctx.moveTo(-w/2 + 5, -h/2 + h*0.5); ctx.lineTo(w/2 - 5, -h/2 + h*0.5);
+      ctx.moveTo(-w/2 + 5, -h/2 + h*0.7); ctx.lineTo(w/2 - 5, -h/2 + h*0.7);
+      ctx.stroke();
+      
+      ctx.beginPath();
+      ctx.moveTo(-w/2 + 8, -h/2 + 5); ctx.lineTo(-w/2 + 8, h/2 - 5);
+      ctx.stroke();
+      
+      ctx.lineWidth=4;
+      ctx.beginPath();
+      ctx.moveTo(w/2 - 12, -h/2 + 15); ctx.lineTo(w/2 - 12, -h/2 + h*0.3 - 5);
+      ctx.moveTo(w/2 - 12, -h/2 + h*0.3 + 5); ctx.lineTo(w/2 - 12, h/2 - 15);
+      ctx.stroke();
+    }
+    ctx.shadowBlur=0;
     ctx.restore();
+  }
 }
 
 function frame(now){
@@ -192,100 +262,93 @@ function frame(now){
   applyPhase(name);
 
   if(!RM){
-    const loopR=Math.min(W,H)*0.14; // Mechanical ring radius around the clock
-    
-    if(name==='drift1'){
+    if(name==='erratic'){
       for(let i=0;i<N;i++){
         const pt=pts[i];
-        pt.vx+=(Math.random()-0.5)*0.2;
-        pt.vy+=(Math.random()-0.5)*0.2;
-        pt.vx*=0.95;pt.vy*=0.95;
+        pt.vx+=(Math.random()-0.5)*2;
+        pt.vy+=(Math.random()-0.5)*2;
+        pt.vx*=0.9;pt.vy*=0.9;
         pt.x+=pt.vx;pt.y+=pt.vy;
       }
-    }
-    else if(name==='execute'){
-      const speed=0.10; // Fast, rigid, mechanical marching speed
+    } else if(name==='trapped'){
+      const speed=0.12 + p*0.08; 
+      const radiusMult=1.0 - p*0.3; 
       
       for(let i=0;i<N;i++){
         const pt=pts[i];
         if(pt.locked){
           pt.angle+=speed;
-          // NO wobble. Perfectly rigid and uniform to represent a schedule.
-          pt.x=cx+Math.cos(pt.angle)*loopR;
-          pt.y=cy+Math.sin(pt.angle)*loopR;
+          const f=furniture[pt.targetFurn];
+          const loopR=Math.max(f.w,f.h)*0.7*radiusMult;
+          
+          const escapeAttempt = Math.sin(el*10 + i) * 10 * radiusMult;
+          let tx=f.x+Math.cos(pt.angle)*(loopR+escapeAttempt);
+          let ty=f.y+Math.sin(pt.angle)*(loopR+escapeAttempt);
+          
+          pt.x+=(tx-pt.x)*0.4;
+          pt.y+=(ty-pt.y)*0.4;
         }
-      }
-    }
-    else if(name==='drift2'){
-      for(let i=0;i<N;i++){
-        const pt=pts[i];
-        pt.vx+=(Math.random()-0.5)*0.2;
-        pt.vy+=(Math.random()-0.5)*0.2;
-        pt.vx*=0.95;pt.vy*=0.95;
-        pt.x+=pt.vx;pt.y+=pt.vy;
       }
     }
 
     for(let i=0;i<N;i++){
       const pt=pts[i];
       pt.trail.push({x:pt.x,y:pt.y});
-      const maxT=pt.locked?18:6; // Long blurry trails to show mechanical speed
+      const maxT=pt.locked?22:4;
       while(pt.trail.length>maxT)pt.trail.shift();
     }
-    
-    executeFlash *= 0.85; // Fade out the flash
+    executeFlash*=0.85;
   }
 
   ctx.fillStyle='#000';ctx.fillRect(0,0,W,H);
+  
+  // 1. Draw Room Back Walls & Floor
+  draw3DRoomBack();
+  
+  // 2. Draw Furniture inside the room
+  drawFurniture();
+  
+  // 3. Draw Room Front Frame (Glass House effect)
+  draw3DRoomFront();
 
-  // Draw Clock First (so particles overlap it)
-  if(clockAlpha > 0.01){
-    drawClock(clockAlpha, el);
-  }
+  // 4. Draw Particles
+  ctx.globalCompositeOperation='lighter';
 
-  // Draw trails
   for(let i=0;i<N;i++){
     const pt=pts[i];
+    const col=pt.locked?furniture[pt.targetFurn].color:FURN_COLORS[i%3];
     if(pt.trail.length<2)continue;
     for(let j=1;j<pt.trail.length;j++){
       const f=j/pt.trail.length;
-      const a=f*0.7*pt.bright; // Brighter trails
+      const a=f*0.8*(pt.locked?1:0.3);
       ctx.beginPath();
       ctx.moveTo(pt.trail[j-1].x,pt.trail[j-1].y);
       ctx.lineTo(pt.trail[j].x,pt.trail[j].y);
-      ctx.strokeStyle='rgba('+CR+','+CG+','+CB+','+a+')';
-      ctx.lineWidth=pt.sz*f*2;ctx.lineCap='round';ctx.stroke();
+      ctx.strokeStyle=`rgba(${col[0]},${col[1]},${col[2]},${a})`;
+      ctx.lineWidth=pt.sz*f*2.5;ctx.lineCap='round';ctx.stroke();
     }
-  }
-
-  // Draw particles with intense glow
-  for(let i=0;i<N;i++){
-    const pt=pts[i];
-    const a=pt.locked?1:pt.bright;
-    const s=pt.locked?pt.sz*1.5:pt.sz; // Particles grow when locked
-
-    // Wide outer glow
-    ctx.beginPath();ctx.arc(pt.x,pt.y,s*6,0,Math.PI*2);
-    ctx.fillStyle='rgba('+CR+','+CG+','+CB+','+(a*0.1)+')';ctx.fill();
     
-    // Mid glow
-    ctx.beginPath();ctx.arc(pt.x,pt.y,s*2.5,0,Math.PI*2);
-    ctx.fillStyle='rgba('+CR+','+CG+','+CB+','+(a*0.3)+')';ctx.fill();
+    const a=pt.locked?1:0.4;
+    const s=pt.locked?pt.sz*1.8:pt.sz;
     
-    // Core
+    ctx.beginPath();ctx.arc(pt.x,pt.y,s*8,0,Math.PI*2);
+    ctx.fillStyle=`rgba(${col[0]},${col[1]},${col[2]},${a*0.15})`;ctx.fill();
+    
+    ctx.beginPath();ctx.arc(pt.x,pt.y,s*3,0,Math.PI*2);
+    ctx.fillStyle=`rgba(${col[0]},${col[1]},${col[2]},${a*0.4})`;ctx.fill();
+    
     ctx.beginPath();ctx.arc(pt.x,pt.y,s,0,Math.PI*2);
-    ctx.fillStyle='rgba('+CR+','+CG+','+CB+','+(a*0.9)+')';ctx.fill();
+    ctx.fillStyle=`rgba(${col[0]},${col[1]},${col[2]},${a})`;ctx.fill();
     
-    // White hot center when executing
     if(pt.locked){
-      ctx.beginPath();ctx.arc(pt.x,pt.y,s*0.4,0,Math.PI*2);
-      ctx.fillStyle='rgba(255,255,255,'+a+')';ctx.fill();
+      ctx.beginPath();ctx.arc(pt.x,pt.y,s*0.5,0,Math.PI*2);
+      ctx.fillStyle=`rgba(255,255,255,${a})`;ctx.fill();
     }
   }
 
-  // Execution flash overlay
-  if(executeFlash > 0.01){
-    ctx.fillStyle='rgba(255,255,255,'+executeFlash+')';
+  ctx.globalCompositeOperation='source-over';
+  if(executeFlash>0.01){
+    ctx.fillStyle=`rgba(255,255,255,${executeFlash})`;
     ctx.fillRect(0,0,W,H);
   }
 
