@@ -3,707 +3,277 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Follow For More — CTA</title>
-<link href="https://cdn.jsdelivr.net/fontsource/fonts/outfit@latest/latin-400-normal.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/fontsource/fonts/outfit@latest/latin-600-normal.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/fontsource/fonts/outfit@latest/latin-700-normal.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/fontsource/fonts/outfit@latest/latin-800-normal.min.css" rel="stylesheet">
+<title>The Escalator — Rachel</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    background: #000;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Outfit', sans-serif;
-  }
-  #bgCanvas {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-  }
-
-  /* ===== WATERMARK ===== */
-  .watermark {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(-3deg);
-    font-family: 'Outfit', sans-serif;
-    font-weight: 800;
-    font-size: clamp(50px, 13vw, 150px);
-    line-height: 1.15;
-    white-space: nowrap;
-    pointer-events: none;
-    z-index: 1;
-    user-select: none;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    filter: drop-shadow(0 0 30px rgba(16,185,129,0.15));
-  }
-  .wm-line {
-    display: flex;
-    overflow: hidden;
-  }
-  .wm-line span {
-    display: inline-block;
-    color: transparent;
-    -webkit-text-stroke: 2.5px rgba(255,255,255,0.2);
-    animation: wmWave 2.5s ease-in-out infinite;
-  }
-  .wm-line:nth-child(1) span:nth-child(1)  { animation-delay: 0s; }
-  .wm-line:nth-child(1) span:nth-child(2)  { animation-delay: 0.08s; }
-  .wm-line:nth-child(1) span:nth-child(3)  { animation-delay: 0.16s; }
-  .wm-line:nth-child(1) span:nth-child(4)  { animation-delay: 0.24s; }
-  .wm-line:nth-child(1) span:nth-child(5)  { animation-delay: 0.32s; }
-  .wm-line:nth-child(1) span:nth-child(6)  { animation-delay: 0.40s; }
-  .wm-line:nth-child(2) span:nth-child(1)  { animation-delay: 0.12s; }
-  .wm-line:nth-child(2) span:nth-child(2)  { animation-delay: 0.20s; }
-  .wm-line:nth-child(2) span:nth-child(3)  { animation-delay: 0.28s; }
-  .wm-line:nth-child(2) span:nth-child(4)  { animation-delay: 0.36s; }
-  .wm-line:nth-child(2) span:nth-child(5)  { animation-delay: 0.44s; }
-  .wm-line:nth-child(2) span:nth-child(6)  { animation-delay: 0.52s; }
-  .wm-line:nth-child(2) span:nth-child(7)  { animation-delay: 0.60s; }
-  .wm-line:nth-child(2) span:nth-child(8)  { animation-delay: 0.68s; }
-  @keyframes wmWave {
-    0%, 100% {
-      transform: translateY(0) scale(1);
-      -webkit-text-stroke-color: rgba(255,255,255,0.2);
-      filter: drop-shadow(0 0 0px transparent);
-    }
-    25% {
-      transform: translateY(-10px) scale(1.05);
-      -webkit-text-stroke-color: rgba(16,185,129,0.55);
-      filter: drop-shadow(0 0 12px rgba(16,185,129,0.3));
-    }
-    50% {
-      transform: translateY(2px) scale(1);
-      -webkit-text-stroke-color: rgba(255,255,255,0.22);
-      filter: drop-shadow(0 0 0px transparent);
-    }
-    75% {
-      transform: translateY(-5px) scale(1.02);
-      -webkit-text-stroke-color: rgba(56,189,248,0.4);
-      filter: drop-shadow(0 0 10px rgba(56,189,248,0.2));
-    }
-  }
-  .watermark::after {
-    content: '';
-    position: absolute;
-    top: -10%;
-    left: -20%;
-    width: 35%;
-    height: 120%;
-    background: linear-gradient(90deg, transparent, rgba(16,185,129,0.15), transparent);
-    transform: skewX(-15deg);
-    animation: wmScan 3.5s ease-in-out infinite;
-  }
-  @keyframes wmScan {
-    0% { left: -40%; }
-    100% { left: 140%; }
-  }
-
-  /* ===== CTA ===== */
-  .cta-wrap {
-    position: relative;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    animation: ctaIn 4.5s ease-in-out infinite;
-  }
-  @keyframes ctaIn {
-    0% { opacity: 0; transform: translateY(24px) scale(0.93); }
-    10% { opacity: 1; transform: translateY(0) scale(1); }
-    78% { opacity: 1; transform: translateY(0) scale(1); }
-    100% { opacity: 0; transform: translateY(-10px) scale(0.97); }
-  }
-  .cta-pill {
-    position: relative;
-    background: rgba(0,0,0,0.85);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 60px;
-    padding: 18px 20px 18px 18px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    overflow: hidden;
-  }
-  .cta-pill::before {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    border-radius: 62px;
-    background: linear-gradient(135deg, rgba(16,185,129,0.4), rgba(56,189,248,0.2), rgba(16,185,129,0.4));
-    z-index: -1;
-    animation: gp 2s ease-in-out infinite;
-    opacity: 0.5;
-  }
-  @keyframes gp { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
-  .cta-ico {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgba(16,185,129,0.15);
-    border: 1.5px solid rgba(16,185,129,0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    animation: icoIn 4.5s ease-in-out infinite;
-    font-size: 18px;
-    color: #10b981;
-  }
-  @keyframes icoIn {
-    0%,10% { transform: scale(0) rotate(-30deg); opacity: 0; }
-    16% { transform: scale(1.15) rotate(5deg); opacity: 1; }
-    20% { transform: scale(1) rotate(0deg); }
-    78% { transform: scale(1) rotate(0deg); opacity: 1; }
-    100% { transform: scale(0.8) rotate(-10deg); opacity: 0; }
-  }
-  .cta-txt {
-    font-size: clamp(15px, 3.8vw, 22px);
-    font-weight: 700;
-    color: #fff;
-    white-space: nowrap;
-    letter-spacing: 0.3px;
-    line-height: 1.3;
-  }
-  .cta-txt .hl { color: #10b981; }
-  .cta-txt .dim { color: rgba(255,255,255,0.5); font-weight: 400; }
-  .cta-line {
-    width: 0;
-    height: 2px;
-    background: linear-gradient(90deg, #10b981, #38bdf8);
-    border-radius: 2px;
-    margin-top: 14px;
-    animation: ld 4.5s ease-in-out infinite;
-  }
-  @keyframes ld {
-    0%,16% { width: 0; opacity: 0; }
-    28% { width: 140px; opacity: 1; }
-    72% { width: 140px; opacity: 1; }
-    100% { width: 0; opacity: 0; }
-  }
-
-  /* ===== SINGLE SELECTOR BUTTON ===== */
-  .selector-wrap {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 20;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .sel-toggle {
-    font-family: 'Outfit', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    padding: 10px 22px;
-    border-radius: 30px;
-    border: 1px solid rgba(255,255,255,0.12);
-    background: rgba(0,0,0,0.75);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    color: rgba(255,255,255,0.7);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .sel-toggle:hover {
-    background: rgba(16,185,129,0.1);
-    border-color: rgba(16,185,129,0.3);
-    color: #10b981;
-  }
-  .sel-toggle.open {
-    background: rgba(16,185,129,0.12);
-    border-color: rgba(16,185,129,0.35);
-    color: #10b981;
-  }
-  .sel-toggle .arrow {
-    transition: transform 0.3s ease;
-    font-size: 10px;
-  }
-  .sel-toggle.open .arrow {
-    transform: rotate(180deg);
-  }
-
-  /* Dropdown panel */
-  .sel-panel {
-    position: absolute;
-    bottom: calc(100% + 10px);
-    left: 50%;
-    transform: translateX(-50%) translateY(10px);
-    background: rgba(0,0,0,0.92);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 16px;
-    padding: 6px;
-    min-width: 260px;
-    max-height: 340px;
-    overflow-y: auto;
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255,255,255,0.1) transparent;
-  }
-  .sel-panel::-webkit-scrollbar { width: 4px; }
-  .sel-panel::-webkit-scrollbar-track { background: transparent; }
-  .sel-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
-  .sel-panel.open {
-    opacity: 1;
-    pointer-events: all;
-    transform: translateX(-50%) translateY(0);
-  }
-  .sel-cat {
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: rgba(255,255,255,0.3);
-    padding: 10px 12px 4px;
-  }
-  .sel-item {
-    font-family: 'Outfit', sans-serif;
-    font-size: 12.5px;
-    font-weight: 500;
-    padding: 8px 12px;
-    border-radius: 10px;
-    border: none;
-    background: transparent;
-    color: rgba(255,255,255,0.55);
-    cursor: pointer;
-    transition: all 0.15s ease;
-    white-space: nowrap;
-    width: 100%;
-    text-align: left;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .sel-item:hover {
-    background: rgba(255,255,255,0.06);
-    color: rgba(255,255,255,0.9);
-  }
-  .sel-item.on {
-    background: rgba(16,185,129,0.1);
-    color: #10b981;
-  }
-  .sel-item .sym {
-    font-size: 13px;
-    width: 18px;
-    text-align: center;
-    flex-shrink: 0;
-    opacity: 0.7;
-  }
-
-  @media (max-width: 480px) {
-    .watermark { font-size: clamp(32px, 11vw, 90px); letter-spacing: 4px; }
-    .wm-line span { -webkit-text-stroke: 1.8px rgba(255,255,255,0.18); }
-    .cta-pill { padding: 14px 14px; gap: 10px; }
-    .cta-ico { width: 34px; height: 34px; font-size: 15px; }
-    .cta-txt { font-size: clamp(13px, 3.5vw, 18px); }
-    .sel-panel { min-width: 220px; max-height: 280px; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
-  }
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;overflow:hidden;width:100vw;height:100vh;font-family:'Outfit',sans-serif}
+canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1}
+.watermark-wrap{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+  display:flex;flex-direction:column;align-items:center;
+  user-select:none;pointer-events:none;z-index:0;
+}
+.watermark-sub{
+  font-family:'Outfit',sans-serif;font-size:clamp(18px,4.5vmin,50px);font-weight:600;
+  color:#8a0000;letter-spacing:.2em;line-height:1;margin-bottom:-1vmin;
+  text-shadow:0 0 40px rgba(220,20,20,.5),0 0 80px rgba(220,20,20,.2);
+}
+.watermark-name{
+  font-family:'Outfit',sans-serif;font-size:clamp(80px,26vmin,400px);font-weight:800;
+  color:#7a0000;letter-spacing:.04em;line-height:1;
+  text-shadow:0 0 80px rgba(220,20,20,.55),0 0 160px rgba(220,20,20,.25);
+}
+.stamp{
+  position:fixed;bottom:18px;right:18px;
+  font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;
+  color:rgba(255,255,255,.75);
+  background:rgba(100,0,0,.35);
+  padding:5px 12px;
+  border-radius:20px;
+  box-shadow:0 0 10px rgba(220,20,20,.6), 0 0 20px rgba(220,20,20,.3);
+  user-select:none;pointer-events:none;z-index:10;letter-spacing:.1em;
+}
+@media(prefers-reduced-motion:reduce){canvas{display:none}}
 </style>
 </head>
 <body>
-
-<canvas id="bgCanvas"></canvas>
-
-<div class="watermark">
-  <div class="wm-line">
-    <span>Y</span><span>O</span><span>U</span><span>&nbsp;</span><span>D</span><span>O</span>
-  </div>
-  <div class="wm-line">
-    <span>T</span><span>H</span><span>I</span><span>S</span><span>&nbsp;</span><span>T</span><span>O</span><span>O</span>
-  </div>
+<div class="watermark-wrap">
+  <div class="watermark-sub">ADDICTION</div>
+  <div class="watermark-name">RACHEL</div>
 </div>
-
-<div class="cta-wrap" id="cta">
-  <div class="cta-pill">
-    <div class="cta-ico" id="ico"></div>
-    <div class="cta-txt" id="txt"></div>
-  </div>
-  <div class="cta-line"></div>
-</div>
-
-<div class="selector-wrap">
-  <div class="sel-panel" id="panel"></div>
-  <button class="sel-toggle" id="toggle">
-    <span id="toggleLabel">Psychology</span>
-    <span class="arrow">▼</span>
-  </button>
-</div>
-
+<canvas id="c"></canvas>
+<div class="stamp">YOU DO THIS TOO</div>
 <script>
-/* ===== BRIGHTER PARTICLES + FLOATING ICONS ===== */
-const canvas = document.getElementById('bgCanvas');
-const ctx = canvas.getContext('2d');
-let W, H;
+const c=document.getElementById('c'),ctx=c.getContext('2d');
+let W,H,dpr;
 
-function resize() {
-  W = canvas.width = window.innerWidth;
-  H = canvas.height = window.innerHeight;
+let fill=0,growth=0,maxG=7,speed=.004,marks=[],pts=[],streaks=[],rings=[],flash=0,t=0,cooldown=0,shakeX=0,shakeY=0;
+
+function resize(){
+  dpr=window.devicePixelRatio||1;
+  W=window.innerWidth;H=window.innerHeight;
+  c.width=W*dpr;c.height=H*dpr;
+  c.style.width=W+'px';c.style.height=H+'px';
+  ctx.setTransform(dpr,0,0,dpr,0,0);
 }
-resize();
-window.addEventListener('resize', resize);
 
-/* Dots — brighter palette */
-const NUM = 150;
-const dots = [];
-
-function makeDot() {
-  const angle = Math.random() * Math.PI * 2;
-  const speed = 0.6 + Math.random() * 2.5;
-  return {
-    x: Math.random() * W,
-    y: Math.random() * H,
-    vx: Math.cos(angle) * speed,
-    vy: Math.sin(angle) * speed,
-    r: Math.random() * 3.5 + 1.5,
-    hue: Math.random() < 0.55 ? 160 : (Math.random() < 0.5 ? 340 : 200),
-    sat: 80 + Math.random() * 20,
-    light: 65 + Math.random() * 25,
-    alpha: 0.8 + Math.random() * 0.2,
-    pulseSpeed: 0.002 + Math.random() * 0.004,
-    pulseOffset: Math.random() * Math.PI * 2
-  };
+function br(){
+  const w=Math.max(W*.07,42);
+  const h=H*.28+(growth/maxG)*H*.5;
+  const x=W/2-w/2,y=H/2-h/2;
+  return{x,y,w,h};
 }
-for (let i = 0; i < NUM; i++) dots.push(makeDot());
 
-/* Floating pattern icons — brighter */
-const ICONS = ['✓', '∙', '→', '★', '✦', '?'];
-const NUM_ICONS = 32;
-const floatingIcons = [];
-
-function makeIcon() {
-  const angle = Math.random() * Math.PI * 2;
-  const speed = 0.2 + Math.random() * 0.8;
-  return {
-    x: Math.random() * W,
-    y: Math.random() * H,
-    vx: Math.cos(angle) * speed,
-    vy: Math.sin(angle) * speed,
-    char: ICONS[Math.floor(Math.random() * ICONS.length)],
-    size: 14 + Math.random() * 24,
-    alpha: 0.25 + Math.random() * 0.35,
-    rotation: Math.random() * Math.PI * 2,
-    rotSpeed: (Math.random() - 0.5) * 0.012,
-    wobbleAmp: 0.4 + Math.random() * 1,
-    wobbleSpeed: 0.001 + Math.random() * 0.003,
-    wobbleOffset: Math.random() * Math.PI * 2,
-    hue: Math.random() < 0.6 ? 160 : 200
-  };
-}
-for (let i = 0; i < NUM_ICONS; i++) floatingIcons.push(makeIcon());
-
-const LINK_DIST = 140;
-
-function drawBg(time) {
-  ctx.clearRect(0, 0, W, H);
-
-  /* Floating pattern icons — behind everything, now brighter */
-  for (const ic of floatingIcons) {
-    ic.x += ic.vx;
-    ic.y += ic.vy + Math.sin(time * ic.wobbleSpeed + ic.wobbleOffset) * ic.wobbleAmp * 0.3;
-    ic.rotation += ic.rotSpeed;
-
-    if (ic.x < -50) ic.x = W + 50;
-    if (ic.x > W + 50) ic.x = -50;
-    if (ic.y < -50) ic.y = H + 50;
-    if (ic.y > H + 50) ic.y = -50;
-
-    const pulse = 0.75 + Math.sin(time * 0.002 + ic.wobbleOffset) * 0.25;
-    const a = ic.alpha * pulse;
-
-    /* Icon glow */
-    ctx.save();
-    ctx.translate(ic.x, ic.y);
-    ctx.rotate(ic.rotation);
-    ctx.font = `bold ${ic.size}px Outfit`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.shadowColor = `hsla(${ic.hue}, 90%, 70%, ${a * 0.9})`;
-    ctx.shadowBlur = 25;
-    ctx.fillStyle = `hsla(${ic.hue}, 85%, 75%, ${a})`;
-    ctx.fillText(ic.char, 0, 0);
-    /* Second pass for extra brightness */
-    ctx.shadowBlur = 12;
-    ctx.fillStyle = `hsla(${ic.hue}, 60%, 90%, ${a * 0.5})`;
-    ctx.fillText(ic.char, 0, 0);
-    ctx.restore();
-  }
-
-  /* Connections — brighter */
-  ctx.save();
-  ctx.lineWidth = 1;
-  for (let i = 0; i < dots.length; i++) {
-    for (let j = i + 1; j < dots.length; j++) {
-      const dx = dots[i].x - dots[j].x;
-      const dy = dots[i].y - dots[j].y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < LINK_DIST) {
-        const a = (1 - dist / LINK_DIST) * 0.5;
-        const midHue = (dots[i].hue + dots[j].hue) / 2;
-        ctx.strokeStyle = `hsla(${midHue},90%,70%,${a})`;
-        ctx.beginPath();
-        ctx.moveTo(dots[i].x, dots[i].y);
-        ctx.lineTo(dots[j].x, dots[j].y);
-        ctx.stroke();
-      }
-    }
-  }
-  ctx.restore();
-
-  /* Dots — much brighter */
-  for (const d of dots) {
-    d.x += d.vx;
-    d.y += d.vy;
-
-    if (d.x < 0 || d.x > W) d.vx *= -1;
-    if (d.y < 0 || d.y > H) d.vy *= -1;
-    d.x = Math.max(0, Math.min(W, d.x));
-    d.y = Math.max(0, Math.min(H, d.y));
-
-    const pulse = 0.75 + Math.sin(time * d.pulseSpeed + d.pulseOffset) * 0.25;
-    const finalAlpha = d.alpha * pulse;
-    const finalR = d.r * (0.85 + pulse * 0.25);
-
-    /* Large outer glow */
-    ctx.save();
-    ctx.globalAlpha = finalAlpha * 0.6;
-    ctx.shadowColor = `hsla(${d.hue},${d.sat}%,${d.light}%,1)`;
-    ctx.shadowBlur = 50;
-    ctx.beginPath();
-    ctx.arc(d.x, d.y, finalR * 4, 0, Math.PI * 2);
-    ctx.fillStyle = `hsla(${d.hue},${d.sat}%,${d.light}%,0.15)`;
-    ctx.fill();
-    ctx.restore();
-
-    /* Mid glow */
-    ctx.save();
-    ctx.globalAlpha = finalAlpha * 0.7;
-    ctx.shadowColor = `hsla(${d.hue},${d.sat}%,${d.light}%,1)`;
-    ctx.shadowBlur = 30;
-    ctx.beginPath();
-    ctx.arc(d.x, d.y, finalR * 2.2, 0, Math.PI * 2);
-    ctx.fillStyle = `hsla(${d.hue},${d.sat}%,${d.light}%,0.25)`;
-    ctx.fill();
-    ctx.restore();
-
-    /* Core dot */
-    ctx.save();
-    ctx.globalAlpha = finalAlpha;
-    ctx.shadowColor = `hsla(${d.hue},${d.sat}%,${d.light}%,1)`;
-    ctx.shadowBlur = 22;
-    ctx.beginPath();
-    ctx.arc(d.x, d.y, finalR, 0, Math.PI * 2);
-    ctx.fillStyle = `hsla(${d.hue},${d.sat}%,${d.light}%,1)`;
-    ctx.fill();
-    ctx.restore();
-
-    /* Bright white center highlight */
-    ctx.save();
-    ctx.globalAlpha = finalAlpha * 0.95;
-    ctx.beginPath();
-    ctx.arc(d.x, d.y, finalR * 0.45, 0, Math.PI * 2);
-    ctx.fillStyle = `hsla(${d.hue},20%,95%,1)`;
-    ctx.fill();
-    ctx.restore();
-  }
-
-  requestAnimationFrame(drawBg);
-}
-requestAnimationFrame(drawBg);
-
-/* ===== CTA DATA ===== */
-const categories = [
-  {
-    name: 'Psychology',
-    items: [
-      { sym: '✓', text: '<span class="hl">Follow</span> <span class="dim">for psychology patterns</span>' },
-      { sym: '✓', text: '<span class="hl">Follow</span> <span class="dim">for patterns you missed</span>' },
-      { sym: '✓', text: '<span class="hl">Follow</span> <span class="dim">for pattern decoding</span>' },
-      { sym: '✓', text: '<span class="hl">Follow</span> <span class="dim">to understand why</span>' },
-      { sym: '✓', text: '<span class="hl">Follow</span> <span class="dim">for behavior breakdowns</span>' },
-      { sym: '✓', text: '<span class="hl">Follow</span> <span class="dim">for the psychology behind it</span>' },
-      { sym: '✓', text: '<span class="hl">Follow</span> <span class="dim">for human behavior</span>' },
-      { sym: '✓', text: '<span class="hl">Follow</span> <span class="dim">for mind hacks</span>' },
-      { sym: '✓', text: '<span class="hl">Follow</span> <span class="dim">for mental models</span>' },
-      { sym: '✓', text: '<span class="hl">Follow</span> <span class="dim">for cognitive insights</span>' },
-      { sym: '∙', text: '<span class="hl">Follow</span> <span class="dim">for hidden patterns</span>' },
-      { sym: '∙', text: '<span class="hl">Follow</span> <span class="dim">for everyday psychology</span>' },
-      { sym: '∙', text: '<span class="hl">Follow</span> <span class="dim">for brain rewiring</span>' },
-      { sym: '∙', text: '<span class="hl">Follow</span> <span class="dim">for decoding people</span>' },
-    ]
-  },
-  {
-    name: 'Self-Improvement',
-    items: [
-      { sym: '✓', text: '<span class="hl">Follow</span> <span class="dim">to rewire your habits</span>' },
-      { sym: '✓', text: '<span class="hl">Follow</span> <span class="dim">for better habits</span>' },
-      { sym: '✓', text: '<span class="hl">Follow</span> <span class="dim">to think differently</span>' },
-      { sym: '✓', text: '<span class="hl">Follow</span> <span class="dim">for practical mindset shifts</span>' },
-      { sym: '✓', text: '<span class="hl">Follow</span> <span class="dim">to level up daily</span>' },
-      { sym: '✓', text: '<span class="hl">Follow</span> <span class="dim">for smarter decisions</span>' },
-      { sym: '✓', text: '<span class="hl">Follow</span> <span class="dim">for daily growth</span>' },
-      { sym: '✓', text: '<span class="hl">Follow</span> <span class="dim">to build discipline</span>' },
-      { sym: '✓', text: '<span class="hl">Follow</span> <span class="dim">to upgrade your mindset</span>' },
-      { sym: '✓', text: '<span class="hl">Follow</span> <span class="dim">to become sharper</span>' },
-      { sym: '∙', text: '<span class="hl">Follow</span> <span class="dim">for habit resets</span>' },
-      { sym: '∙', text: '<span class="hl">Follow</span> <span class="dim">for progress you can use</span>' },
-      { sym: '∙', text: '<span class="hl">Follow</span> <span class="dim">for small daily wins</span>' },
-      { sym: '∙', text: '<span class="hl">Follow</span> <span class="dim">for a better version of you</span>' },
-    ]
-  },
-  {
-    name: 'Curiosity',
-    items: [
-      { sym: '→', text: '<span class="hl">Follow</span> <span class="dim">for the next character</span>' },
-      { sym: '→', text: '<span class="hl">Follow</span> <span class="dim">to meet the next character</span>' },
-      { sym: '→', text: '<span class="hl">Follow</span> <span class="dim">before the next character drops</span>' },
-      { sym: '→', text: 'The next character <span class="hl">might be you</span>' },
-      { sym: '→', text: 'New character. <span class="hl">New lesson.</span>' },
-      { sym: '→', text: "<span class=\"hl\">Don't miss</span> <span class=\"dim\">the next character</span>" },
-      { sym: '→', text: 'Another character <span class="hl">is coming tomorrow</span>' },
-      { sym: '→', text: 'Every post is a <span class="hl">new character</span>' },
-      { sym: '→', text: 'Next character <span class="hl">loading…</span>' },
-      { sym: '→', text: 'Wait until you meet <span class="hl">tomorrow\'s character</span>' },
-      { sym: '∙', text: '<span class="hl">Follow</span> <span class="dim">to see what happens next</span>' },
-      { sym: '∙', text: '<span class="hl">Follow</span> <span class="dim">for the next reveal</span>' },
-      { sym: '∙', text: '<span class="hl">Follow</span> <span class="dim">for more clues</span>' },
-      { sym: '∙', text: '<span class="hl">Follow</span> <span class="dim">to unlock the next one</span>' },
-    ]
-  },
-  {
-    name: 'Self-ID',
-    items: [
-      { sym: '?', text: '<span class="hl">Follow</span> <span class="dim">if this sounds like you</span>' },
-      { sym: '?', text: '<span class="hl">Follow</span> <span class="dim">if you know someone like this</span>' },
-      { sym: '?', text: 'Which character <span class="hl">are you?</span>' },
-      { sym: '?', text: '<span class="hl">Find</span> <span class="dim">your character</span>' },
-      { sym: '?', text: '<span class="hl">Follow</span> <span class="dim">to discover your character</span>' },
-      { sym: '?', text: "You haven't met <span class=\"hl\">your character</span> yet" },
-      { sym: '?', text: 'Your character <span class="hl">is coming soon</span>' },
-      { sym: '?', text: '<span class="hl">You</span> <span class="dim">might be next</span>' },
-      { sym: '?', text: 'The next character could be <span class="hl">your twin</span>' },
-      { sym: '?', text: 'See yourself <span class="hl">in this one</span>' },
-      { sym: '∙', text: 'This one <span class="hl">might be you</span>' },
-      { sym: '∙', text: '<span class="hl">Spot</span> <span class="dim">your type</span>' },
-      { sym: '∙', text: '<span class="hl">Find</span> <span class="dim">your match</span>' },
-      { sym: '∙', text: 'Which one <span class="hl">are you?</span>' },
-    ]
-  },
-  {
-    name: 'Community',
-    items: [
-      { sym: '→', text: 'Tag the character <span class="hl">you know</span>' },
-      { sym: '→', text: 'Send this to <span class="hl">that character</span>' },
-      { sym: '→', text: 'Who should I <span class="hl">analyze next?</span>' },
-      { sym: '→', text: 'Comment the <span class="hl">next character</span>' },
-      { sym: '→', text: 'Which character <span class="hl">should be next?</span>' },
-      { sym: '→', text: 'Vote for <span class="hl">tomorrow\'s character</span>' },
-      { sym: '→', text: 'Share this with a friend <span class="hl">who matches it</span>' },
-      { sym: '→', text: 'Drop the <span class="hl">next character idea</span>' },
-      { sym: '→', text: 'Which one should I <span class="hl">post next?</span>' },
-      { sym: '→', text: 'Put a name <span class="hl">to this one</span>' },
-      { sym: '∙', text: 'Tag someone <span class="hl">who gets this</span>' },
-      { sym: '∙', text: 'Share with <span class="hl">your people</span>' },
-      { sym: '∙', text: 'Comment <span class="hl">your pick</span>' },
-      { sym: '∙', text: 'Help choose the <span class="hl">next character</span>' },
-    ]
-  }
-];
-
-/* ===== DOM ===== */
-const cta = document.getElementById('cta');
-const ico = document.getElementById('ico');
-const txt = document.getElementById('txt');
-const toggle = document.getElementById('toggle');
-const toggleLabel = document.getElementById('toggleLabel');
-const panel = document.getElementById('panel');
-
-let currentCat = 0;
-let currentItem = 0;
-let panelOpen = false;
-
-function buildPanel() {
-  panel.innerHTML = '';
-  categories.forEach((cat, ci) => {
-    const catLabel = document.createElement('div');
-    catLabel.className = 'sel-cat';
-    catLabel.textContent = cat.name;
-    panel.appendChild(catLabel);
-
-    cat.items.forEach((item, ii) => {
-      const btn = document.createElement('button');
-      btn.className = 'sel-item' + (ci === currentCat && ii === currentItem ? ' on' : '');
-      btn.innerHTML = `<span class="sym">${item.sym}</span><span>${item.text}</span>`;
-      btn.addEventListener('click', () => {
-        currentCat = ci;
-        currentItem = ii;
-        pick(ci, ii);
-        toggleLabel.textContent = cat.name;
-        buildPanel();
-      });
-      panel.appendChild(btn);
+function addP(x,y,n,spread,vy,decay){
+  for(let i=0;i<n;i++){
+    const isBig=Math.random()>.8;
+    pts.push({
+      x:x+(Math.random()-.5)*spread,
+      y:y+(Math.random()-.5)*spread*.3,
+      vx:(Math.random()-.5)*4,
+      vy:vy[0]+Math.random()*(vy[1]-vy[0]),
+      life:1,decay:Math.random()*decay+.003,
+      r:isBig?Math.random()*5+2:Math.random()*3+.5,
+      bright:Math.random()>.4
     });
+  }
+}
+
+function addStreak(x,y1,y2){
+  streaks.push({
+    x:x,y:y1,targetY:y2,
+    vy:-12-Math.random()*10,
+    life:1,decay:.015+Math.random()*.01,
+    w:Math.random()*2.5+.5
   });
 }
 
-function pick(ci, ii) {
-  const item = categories[ci].items[ii];
-  ico.textContent = item.sym;
-  txt.innerHTML = item.text;
-
-  cta.style.animation = 'none';
-  cta.offsetHeight;
-  cta.style.animation = '';
+function addRing(x,y){
+  rings.push({
+    x:x,y:y,radius:5,
+    speed:5+Math.random()*4,
+    life:1,decay:.01
+  });
 }
 
-toggle.addEventListener('click', () => {
-  panelOpen = !panelOpen;
-  panel.classList.toggle('open', panelOpen);
-  toggle.classList.toggle('open', panelOpen);
-});
+function update(){
+  t++;
+  if(cooldown>0){cooldown--;if(cooldown<=0){growth=0;fill=0;speed=.004;marks=[];}return;}
 
-/* Close panel on outside click */
-document.addEventListener('click', (e) => {
-  if (!toggle.contains(e.target) && !panel.contains(e.target) && panelOpen) {
-    panelOpen = false;
-    panel.classList.remove('open');
-    toggle.classList.remove('open');
+  fill+=speed;
+
+  if(fill>=.88){
+    marks.push({pos:.88,t:t});
+    growth=Math.min(growth+1,maxG);
+    fill=.18;
+    speed=Math.min(speed+.0006,.012);
+    flash=1;
+    const b=br();
+    addP(b.x+b.w/2,b.y+b.h*.12,150,b.w*8,[-10,-1],.012);
+    addP(b.x+b.w/2,b.y+b.h*.12,30,b.w*2,[-16,-6],.015);
+    for(let i=0;i<15;i++)addStreak(b.x+Math.random()*b.w,b.y+b.h,b.y+b.h*.1);
+    addRing(b.x+b.w/2,b.y+b.h*(1-.88));
+    addRing(b.x+b.w/2,b.y+b.h*(1-.88));
+    if(growth>=maxG)cooldown=150;
   }
-});
 
-/* Init */
-buildPanel();
-pick(0, 0);
-toggleLabel.textContent = categories[0].name;
+  if(flash>.4){
+    shakeX=(Math.random()-.5)*flash*8;
+    shakeY=(Math.random()-.5)*flash*8;
+  } else {
+    shakeX=0;shakeY=0;
+  }
+
+  flash*=.91;
+  const b=br();
+  const surfY=b.y+b.h*(1-fill);
+
+  if(Math.random()<.7)addP(b.x+Math.random()*b.w,surfY,1,8,[-3.5,-.3],.016);
+  if(Math.random()<.4)addP(b.x+b.w/2,b.y+b.h+20,2,b.w*2,[-5,-1.5],.01);
+  if(Math.random()<.25)addStreak(b.x+Math.random()*b.w,surfY,b.y+b.h*.1);
+
+  if(pts.length>450)pts.splice(0,pts.length-450);
+
+  for(let i=pts.length-1;i>=0;i--){
+    const p=pts[i];p.x+=p.vx;p.y+=p.vy;p.vy-=.03;p.life-=p.decay;
+    if(p.life<=0)pts.splice(i,1);
+  }
+  for(let i=streaks.length-1;i>=0;i--){
+    const s=streaks[i];s.y+=s.vy;s.life-=s.decay;
+    if(s.life<=0||s.y<s.targetY)streaks.splice(i,1);
+  }
+  for(let i=rings.length-1;i>=0;i--){
+    const r=rings[i];r.radius+=r.speed;r.life-=r.decay;
+    if(r.life<=0)rings.splice(i,1);
+  }
+}
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  ctx.save();
+  ctx.translate(shakeX,shakeY);
+
+  const b=br();
+
+  // background pulse
+  const bgP=fill*.15+Math.sin(t*.03)*.03;
+  const bgG=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,W*.6);
+  bgG.addColorStop(0,`rgba(139,0,0,${bgP})`);bgG.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=bgG;ctx.fillRect(0,0,W,H);
+
+  // rings
+  for(const r of rings){
+    ctx.save();
+    ctx.strokeStyle=`rgba(220,20,60,${r.life*.4})`;ctx.lineWidth=2.5;
+    ctx.shadowColor='#DC143C';ctx.shadowBlur=15;
+    ctx.beginPath();ctx.arc(r.x,r.y,r.radius,0,Math.PI*2);ctx.stroke();
+    ctx.restore();
+  }
+
+  // bar glow
+  ctx.save();
+  ctx.shadowColor='#DC143C';ctx.shadowBlur=50;
+  ctx.strokeStyle='rgba(220,20,60,.25)';ctx.lineWidth=2;
+  ctx.strokeRect(b.x,b.y,b.w,b.h);
+  ctx.restore();
+
+  // bar outline
+  ctx.strokeStyle='rgba(220,20,60,.4)';ctx.lineWidth=1.5;
+  ctx.strokeRect(b.x,b.y,b.w,b.h);
+
+  // fill
+  const fH=fill*b.h,fY=b.y+b.h-fH;
+  const g=ctx.createLinearGradient(0,fY,0,b.y+b.h);
+  g.addColorStop(0,'#DC143C');g.addColorStop(.5,'#B01030');g.addColorStop(1,'#8B0000');
+  ctx.fillStyle=g;ctx.fillRect(b.x,fY,b.w,fH);
+
+  // fill surface glow
+  ctx.save();
+  ctx.shadowColor='#FF2040';ctx.shadowBlur=55;
+  ctx.fillStyle='#FF2040';ctx.fillRect(b.x,fY,b.w,5);
+  ctx.restore();
+
+  // wave on fill surface
+  ctx.beginPath();ctx.moveTo(b.x,fY);
+  for(let wx=b.x;wx<=b.x+b.w;wx+=2){
+    const wave=Math.sin((wx-b.x)*.12+t*.1)*2.5;
+    ctx.lineTo(wx,fY+wave);
+  }
+  ctx.lineTo(b.x+b.w,fY+5);ctx.lineTo(b.x,fY+5);ctx.closePath();
+  ctx.fillStyle='rgba(255,50,80,.35)';ctx.fill();
+
+  // old threshold marks
+  for(const m of marks){
+    const my=b.y+b.h*(1-m.pos);
+    const age=t-m.t;
+    const a=Math.max(.08,.35-age*.0002);
+    ctx.strokeStyle=`rgba(220,20,60,${a})`;ctx.lineWidth=1;ctx.setLineDash([3,5]);
+    ctx.beginPath();ctx.moveTo(b.x-16,my);ctx.lineTo(b.x+b.w+16,my);ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // current target line
+  const tY=b.y+b.h*.12;
+  const tP=.65+Math.sin(t*.05)*.25;
+  ctx.save();
+  ctx.strokeStyle=`rgba(255,50,80,${tP})`;ctx.lineWidth=3;
+  ctx.shadowColor='#DC143C';ctx.shadowBlur=20;
+  ctx.beginPath();ctx.moveTo(b.x-30,tY);ctx.lineTo(b.x+b.w+30,tY);ctx.stroke();
+  ctx.restore();
+
+  // arrow indicators
+  const aA=tP*.8;
+  ctx.fillStyle=`rgba(255,50,80,${aA})`;
+  ctx.beginPath();ctx.moveTo(b.x-36,tY);ctx.lineTo(b.x-30,tY-5);ctx.lineTo(b.x-30,tY+5);ctx.fill();
+  ctx.beginPath();ctx.moveTo(b.x+b.w+36,tY);ctx.lineTo(b.x+b.w+30,tY-5);ctx.lineTo(b.x+b.w+30,tY+5);ctx.fill();
+
+  // gap shimmer
+  const gapH=tY-fY;
+  if(gapH>10){
+    const sg=ctx.createLinearGradient(0,fY,0,tY);
+    sg.addColorStop(0,'rgba(220,20,60,.1)');
+    sg.addColorStop(.5,`rgba(220,20,60,${.05+Math.sin(t*.04)*.03})`);
+    sg.addColorStop(1,'rgba(220,20,60,0)');
+    ctx.fillStyle=sg;ctx.fillRect(b.x+2,fY,b.w-4,gapH);
+  }
+
+  // streaks
+  for(const s of streaks){
+    ctx.save();
+    ctx.strokeStyle=`rgba(255,80,100,${s.life*.9})`;ctx.lineWidth=s.w;
+    ctx.shadowColor='#FF2040';ctx.shadowBlur=20;
+    ctx.beginPath();ctx.moveTo(s.x,s.y);ctx.lineTo(s.x,s.y+25);ctx.stroke();
+    ctx.restore();
+  }
+
+  // particles
+  for(const p of pts){
+    const a=p.life*(p.bright?.95:.6);
+    if(p.bright){
+      ctx.save();
+      ctx.shadowColor='#FF2040';ctx.shadowBlur=15;
+      ctx.fillStyle=`rgba(255,180,190,${a})`;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();
+      ctx.restore();
+    } else {
+      ctx.fillStyle=`rgba(220,20,60,${a})`;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();
+    }
+  }
+
+  // flash
+  if(flash>.01){
+    ctx.fillStyle=`rgba(255,50,80,${flash*.25})`;
+    ctx.fillRect(0,0,W,H);
+  }
+
+  ctx.restore();
+}
+
+function loop(){update();draw();requestAnimationFrame(loop);}
+window.addEventListener('resize',resize);
+resize();loop();
 </script>
 </body>
 </html>
