@@ -64,7 +64,11 @@ function resize(){
 
 function calcNodes(){
   nodes=[];
-  const cx=W/2,cy=H/2,r=Math.min(W,H)*.3;
+  // Lock center strictly to viewport center
+  const cx=W/2;
+  const cy=H/2;
+  // Scale radius to fit comfortably within the smallest dimension
+  const r=Math.min(W,H)*.35;
   for(let i=0;i<NC;i++){
     const a=(i/NC)*Math.PI*2-Math.PI/2;
     nodes.push({x:cx+Math.cos(a)*r,y:cy+Math.sin(a)*r});
