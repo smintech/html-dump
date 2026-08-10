@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Normalizer — James</title>
+<title>The Crasher — Nina</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -16,22 +16,22 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1}
 }
 .watermark-sub{
   font-family:'Outfit',sans-serif;font-size:clamp(18px,4.5vmin,50px);font-weight:600;
-  color:#5a8a5a;letter-spacing:.2em;line-height:1;margin-bottom:-1vmin;
-  text-shadow:0 0 40px rgba(107,142,107,.5),0 0 80px rgba(107,142,107,.2);
+  color:#7a9aba;letter-spacing:.2em;line-height:1;margin-bottom:-1vmin;
+  text-shadow:0 0 40px rgba(107,141,181,.5),0 0 80px rgba(107,141,181,.2);
 }
 .watermark-name{
   font-family:'Outfit',sans-serif;font-size:clamp(80px,26vmin,400px);font-weight:800;
-  color:#4a7a4a;letter-spacing:.04em;line-height:1;
-  text-shadow:0 0 80px rgba(107,142,107,.6),0 0 160px rgba(107,142,107,.3);
+  color:#5a7a9a;letter-spacing:.04em;line-height:1;
+  text-shadow:0 0 80px rgba(107,141,181,.6),0 0 160px rgba(107,141,181,.3);
 }
 .stamp{
   position:fixed;bottom:18px;right:18px;
   font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;
   color:rgba(255,255,255,.8);
-  background:rgba(74,107,74,.35);
+  background:rgba(74,107,181,.35);
   padding:5px 12px;
   border-radius:20px;
-  box-shadow:0 0 12px rgba(107,142,107,.7), 0 0 25px rgba(107,142,107,.3);
+  box-shadow:0 0 12px rgba(107,141,181,.7), 0 0 25px rgba(107,141,181,.3);
   user-select:none;pointer-events:none;z-index:10;letter-spacing:.1em;
 }
 @media(prefers-reduced-motion:reduce){canvas{display:none}}
@@ -40,7 +40,7 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1}
 <body>
 <div class="watermark-wrap">
   <div class="watermark-sub">ADDICTION</div>
-  <div class="watermark-name">JAMES</div>
+  <div class="watermark-name">NINA</div>
 </div>
 <canvas id="c"></canvas>
 <div class="stamp">YOU DO THIS TOO</div>
@@ -48,10 +48,14 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1}
 const c=document.getElementById('c'),ctx=c.getContext('2d');
 let W,H,dpr;
 
-const NC=10;
-let nodes=[],pulsePos=0,pulseSpeed=.019;
-let pts=[],ripples=[],trail=[];
-let t=0,prevNode=-1,flash=0;
+// states: escape, stuck, pulled, reconnect, wait
+let state='wait',stateT=0;
+let srcY,escY,tgtY;
+let dimF=0,flash=0;
+let pullDots=[],pts=[],t=0;
+let shakeX=0,shakeY=0;
+
+const DUR={escape:180,stuck:120,pulled:60,reconnect:30,wait:70};
 
 function resize(){
   dpr=window.devicePixelRatio||1;
@@ -59,35 +63,24 @@ function resize(){
   c.width=W*dpr;c.height=H*dpr;
   c.style.width=W+'px';c.style.height=H+'px';
   ctx.setTransform(dpr,0,0,dpr,0,0);
-  calcNodes();
+  srcY=H*.78;tgtY=H*.15;escY=srcY;
+  state='wait';stateT=0;
 }
 
-function calcNodes(){
-  nodes=[];
-  // Lock center strictly to viewport center
-  const cx=W/2;
-  const cy=H/2;
-  // Scale radius to fit comfortably within the smallest dimension
-  const r=Math.min(W,H)*.35;
-  for(let i=0;i<NC;i++){
-    const a=(i/NC)*Math.PI*2-Math.PI/2;
-    nodes.push({x:cx+Math.cos(a)*r,y:cy+Math.sin(a)*r});
-  }
+function easeOut(p){return 1-(1-p)*(1-p);}
+function easeIn(p){return p*p*p;} // more aggressive snap back
+
+function emitPull(){
+  pullDots.push({pos:0,spd:.012+Math.random()*.008,life:1}); // faster pull dots
 }
 
-function pulseXY(){
-  const i=Math.floor(pulsePos),f=pulsePos-i;
-  const n1=nodes[i],n2=nodes[(i+1)%NC];
-  return{x:n1.x+(n2.x-n1.x)*f,y:n1.y+(n2.y-n1.y)*f};
-}
-
-function emit(x,y,n){
+function burstPts(x,y,n){
   for(let i=0;i<n;i++){
-    const a=Math.random()*Math.PI*2,spd=2.5+Math.random()*5;
+    const a=Math.random()*Math.PI*2,spd=2+Math.random()*6;
     const isBig=Math.random()>.85;
     const isSpark=Math.random()>.5;
     pts.push({
-      x:x,y:y,
+      x:x+(Math.random()-.5)*10,y:y+(Math.random()-.5)*10,
       vx:Math.cos(a)*spd,vy:Math.sin(a)*spd,
       life:1,decay:isSpark?.02+Math.random()*.02:.005+Math.random()*.01,
       r:isBig?Math.random()*5+3:isSpark?Math.random()*2+1:Math.random()*3+1,
@@ -96,140 +89,169 @@ function emit(x,y,n){
   }
 }
 
-function addRipple(x,y){
-  ripples.push({x:x,y:y,r:5,spd:4+Math.random()*3,life:1,decay:.012});
-  ripples.push({x:x,y:y,r:5,spd:2.5+Math.random()*2,life:1,decay:.018});
-}
-
 function update(){
-  t++;
-  pulsePos=(pulsePos+pulseSpeed)%NC;
+  t++;stateT++;
+  const cx=W/2;
 
-  const curNode=Math.floor(pulsePos);
-  const p=pulseXY();
-  trail.push({x:p.x,y:p.y,life:1});
-  if(trail.length>40)trail.shift();
-  for(const tr of trail)tr.life-=.025;
-
-  if(curNode!==prevNode){
-    emit(nodes[curNode].x,nodes[curNode].y,70);
-    addRipple(nodes[curNode].x,nodes[curNode].y);
-    flash=1;
-    prevNode=curNode;
+  switch(state){
+    case 'escape':{
+      const p=Math.min(stateT/DUR.escape,1);
+      escY=srcY-(srcY-tgtY)*easeOut(p);
+      dimF=Math.max(0,(escY-srcY)/(tgtY-srcY)*.7);
+      if(stateT>=DUR.escape){state='stuck';stateT=0;}
+      break;
+    }
+    case 'stuck':{
+      escY=tgtY;
+      dimF=.7+Math.min(stateT/DUR.stuck,1)*.25;
+      if(stateT>=DUR.stuck){state='pulled';stateT=0;}
+      break;
+    }
+    case 'pulled':{
+      const p=Math.min(stateT/DUR.pulled,1);
+      escY=tgtY+(srcY-tgtY)*easeIn(p);
+      dimF=Math.max(0,.95*(1-p));
+      if(stateT>=DUR.pulled){
+        state='reconnect';stateT=0;flash=1.5; // brighter flash
+        burstPts(cx,srcY,150); // massive dramatic burst
+        burstPts(cx,escY+30,80); // secondary impact burst
+      }
+      break;
+    }
+    case 'reconnect':{
+      escY=srcY;dimF=0;
+      if(stateT>=DUR.reconnect){state='wait';stateT=0;}
+      break;
+    }
+    case 'wait':{
+      escY=srcY;dimF=0;
+      if(stateT>=DUR.wait){state='escape';stateT=0;}
+      break;
+    }
   }
 
-  flash*=.9;
+  // shake logic
+  if(state==='reconnect'&&stateT<15){
+    shakeX=(Math.random()-.5)*flash*8;
+    shakeY=(Math.random()-.5)*flash*8;
+  } else {
+    shakeX*=0.8;shakeY*=0.8;
+  }
 
-  if(Math.random()<.5)emit(p.x,p.y,1);
+  flash*=.88;
 
+  // pull dots along tether
+  const dist=Math.abs(escY-srcY);
+  if(dist>30&&Math.random()<.2+dist/H*.4)emitPull();
+  for(let i=pullDots.length-1;i>=0;i--){
+    const d=pullDots[i];d.pos+=d.spd;d.life-=.008;
+    if(d.pos>=1||d.life<=0)pullDots.splice(i,1);
+  }
+
+  // source ambient particles (increased)
+  if(Math.random()<.4)burstPts(cx+(Math.random()-.5)*30,srcY+(Math.random()-.5)*10,2);
+
+  // escapee particles when moving (increased)
+  if(state==='escape'&&Math.random()<.5)burstPts(cx,escY,2);
+
+  // update particles
   for(let i=pts.length-1;i>=0;i--){
     const p=pts[i];p.x+=p.vx;p.y+=p.vy;p.vx*=.97;p.vy*=.97;p.life-=p.decay;
     if(p.life<=0)pts.splice(i,1);
   }
-  if(pts.length>500)pts.splice(0,pts.length-500);
-
-  for(let i=ripples.length-1;i>=0;i--){
-    const r=ripples[i];r.r+=r.spd;r.life-=r.decay;
-    if(r.life<=0)ripples.splice(i,1);
-  }
+  // increased max particle limit
+  if(pts.length>900)pts.splice(0,pts.length-900);
 }
 
 function draw(){
   ctx.clearRect(0,0,W,H);
+  ctx.save();
+  ctx.translate(shakeX,shakeY);
+  
+  const cx=W/2;
+  const bright=1-dimF; // 1=full, 0=dim
 
-  // background glow
-  const bgA=.07+Math.sin(t*.02)*.025;
-  const bgG=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,W*.6);
-  bgG.addColorStop(0,`rgba(74,107,74,${bgA})`);bgG.addColorStop(1,'rgba(0,0,0,0)');
+  // background
+  const bgA=(.08+Math.sin(t*.015)*.025)*bright;
+  const bgG=ctx.createRadialGradient(cx,srcY,0,cx,srcY,W*.65);
+  bgG.addColorStop(0,`rgba(58,88,122,${bgA})`);bgG.addColorStop(1,'rgba(0,0,0,0)');
   ctx.fillStyle=bgG;ctx.fillRect(0,0,W,H);
 
-  // grid
-  const gs=Math.max(30,Math.min(W,H)*.035);
-  for(let gx=gs/2;gx<W;gx+=gs){
-    for(let gy=gs/2;gy<H;gy+=gs){
-      const dist=Math.hypot(gx-W/2,gy-H/2);
-      const fade=Math.max(0,1-dist/(Math.min(W,H)*.55));
-      const a=fade*.08;
-      ctx.fillStyle=`rgba(107,142,107,${a})`;
-      ctx.beginPath();ctx.arc(gx,gy,1.2,0,Math.PI*2);ctx.fill();
-    }
+  // dim overlay
+  if(dimF>.01){
+    ctx.fillStyle=`rgba(10,12,18,${dimF*.4})`;
+    ctx.fillRect(0,0,W,H);
   }
 
-  // ripples
-  for(const r of ripples){
+  const dist=Math.abs(escY-srcY);
+  const tetherAlpha=Math.min(1,Math.max(0,(dist-20)/(H*.3)))*bright;
+
+  // tether line
+  if(tetherAlpha>.01){
     ctx.save();
-    ctx.strokeStyle=`rgba(160,208,160,${r.life*.45})`;ctx.lineWidth=2.5;
-    ctx.shadowColor='#A0D0A0';ctx.shadowBlur=15;
-    ctx.beginPath();ctx.arc(r.x,r.y,r.r,0,Math.PI*2);ctx.stroke();
+    ctx.strokeStyle=`rgba(107,141,181,${tetherAlpha*.6})`;ctx.lineWidth=2;
+    ctx.shadowColor='#8BB8E0';ctx.shadowBlur=12+tetherAlpha*15;
+    ctx.beginPath();ctx.moveTo(cx,srcY);ctx.lineTo(cx,escY);ctx.stroke();
+    ctx.restore();
+    // brighter core
+    ctx.strokeStyle=`rgba(176,216,255,${tetherAlpha*.3})`;ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(cx,srcY);ctx.lineTo(cx,escY);ctx.stroke();
+  }
+
+  // pull dots along tether
+  for(const d of pullDots){
+    const dy=srcY+(escY-srcY)*d.pos;
+    const a=d.life*tetherAlpha*.9;
+    ctx.save();
+    ctx.shadowColor='#B0D8FF';ctx.shadowBlur=8;
+    ctx.fillStyle=`rgba(176,216,255,${a})`;
+    ctx.beginPath();ctx.arc(cx,dy,2.5,0,Math.PI*2);ctx.fill();
     ctx.restore();
   }
 
-  // lines between nodes
-  for(let i=0;i<NC;i++){
-    const n1=nodes[i],n2=nodes[(i+1)%NC];
-    const d=Math.min(Math.abs(pulsePos-i),Math.abs(pulsePos-(i+1)),NC-Math.abs(pulsePos-i),NC-Math.abs(pulsePos-(i+1)));
-    const b=Math.max(.1,.4-d*.12);
-    ctx.strokeStyle=`rgba(107,142,107,${b})`;ctx.lineWidth=1.5;
-    ctx.beginPath();ctx.moveTo(n1.x,n1.y);ctx.lineTo(n2.x,n2.y);ctx.stroke();
-  }
-
-  // trail
-  for(let i=0;i<trail.length;i++){
-    const tr=trail[i];
-    if(tr.life<=0)continue;
-    const a=tr.life*.4;
-    ctx.fillStyle=`rgba(160,208,160,${a})`;
-    ctx.beginPath();ctx.arc(tr.x,tr.y,3*tr.life,0,Math.PI*2);ctx.fill();
-  }
-
-  // nodes
-  const curNode=Math.floor(pulsePos);
-  for(let i=0;i<NC;i++){
-    const n=nodes[i];
-    const isActive=i===curNode;
-    const isNext=i===(curNode+1)%NC;
-    const base=isActive?1:isNext?.35:.15;
-
-    if(isActive){
-      ctx.save();
-      ctx.shadowColor='#A0D0A0';ctx.shadowBlur=35;
-      ctx.fillStyle=`rgba(160,208,160,${base*.7})`;
-      ctx.beginPath();ctx.arc(n.x,n.y,12,0,Math.PI*2);ctx.fill();
-      ctx.restore();
-    }
-
-    ctx.fillStyle=`rgba(107,142,107,${base})`;
-    ctx.beginPath();ctx.arc(n.x,n.y,isActive?8:5,0,Math.PI*2);ctx.fill();
-
-    // ring
-    ctx.strokeStyle=`rgba(107,142,107,${base*.4})`;ctx.lineWidth=1;
-    ctx.beginPath();ctx.arc(n.x,n.y,isActive?16:9,0,Math.PI*2);ctx.stroke();
-  }
-
-  // pulse
-  const pp=pulseXY();
+  // source orb
+  const sPulse=1+Math.sin(t*.03)*.08;
+  const sR=28*sPulse;
   ctx.save();
-  ctx.shadowColor='#A0D0A0';ctx.shadowBlur=45;
-  ctx.fillStyle='rgba(180,230,180,.95)';
-  ctx.beginPath();ctx.arc(pp.x,pp.y,8,0,Math.PI*2);ctx.fill();
+  ctx.shadowColor='#8BB8E0';ctx.shadowBlur=50*bright;
+  ctx.fillStyle=`rgba(107,141,181,${.3*bright})`;
+  ctx.beginPath();ctx.arc(cx,srcY,sR+15,0,Math.PI*2);ctx.fill();
   ctx.restore();
-  // pulse outer ring
-  ctx.save();
-  ctx.strokeStyle='rgba(160,208,160,.5)';ctx.lineWidth=1.5;
-  ctx.shadowColor='#A0D0A0';ctx.shadowBlur=15;
-  ctx.beginPath();ctx.arc(pp.x,pp.y,14,0,Math.PI*2);ctx.stroke();
-  ctx.restore();
+  const sg=ctx.createRadialGradient(cx,srcY,0,cx,srcY,sR);
+  sg.addColorStop(0,`rgba(220,240,255,${.95*bright})`);
+  sg.addColorStop(.4,`rgba(139,184,224,${.8*bright})`);
+  sg.addColorStop(1,`rgba(61,90,122,${.2*bright})`);
+  ctx.fillStyle=sg;
+  ctx.beginPath();ctx.arc(cx,srcY,sR,0,Math.PI*2);ctx.fill();
+
+  // escapee orb
+  if(state!=='wait'&&state!=='reconnect'||state==='reconnect'&&stateT<20){
+    const eAlpha=state==='reconnect'?Math.max(0,1-stateT/20):1;
+    const eR=14;
+    const eBright=bright*(state==='stuck'?.4:1);
+    ctx.save();
+    ctx.shadowColor='#8BB8E0';ctx.shadowBlur=45*eBright;
+    ctx.fillStyle=`rgba(107,141,181,${.35*eBright*eAlpha})`;
+    ctx.beginPath();ctx.arc(cx,escY,eR+10,0,Math.PI*2);ctx.fill();
+    ctx.restore();
+    const eg=ctx.createRadialGradient(cx,escY,0,cx,escY,eR);
+    eg.addColorStop(0,`rgba(255,255,255,${.95*eBright*eAlpha})`); // brighter core
+    eg.addColorStop(.5,`rgba(176,216,255,${.8*eBright*eAlpha})`);
+    eg.addColorStop(1,`rgba(61,90,122,${.2*eBright*eAlpha})`);
+    ctx.fillStyle=eg;
+    ctx.beginPath();ctx.arc(cx,escY,eR,0,Math.PI*2);ctx.fill();
+  }
 
   // particles
   for(const p of pts){
     let a,col;
-    if(p.spark){a=p.life*.95;col=`rgba(200,240,200,${a})`;}
-    else if(p.bright){a=p.life*.85;col=`rgba(160,208,160,${a})`;}
-    else{a=p.life*.5;col=`rgba(107,142,107,${a})`;}
+    if(p.spark){a=p.life*.95*bright;col=`rgba(220,240,255,${a})`;}
+    else if(p.bright){a=p.life*.85*bright;col=`rgba(176,216,255,${a})`;}
+    else{a=p.life*.5*bright;col=`rgba(107,141,181,${a})`;}
     
     if(p.spark||p.bright){
       ctx.save();
-      ctx.shadowColor='#A0D0A0';ctx.shadowBlur=p.spark?15:8;
+      ctx.shadowColor='#8BB8E0';ctx.shadowBlur=p.spark?15:8;
       ctx.fillStyle=col;
       ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();
       ctx.restore();
@@ -239,11 +261,13 @@ function draw(){
     }
   }
 
-  // flash
+  // reconnect flash
   if(flash>.01){
-    ctx.fillStyle=`rgba(107,142,107,${flash*.2})`;
+    ctx.fillStyle=`rgba(176,216,255,${flash*.3})`; // brighter, whiter flash
     ctx.fillRect(0,0,W,H);
   }
+
+  ctx.restore();
 }
 
 function loop(){update();draw();requestAnimationFrame(loop);}
