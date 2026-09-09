@@ -3,585 +3,541 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ADAPTABILITY — The Truth, Part 1</title>
+<title>Amara — The Yardstick | Recalibrate</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html, body { height:100%; background:#000; overflow:hidden; }
-  body { font-family:'Outfit', system-ui, sans-serif; }
+:root{
+  --vio:#a78bfa;
+  --vio-bright:#d8ccff;
+  --vio-mid:#c4b5fd;
+  --vio-deep:#4c1d95;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden}
+body{background:#05030d;font-family:'Outfit',sans-serif}
+.scene{position:absolute;inset:0;transform-origin:50% 55%;animation:sceneDrift 16s ease-in-out infinite}
+@keyframes sceneDrift{0%,100%{transform:scale(1)}50%{transform:scale(1.014)}}
 
-  .stage { position:fixed; inset:0; }
+/* ============ ROOM ============ */
+.wall{position:absolute;top:0;left:0;right:0;height:62%;z-index:0;
+  background-color:#1a0f38;
+  background-image:
+    radial-gradient(ellipse 70% 60% at 50% 30%, rgba(139,92,246,.16), transparent 75%),
+    linear-gradient(rgba(196,181,253,.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(196,181,253,.09) 1px, transparent 1px);
+  background-size:100% 100%,9vmin 9vmin,9vmin 9vmin;
+  box-shadow:inset 0 -6vmin 10vmin rgba(0,0,0,.4)}
+.floor{position:absolute;left:0;right:0;bottom:0;height:38%;z-index:0;
+  background:
+    radial-gradient(ellipse 65% 95% at 50% 18%, rgba(139,92,246,.26), transparent 72%),
+    repeating-linear-gradient(to bottom, rgba(196,181,253,.07) 0 1px, transparent 1px 3.4vmin),
+    linear-gradient(#241545,#0f0926)}
+.beam{position:absolute;left:2%;top:2%;width:20vmin;height:92vmin;z-index:1;
+  transform-origin:10% 6%;pointer-events:none;
+  background:linear-gradient(90deg, transparent, rgba(216,204,255,.18) 45%, rgba(216,204,255,.1) 60%, transparent);
+  filter:blur(.6vmin)}
+.beam.b1{animation:beamSway 26s ease-in-out infinite}
+.beam.b2{width:11vmin;opacity:.6;
+  background:linear-gradient(90deg, transparent, rgba(216,204,255,.16) 50%, transparent);
+  animation:beamSway 26s ease-in-out infinite reverse}
+@keyframes beamSway{0%,100%{transform:rotate(36deg)}50%{transform:rotate(40deg)}}
+.glow{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(ellipse 58% 48% at 50% 60%, rgba(139,92,246,.22), transparent 72%);
+  animation:roomGlow 9s ease-in-out infinite}
+@keyframes roomGlow{0%,100%{opacity:.75}50%{opacity:1}}
 
-  /* ---- the wall ---- */
-  .wall {
-    position:absolute; inset:0;
-    background: linear-gradient(#0b0d11, #05060a 70%);
-  }
+/* ============ NAME ============ */
+.name{position:absolute;top:5%;left:50%;transform:translateX(-50%);z-index:2;
+  font-weight:900;font-size:clamp(3rem,15vmin,10.5rem);letter-spacing:.08em;white-space:nowrap;
+  color:var(--vio-mid);
+  animation:namePulse 6s ease-in-out infinite}
+@keyframes namePulse{
+  0%,100%{text-shadow:0 0 18px rgba(167,139,250,.95),0 0 60px rgba(139,92,246,.65),0 0 130px rgba(124,58,237,.4)}
+  50%{text-shadow:0 0 28px rgba(196,181,253,1),0 0 90px rgba(139,92,246,.9),0 0 160px rgba(124,58,237,.55)}}
 
-  /* ---- phase light: teal -> rust -> blue -> settle ---- */
-  .glow {
-    position:absolute; left:50%; top:56%;
-    width:130vmin; height:130vmin;
-    transform:translate(-50%,-50%);
-    background: radial-gradient(closest-side, currentColor, transparent 72%);
-    color:#2dd4bf;
-    z-index:1;
-    animation: glowPulse 5s ease-in-out infinite, truthColor 24s linear infinite;
-  }
-  @keyframes glowPulse { 0%,100% { opacity:.10 } 50% { opacity:.18 } }
-  @keyframes truthColor {
-    0%, 21%  { color:#2dd4bf }
-    27%, 46% { color:#e0813a }
-    52%, 71% { color:#58a6ff }
-    77%, 97% { color:#f2ede4 }
-    100%     { color:#2dd4bf }
-  }
+/* ============ WINDOW + skyline of other people's towers ============ */
+.window{position:absolute;left:4%;top:10%;width:15vmin;height:18vmin;z-index:2;
+  border:1vmin solid #3a256e;border-radius:.8vmin;
+  background:linear-gradient(#7c58ee,#a78bfa 55%,#d8ccff);
+  overflow:hidden;
+  box-shadow:0 0 26px rgba(167,139,250,.55), inset 0 0 10px rgba(0,0,0,.35)}
+.sun{position:absolute;left:3vmin;top:3.4vmin;width:3.6vmin;height:3.6vmin;border-radius:50%;
+  background:radial-gradient(circle at 38% 32%, #ffffff, #f2ecff 45%, #c4b5fd);
+  box-shadow:0 0 16px rgba(255,255,255,.9),0 0 34px rgba(216,204,255,.7);
+  animation:sunDrift 30s ease-in-out infinite}
+@keyframes sunDrift{0%,100%{transform:translateX(0)}50%{transform:translateX(1.8vmin)}}
+.skyline{position:absolute;left:0;right:0;bottom:0;height:7.5vmin}
+.bld{position:absolute;bottom:0;background:#241640;border-radius:.2vmin .2vmin 0 0}
+.bld.a{left:2%;width:24%;height:100%}
+.bld.b{left:30%;width:17%;height:70%;background:#2a1b55}
+.bld.c{left:52%;width:26%;height:100%}
+.bld.d{left:84%;width:14%;height:58%;background:#2a1b55}
+.lw{position:absolute;width:.7vmin;height:.7vmin;background:#f2ecff;border-radius:.1vmin;
+  box-shadow:0 0 4px rgba(255,255,255,.8);
+  animation:twinkle 4s ease-in-out infinite}
+.lw.w1{left:20%;top:25%}
+.lw.w2{left:55%;top:55%;animation-delay:-2s}
+.lw.w3{left:12%;top:60%;animation-delay:-1s}
+.bld.c .lw{left:30%;top:30%;animation-delay:-3s}
+.bld.c .lw2{left:60%;top:55%;animation-delay:-1.5s}
+@keyframes twinkle{0%,100%{opacity:.25}50%{opacity:1}}
+.wglow{position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 26%, rgba(255,255,255,.32), transparent 72%);
+  animation:breath 8s ease-in-out infinite}
+@keyframes breath{0%,100%{opacity:.6}50%{opacity:1}}
+.wbarV{position:absolute;left:calc(50% - .4vmin);top:0;bottom:0;width:.8vmin;background:#3a256e}
+.wbarH{position:absolute;top:calc(50% - .4vmin);left:0;right:0;height:.8vmin;background:#3a256e}
+.floorlight{position:absolute;left:16%;bottom:20%;width:30vmin;height:10vmin;z-index:1;
+  border-radius:50%;filter:blur(2.4vmin);
+  background:radial-gradient(ellipse, rgba(216,204,255,.3), transparent 70%);
+  animation:poolDrift 18s ease-in-out infinite}
+@keyframes poolDrift{0%,100%{transform:translateX(-3vmin);opacity:.75}50%{transform:translateX(4vmin);opacity:1}}
 
-  /* ---- title watermark ---- */
-  .title-block { position:absolute; top:6.5%; left:0; right:0; text-align:center; z-index:5; }
-  .name {
-    font-size: clamp(52px, 17vmin, 250px);
-    font-weight:800; line-height:.95; letter-spacing:.04em;
-    color:#2dd4bf;
-    text-shadow: 0 0 18px currentColor, 0 0 60px currentColor;
-    white-space:nowrap;
-    animation: truthColor 24s linear infinite;
-  }
-  .theme-label {
-    display:inline-block; margin-top:1.6vmin;
-    font-size: clamp(10px, 2.2vmin, 24px); font-weight:600;
-    letter-spacing:.5em; padding-left:.5em;
-    color:#f5ead2;
-    text-shadow: 0 0 14px rgba(232,193,90,.5);
-  }
+/* ============ RACING CLOCK ============ */
+.clock{position:absolute;left:38%;top:15%;width:7vmin;height:7vmin;z-index:2;border-radius:50%;
+  background:radial-gradient(circle at 38% 32%, #2c1c58, #150e34 65%);
+  border:2px solid rgba(196,181,253,.6);
+  box-shadow:0 0 14px rgba(139,92,246,.5)}
+.cticks{position:absolute;inset:0;border-radius:50%;
+  background:repeating-conic-gradient(rgba(196,181,253,.65) 0 1.2deg, transparent 1.2deg 30deg);
+  -webkit-mask:radial-gradient(circle, transparent 0 78%, #000 80% 96%, transparent 98%);
+  mask:radial-gradient(circle, transparent 0 78%, #000 80% 96%, transparent 98%)}
+.mh{position:absolute;left:calc(50% - .15vmin);bottom:50%;width:.3vmin;height:2.7vmin;border-radius:.15vmin;
+  background:#f2ecff;box-shadow:0 0 6px rgba(216,204,255,.9);
+  transform-origin:center bottom;animation:handSpin 8s linear infinite}
+.hh{position:absolute;left:calc(50% - .19vmin);bottom:50%;width:.38vmin;height:1.8vmin;border-radius:.19vmin;
+  background:var(--vio-mid);box-shadow:0 0 6px rgba(167,139,250,.9);
+  transform-origin:center bottom;animation:handSpin 56s linear infinite}
+.cdot{position:absolute;left:50%;top:50%;width:1vmin;height:1vmin;border-radius:50%;
+  transform:translate(-50%,-50%);
+  background:radial-gradient(circle at 35% 35%, #f2ecff, #6d3ee0);box-shadow:0 0 6px rgba(216,204,255,.9)}
+@keyframes handSpin{to{transform:rotate(360deg)}}
 
-  /* ---- floor ---- */
-  .floor {
-    position:absolute; left:0; right:0; bottom:0; height:20%;
-    background: linear-gradient(#14181d, #05070a 75%);
-    border-top: 1px solid rgba(140,155,175,.12);
-    z-index:1.5;
-  }
+/* ============ MIRROR + SINK ============ */
+.mirror{position:absolute;left:5%;top:30%;width:14vmin;height:10vmin;z-index:2;
+  border-radius:1vmin;
+  background:linear-gradient(135deg,#2c1c58,#151038 55%,#332160);
+  border:2px solid rgba(196,181,253,.55);
+  box-shadow:0 0 18px rgba(139,92,246,.4), inset 0 0 10px rgba(0,0,0,.5)}
+.mirror::after{content:"";position:absolute;inset:.7vmin;border-radius:.7vmin;
+  background:linear-gradient(120deg, rgba(255,255,255,.28), transparent 40%, rgba(216,204,255,.18));
+  animation:shimmer 9s ease-in-out infinite}
+@keyframes shimmer{0%,100%{opacity:.4}50%{opacity:.8}}
+.sink{position:absolute;left:4%;top:41%;width:16vmin;height:8vmin;z-index:2}
+.faucet{position:absolute;left:6.5vmin;top:-2.6vmin;width:1vmin;height:3.4vmin;border-radius:.4vmin;
+  background:linear-gradient(#8a76c8,#3a2864)}
+.faucet::after{content:"";position:absolute;right:-1.4vmin;top:-.2vmin;width:2vmin;height:.9vmin;
+  border-radius:.4vmin;background:#8a76c8}
+.stream{position:absolute;left:7.3vmin;top:.7vmin;width:.55vmin;height:3.6vmin;border-radius:.3vmin;
+  background:repeating-linear-gradient(180deg, rgba(255,255,255,.8) 0 .7vmin, rgba(216,204,255,.15) .7vmin 1.4vmin);
+  animation:flow .6s linear infinite}
+@keyframes flow{to{background-position:0 1.4vmin}}
+.basin{position:absolute;left:0;right:0;bottom:0;height:4.6vmin;border-radius:1vmin 1vmin 1.6vmin 1.6vmin;
+  background:linear-gradient(#3a2868,#1a1038);
+  border:2px solid rgba(196,181,253,.5);
+  box-shadow:inset 0 1vmin 2vmin rgba(0,0,0,.5), 0 4px 10px rgba(0,0,0,.5)}
+.ripple{position:absolute;left:4.5vmin;top:2.5vmin;width:4.6vmin;height:1.5vmin;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,.65);
+  animation:ripplePulse 2.6s ease-out infinite}
+.ripple.r2{animation-delay:-1.3s}
+@keyframes ripplePulse{
+  0%{transform:scale(.45);opacity:.65}
+  100%{transform:scale(1.05);opacity:.05}}
 
-  /* ================= THE WINDOW ================= */
-  .window {
-    position:absolute; left:6%; top:27%;
-    width: clamp(84px, 23vmin, 210px);
-    height: clamp(100px, 26vmin, 240px);
-    background:#0a0f18;
-    border: 1.4vmin solid #6b7480;
-    overflow:hidden; z-index:2;
-    box-shadow: 0 1vmin 3vmin rgba(0,0,0,.7);
-  }
-  .window::before, .window::after {
-    content:''; position:absolute; background:#6b7480; z-index:10;
-  }
-  .window::before { left:50%; top:0; bottom:0; width:1.4vmin; margin-left:-0.7vmin; }
-  .window::after  { top:50%; left:0; right:0; height:1.4vmin; margin-top:-0.7vmin; }
+/* ============ TOWEL ============ */
+.towelzone{position:absolute;left:22.5%;top:13.5%;width:15vmin;z-index:2}
+.rail{position:relative;height:1.1vmin;border-radius:.55vmin;
+  background:linear-gradient(#8a76c8,#3a2864);
+  box-shadow:0 2px 5px rgba(0,0,0,.6)}
+.rail::before,.rail::after{content:"";position:absolute;top:-.6vmin;width:1.1vmin;height:2vmin;
+  background:#5a4394;border-radius:.3vmin}
+.rail::before{left:1.5vmin}
+.rail::after{right:1.5vmin}
+.towel{margin:0 2.2vmin;height:12.5vmin;border-radius:0 0 1vmin 1vmin;
+  background:repeating-linear-gradient(90deg,#4d3884 0 3.2vmin,#2b1b52 3.2vmin 6.4vmin);
+  box-shadow:inset 0 -1vmin 2vmin rgba(0,0,0,.35), 0 4px 10px rgba(0,0,0,.5);
+  transform-origin:top center;animation:sway 6s ease-in-out infinite}
+@keyframes sway{0%,100%{transform:rotate(-2.2deg)}50%{transform:rotate(2.2deg)}}
 
-  .view { position:absolute; inset:0; }
-  .view svg { position:absolute; inset:0; width:100%; height:100%; }
+/* ============ GOALS RISING FOREVER (ladder) ============ */
+.ladder{position:absolute;right:4%;top:0;width:13vmin;height:70vmin;z-index:2;overflow:hidden;
+  -webkit-mask-image:linear-gradient(to bottom, transparent 0, #000 14%, #000 100%);
+  mask-image:linear-gradient(to bottom, transparent 0, #000 14%, #000 100%)}
+.laddercol{position:absolute;inset:0;animation:ladderRise 9s linear infinite}
+@keyframes ladderRise{to{transform:translateY(-10.5vmin)}}
+.lg{position:absolute;left:0;width:13vmin;height:9.5vmin;border-radius:.7vmin;
+  border:2.5px dashed rgba(196,181,253,.65);
+  box-shadow:0 0 10px rgba(139,92,246,.2), inset 0 0 8px rgba(139,92,246,.12)}
+.lg .bar{position:absolute;left:16%;height:.6vmin;border-radius:.3vmin;background:rgba(196,181,253,.25)}
+.lg .bar.b1{top:24%;right:16%}
+.lg .bar.b2{top:40%;right:34%}
+.lg .bar.b3{top:56%;right:48%}
+.lg .ring{position:absolute;right:13%;top:20%;width:3vmin;height:3vmin;border-radius:50%;
+  border:2px dashed rgba(196,181,253,.55)}
 
-  .viewDay    { animation: viewDayK 24s linear infinite; }
-  .viewAutumn { animation: viewAutumnK 24s linear infinite; }
-  .viewWinter { animation: viewWinterK 24s linear infinite; }
-  .viewCity   { animation: viewCityK 24s linear infinite; }
-  .viewBeach  { animation: viewBeachK 24s linear infinite; }
+/* ============ ACHIEVED FRAMES (fixed, below the rising goals) ============ */
+.frames{position:absolute;right:4%;top:60.5vmin;width:13vmin;height:31vmin;z-index:2}
+.f{position:absolute;left:0;width:13vmin;height:9.5vmin;border-radius:.7vmin;
+  background:linear-gradient(150deg,#241746,#140d2c);
+  border:.9vmin solid #453070;
+  box-shadow:0 6px 12px rgba(0,0,0,.5), inset 0 0 10px rgba(0,0,0,.45)}
+.f .bar{position:absolute;left:16%;height:.6vmin;border-radius:.3vmin;background:rgba(196,181,253,.3)}
+.f .bar.b1{top:24%;right:16%}
+.f .bar.b2{top:40%;right:34%}
+.f .bar.b3{top:56%;right:48%}
+.f .medal{position:absolute;right:13%;top:20%;width:3vmin;height:3vmin;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%, #c4b5fd, #6d3ee0);
+  box-shadow:0 0 14px rgba(167,139,250,.75)}
+.f.d1{top:0}
+.f.d2{top:10.5vmin}
+.f.d3{top:21vmin}
 
-  @keyframes viewDayK    { 0%,32% {opacity:1} 34%,66% {opacity:0} 68%,100% {opacity:1} }
-  @keyframes viewAutumnK { 0%,32% {opacity:0} 34%,40% {opacity:1} 42%,100% {opacity:0} }
-  @keyframes viewWinterK { 0%,40% {opacity:0} 42%,48% {opacity:1} 50%,100% {opacity:0} }
-  @keyframes viewCityK   { 0%,49% {opacity:0} 51%,57% {opacity:1} 59%,100% {opacity:0} }
-  @keyframes viewBeachK  { 0%,57% {opacity:0} 59%,65% {opacity:1} 67%,100% {opacity:0} }
+/* ============ HER — pacing behind the scale ============ */
+.pacer{position:absolute;left:50%;bottom:7%;width:40vmin;height:68vmin;margin-left:-20vmin;z-index:3;
+  animation:pace 16s ease-in-out infinite}
+@keyframes pace{
+  0%{transform:translateX(-16vmin)}
+  50%{transform:translateX(16vmin)}
+  100%{transform:translateX(-16vmin)}}
+.lean{position:absolute;inset:0;animation:lean 16s ease-in-out infinite}
+@keyframes lean{
+  0%{transform:rotate(0deg)}
+  25%{transform:rotate(2deg)}
+  50%{transform:rotate(0deg)}
+  75%{transform:rotate(-2deg)}
+  100%{transform:rotate(0deg)}}
+.flip{position:absolute;inset:0;animation:flip 16s linear infinite}
+@keyframes flip{
+  0%,49.6%{transform:scaleX(1)}
+  50.4%,100%{transform:scaleX(-1)}}
+.bob{position:absolute;inset:0;animation:bob 1.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-.45vmin)}}
+.herglow{position:absolute;left:62.5%;top:75%;width:28vmin;height:28vmin;
+  transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;opacity:.7;
+  background:radial-gradient(circle, rgba(216,204,255,.22), transparent 70%);
+  animation:phonePulse 5s ease-in-out infinite}
+@keyframes phonePulse{0%,100%{opacity:.45}50%{opacity:.95}}
+.figshadow{position:absolute;left:50%;bottom:-1vmin;width:24vmin;height:2.6vmin;
+  transform:translateX(-50%);border-radius:50%;filter:blur(.3vmin);
+  background:radial-gradient(ellipse, rgba(0,0,0,.65), transparent 70%);
+  animation:shadowBreath 3.8s ease-in-out infinite}
+@keyframes shadowBreath{0%,100%{transform:translateX(-50%) scaleX(1);opacity:.75}50%{transform:translateX(-50%) scaleX(1.05);opacity:.9}}
+.fig{position:absolute;inset:0;width:100%;height:100%;
+  filter:drop-shadow(0 0 9px rgba(167,139,250,.5))}
+.fig .body{fill:#08041a;stroke:rgba(216,204,255,.38);stroke-width:1.3}
+.fig .limb{fill:none;stroke:#08041a;stroke-width:10.5;stroke-linecap:round}
+.fig .pony{transform-box:fill-box;transform-origin:15% 10%;
+  animation:tailSway 3.4s ease-in-out infinite}
+@keyframes tailSway{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(6deg)}}
+.fig .legL{transform-box:fill-box;transform-origin:50% 4%;
+  animation:stride 1.3s ease-in-out infinite}
+.fig .legR{transform-box:fill-box;transform-origin:50% 4%;
+  animation:stride 1.3s ease-in-out infinite;animation-delay:-.65s}
+@keyframes stride{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+.fig .torso{transform-box:fill-box;transform-origin:50% 100%;
+  animation:breatheT 3.8s ease-in-out infinite}
+@keyframes breatheT{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.016)}}
+.fig .armL{transform-box:fill-box;transform-origin:50% 8%;
+  animation:armLsway 5s ease-in-out infinite}
+@keyframes armLsway{0%,100%{transform:rotate(-2.5deg)}50%{transform:rotate(2.5deg)}}
+.fig .armR{transform-box:fill-box;transform-origin:31% 42%;
+  animation:armRsway 6s ease-in-out infinite}
+@keyframes armRsway{0%,100%{transform:rotate(1.5deg)}50%{transform:rotate(-1.5deg)}}
+.fig .head{transform-box:fill-box;transform-origin:50% 88%;
+  animation:headLook 11s ease-in-out infinite}
+@keyframes headLook{
+  0%,28%{transform:rotate(8deg)}
+  40%,56%{transform:rotate(-3deg)}
+  68%,100%{transform:rotate(8deg)}}
+.fig .phoneGlow{opacity:.8;animation:phonePulse 5s ease-in-out infinite}
+.fig .bars{animation:barsScroll 3.5s linear infinite}
+@keyframes barsScroll{to{transform:translateY(-9.2px)}}
 
-  /* snow: only while winter is up (Derek phase) */
-  .snow { position:absolute; inset:0; z-index:9; opacity:0; animation: snowK 24s linear infinite; }
-  @keyframes snowK { 0%,41% {opacity:0} 43%,48% {opacity:1} 50%,100% {opacity:0} }
-  .snowdot {
-    position:absolute; width:4px; height:4px; border-radius:50%;
-    background:#eef4fa; opacity:.85;
-    animation: snowFall linear infinite;
-  }
-  .s1 { left:15%; animation-duration:3s;   animation-delay:0s }
-  .s2 { left:38%; animation-duration:2.4s; animation-delay:1s }
-  .s3 { left:60%; animation-duration:3.4s; animation-delay:.5s }
-  .s4 { left:78%; animation-duration:2.8s; animation-delay:1.6s }
-  .s5 { left:50%; animation-duration:2.2s; animation-delay:2s }
-  @keyframes snowFall { from { transform: translateY(-12%) } to { transform: translateY(120%) } }
+/* ============ THE SCALE (in front of her, facing us) ============ */
+.mat{position:absolute;left:50%;bottom:3.2%;width:54vmin;height:8vmin;
+  transform:translateX(-50%);border-radius:50%;filter:blur(.25vmin);
+  background:repeating-linear-gradient(90deg, rgba(124,58,237,.35) 0 3.5vmin, rgba(76,29,149,.2) 3.5vmin 7vmin)}
+.scalezone{position:absolute;left:50%;bottom:5%;width:30vmin;height:20vmin;
+  margin-left:-15vmin;z-index:4}
+.plate{position:absolute;left:0;right:0;bottom:0;height:11vmin;border-radius:2vmin;
+  background:
+    repeating-linear-gradient(90deg, rgba(196,181,253,.14) 0 1.4vmin, transparent 1.4vmin 2.8vmin),
+    linear-gradient(#54368f,#2a1a56 70%,#1c1240);
+  border:2px solid rgba(196,181,253,.6);
+  box-shadow:0 14px 26px rgba(0,0,0,.6), 0 0 34px rgba(139,92,246,.5), inset 0 .8vmin 1.6vmin rgba(255,255,255,.3)}
+.sweep{position:absolute;left:50%;bottom:9.4vmin;width:10vmin;height:1.8vmin;border-radius:1vmin;
+  filter:blur(.4vmin);
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
+  animation:plateSweep 9s ease-in-out infinite}
+@keyframes plateSweep{0%,100%{transform:translateX(-8vmin)}50%{transform:translateX(8vmin)}}
+.console{position:absolute;left:50%;bottom:7.5vmin;transform:translateX(-50%);
+  width:17vmin;height:6.8vmin;border-radius:1.2vmin;
+  background:linear-gradient(#3a2a68,#1a1140);
+  border:2px solid rgba(196,181,253,.65);
+  box-shadow:0 0 20px rgba(139,92,246,.6), inset 0 0 8px rgba(0,0,0,.5);
+  display:flex;align-items:center;justify-content:center}
+.readwin{display:flex;gap:.35vmin;padding:.3vmin;border-radius:.7vmin;
+  background:#0d0820;border:1.5px solid rgba(196,181,253,.6);
+  box-shadow:0 0 14px rgba(139,92,246,.6), inset 0 0 6px rgba(0,0,0,.7)}
+.odocol{width:3.4vmin;height:4.8vmin;overflow:hidden;border-radius:.35vmin;
+  background:rgba(8,5,20,.95);box-shadow:inset 0 0 6px rgba(0,0,0,.8)}
+.strip{position:relative}
+.strip span{display:block;height:4.8vmin;line-height:4.8vmin;
+  font-size:3vmin;font-weight:800;text-align:center;
+  color:#f2ecff;text-shadow:0 0 8px rgba(216,204,255,.85),0 0 18px rgba(167,139,250,.6)}
+.s1{animation:roll 10s linear infinite}
+.s10{animation:roll 100s linear infinite;animation-delay:-25s;transform:translateY(-24vmin)}
+.s100{animation:roll 1000s linear infinite;animation-delay:-50s;transform:translateY(-4.8vmin)}
+@keyframes roll{to{transform:translateY(-50%)}}
+.wheel{position:absolute;right:1.2vmin;bottom:.8vmin;width:5vmin;height:5vmin;border-radius:50%;
+  background:radial-gradient(circle at 40% 35%, #4d3a86, #221246 70%);
+  border:2px solid rgba(196,181,253,.65);
+  box-shadow:0 0 16px rgba(139,92,246,.6);
+  animation:wheelSpin 18s linear infinite}
+.wheel::before{content:"";position:absolute;left:12%;right:12%;top:calc(50% - .25vmin);
+  height:.5vmin;border-radius:.25vmin;
+  background:#f2ecff;box-shadow:0 0 8px rgba(216,204,255,.9)}
+@keyframes wheelSpin{to{transform:rotate(360deg)}}
 
-  /* ================= THE PICTURE FRAME ================= */
-  .frame {
-    position:absolute; right:7%; top:29%;
-    width: clamp(60px, 13vmin, 120px);
-    height: clamp(76px, 16vmin, 148px);
-    background:#1a1f27;
-    border: 1vmin solid #3d4450;
-    box-shadow: 0 1vmin 2.5vmin rgba(0,0,0,.7);
-    z-index:2;
-  }
-  .art { position:absolute; inset:9%; }
-  .art svg { position:absolute; inset:0; width:100%; height:100%; }
-  .artA { animation: artAK 24s linear infinite; }
-  .artB { animation: artBK 24s linear infinite; }
-  .artC { animation: artCK 24s linear infinite; }
-  @keyframes artAK { 0%,49% {opacity:1} 51%,66% {opacity:0} 68%,100% {opacity:1} }
-  @keyframes artBK { 0%,49% {opacity:0} 51%,57% {opacity:1} 59%,100% {opacity:0} }
-  @keyframes artCK { 0%,57% {opacity:0} 59%,66% {opacity:1} 68%,100% {opacity:0} }
+/* ============ AMBIENT ============ */
+.steam{position:absolute;z-index:2;pointer-events:none;filter:blur(1.4vmin);
+  border-radius:50%;opacity:0;animation:steamUp linear infinite}
+.st1{left:7%;bottom:34%;width:6vmin;height:9vmin;
+  background:radial-gradient(ellipse, rgba(216,204,255,.13), transparent 70%);
+  animation-duration:22s}
+.st2{left:11%;bottom:36%;width:5vmin;height:8vmin;
+  background:radial-gradient(ellipse, rgba(216,204,255,.11), transparent 70%);
+  animation-duration:28s;animation-delay:-12s}
+.st3{left:9%;bottom:33%;width:4vmin;height:7vmin;
+  background:radial-gradient(ellipse, rgba(216,204,255,.1), transparent 70%);
+  animation-duration:25s;animation-delay:-19s}
+@keyframes steamUp{0%{transform:translateY(0);opacity:0}25%{opacity:.8}100%{transform:translateY(-20vmin);opacity:0}}
+.dust{position:absolute;inset:0;z-index:5;pointer-events:none}
+.p{position:absolute;border-radius:50%;background:var(--vio-mid);
+  box-shadow:0 0 9px rgba(196,181,253,1);opacity:.55;
+  animation:floatUp linear infinite}
+.p1{left:9%;bottom:14%;width:4px;height:4px;animation-duration:19s;animation-delay:-3s}
+.p2{left:22%;bottom:6%;width:6px;height:6px;animation-duration:23s;animation-delay:-11s}
+.p3{left:35%;bottom:20%;width:4px;height:4px;animation-duration:16s;animation-delay:-7s}
+.p4{left:47%;bottom:8%;width:5px;height:5px;animation-duration:21s;animation-delay:-15s}
+.p5{left:58%;bottom:26%;width:4px;height:4px;animation-duration:18s;animation-delay:-2s}
+.p6{left:66%;bottom:12%;width:6px;height:6px;animation-duration:24s;animation-delay:-9s}
+.p7{left:78%;bottom:18%;width:4px;height:4px;animation-duration:17s;animation-delay:-13s}
+.p8{left:88%;bottom:8%;width:5px;height:5px;animation-duration:22s;animation-delay:-5s}
+.p9{left:15%;bottom:32%;width:4px;height:4px;animation-duration:20s;animation-delay:-17s}
+.p10{left:28%;bottom:40%;width:5px;height:5px;animation-duration:21s;animation-delay:-8s}
+.p11{left:60%;bottom:44%;width:4px;height:4px;animation-duration:18s;animation-delay:-14s}
+.p12{left:80%;bottom:36%;width:5px;height:5px;animation-duration:23s;animation-delay:-6s}
+@keyframes floatUp{
+  0%{transform:translateY(0);opacity:0}
+  12%{opacity:.6}
+  85%{opacity:.5}
+  100%{transform:translateY(-88vh);opacity:0}}
+.vignette{position:absolute;inset:0;z-index:6;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 50%, transparent 62%, rgba(0,0,0,.38))}
 
-  /* ================= THE PLANT ================= */
-  .plant {
-    position:absolute; left:9%; bottom:9%;
-    width: clamp(64px, 16vmin, 150px);
-    z-index:3;
-  }
-  .plant svg { position:absolute; bottom:0; left:0; width:100%; height:auto; }
-  .plantA { animation: artAK 24s linear infinite; }
-  .plantB { animation: artBK 24s linear infinite; }
-  .plantC { animation: artCK 24s linear infinite; }
+/* ============ SEAL ============ */
+.seal{position:absolute;right:2.6vmin;bottom:2.6vmin;z-index:10;
+  width:15vmin;height:15vmin;opacity:.95;
+  animation:sealPulse 4s ease-in-out infinite}
+.seal .ringA{fill:none;stroke:var(--vio-mid);stroke-width:2.5}
+.seal .ringB{fill:none;stroke:rgba(196,181,253,.8);stroke-width:1.5}
+.seal .txt{fill:#f2ecff;font-family:'Outfit',sans-serif;font-weight:800;
+  font-size:10.5px;letter-spacing:2px}
+.seal .dot{fill:var(--vio-mid)}
+.seal .core{fill:#f2ecff}
+@keyframes sealPulse{
+  0%,100%{filter:drop-shadow(0 0 6px rgba(196,181,253,.7))}
+  50%{filter:drop-shadow(0 0 16px rgba(196,181,253,1))}}
 
-  /* ================= THE THERMOSTAT ================= */
-  .thermo {
-    position:absolute; left:50%; top:46%;
-    transform:translateX(-50%);
-    width: clamp(150px, 38vmin, 350px);
-    z-index:4;
-    filter: drop-shadow(0 2vmin 4vmin rgba(0,0,0,.6));
-  }
-  .thermo svg { display:block; width:100%; }
-
-  .needle-wrap {
-    transform-box:view-box; transform-origin:0px 0px;
-    transform: rotate(18deg);
-    animation: needleSpin 24s ease-in-out infinite;
-  }
-  .marker-wrap {
-    transform-box:view-box; transform-origin:0px 0px;
-    transform: rotate(18deg);
-    animation: markerSlide 24s ease-in-out infinite;
-  }
-
-  /* Chloe: the set point is everywhere. Derek: it strains in place. Raya/settle: it rests. */
-  @keyframes needleSpin {
-    0%      { transform: rotate(18deg) }
-    3%      { transform: rotate(60deg) }
-    5%      { transform: rotate(-30deg) }
-    7%      { transform: rotate(75deg) }
-    9%      { transform: rotate(-45deg) }
-    11%     { transform: rotate(55deg) }
-    13%     { transform: rotate(-20deg) }
-    15%     { transform: rotate(40deg) }
-    17%     { transform: rotate(-5deg) }
-    19%     { transform: rotate(65deg) }
-    21%     { transform: rotate(-35deg) }
-    23%     { transform: rotate(25deg) }
-    25%     { transform: rotate(18deg) }
-    27%     { transform: rotate(16.5deg) }
-    29%     { transform: rotate(19.5deg) }
-    31%     { transform: rotate(16.8deg) }
-    33%     { transform: rotate(19.2deg) }
-    35%     { transform: rotate(16.6deg) }
-    37%     { transform: rotate(19.4deg) }
-    39%     { transform: rotate(16.8deg) }
-    41%     { transform: rotate(19.2deg) }
-    43%     { transform: rotate(17deg) }
-    45%     { transform: rotate(19deg) }
-    47%     { transform: rotate(17.5deg) }
-    49%     { transform: rotate(18.5deg) }
-    50%,100%{ transform: rotate(18deg) }
-  }
-  @keyframes markerSlide {
-    0%   { transform: rotate(18deg) }
-    4%   { transform: rotate(45deg) }
-    7%   { transform: rotate(-10deg) }
-    10%  { transform: rotate(60deg) }
-    13%  { transform: rotate(-25deg) }
-    16%  { transform: rotate(35deg) }
-    19%  { transform: rotate(0deg) }
-    22%  { transform: rotate(50deg) }
-    25%,100% { transform: rotate(18deg) }
-  }
-
-  /* the readout: what the thermostat thinks it's holding */
-  .readout { animation: truthColor 24s linear infinite; }
-  .readout text { fill: currentColor; }
-
-  .n72a   { animation: n72aK 24s linear infinite; }
-  .n68    { animation: n68K 24s linear infinite; }
-  .n75    { animation: n75K 24s linear infinite; }
-  .n63    { animation: n63K 24s linear infinite; }
-  .n79    { animation: n79K 24s linear infinite; }
-  .nqq    { animation: nqqK 24s linear infinite; }
-  .n72hold{ animation: holdK 24s linear infinite; }
-  .n72c   { animation: n72cK 24s linear infinite; }
-  .holdbadge { animation: holdK 24s linear infinite; }
-
-  @keyframes n72aK  { 0%,3%  {opacity:1} 5%,100%   {opacity:0} }
-  @keyframes n68K   { 0%,4%  {opacity:0} 5%,8%     {opacity:1} 10%,100% {opacity:0} }
-  @keyframes n75K   { 0%,9%  {opacity:0} 10%,13%   {opacity:1} 15%,100% {opacity:0} }
-  @keyframes n63K   { 0%,14% {opacity:0} 15%,18%   {opacity:1} 20%,100% {opacity:0} }
-  @keyframes n79K   { 0%,19% {opacity:0} 20%,22%   {opacity:1} 24%,100% {opacity:0} }
-  @keyframes nqqK   { 0%,22% {opacity:0} 23%,24.5% {opacity:1} 26%,100% {opacity:0} }
-  @keyframes holdK  { 0%,24.5% {opacity:0} 26%,48.5% {opacity:1} 51%,100% {opacity:0} }
-  @keyframes n72cK  { 0%,49% {opacity:0} 51%,100%  {opacity:1} }
-
-  /* cobweb: grows on the thermostat during the frozen phase */
-  .cobweb {
-    position:absolute; top:-4%; left:-5%;
-    width:42%; z-index:5; opacity:0;
-    animation: cobwebK 24s linear infinite;
-  }
-  .cobweb svg { display:block; width:100%; }
-  @keyframes cobwebK { 0%,27% {opacity:0} 30%,47% {opacity:1} 51%,100% {opacity:0} }
-
-  /* dust motes: drifting while the thing is frozen */
-  .dust { position:absolute; inset:0; z-index:5; opacity:0; animation: dustK 24s linear infinite; pointer-events:none; }
-  @keyframes dustK { 0%,26% {opacity:0} 29%,47% {opacity:1} 50%,100% {opacity:0} }
-  .mote {
-    position:absolute; width:3px; height:3px; border-radius:50%;
-    background:#cfd6de;
-    animation: moteFloat ease-in-out infinite alternate;
-  }
-  .m1 { left:calc(50% - 24vmin); top:50%; animation-duration:6s; }
-  .m2 { left:calc(50% + 20vmin); top:44%; animation-duration:7s; animation-delay:1s; }
-  .m3 { left:calc(50% - 12vmin); top:64%; animation-duration:5s;  animation-delay:2s; }
-  .m4 { left:calc(50% + 14vmin); top:60%; animation-duration:6.5s; animation-delay:.5s; }
-  .m5 { left:calc(50% - 28vmin); top:58%; animation-duration:8s;  animation-delay:3s; }
-  @keyframes moteFloat {
-    0%   { transform: translate(0,0); opacity:.15 }
-    50%  { opacity:.55 }
-    100% { transform: translate(7px,-11px); opacity:.15 }
-  }
-
-  /* ---- vignette ---- */
-  .vignette {
-    position:absolute; inset:0; z-index:6; pointer-events:none;
-    background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.55) 100%);
-  }
-
-  /* ---- corner stamp: glowing gold seal ---- */
-  .stamp {
-    position:absolute; right:2.4vmin; bottom:2vmin;
-    width: clamp(72px, 15vmin, 150px);
-    z-index:7; opacity:.95;
-  }
-  .stamp svg {
-    display:block; width:100%; height:auto;
-    filter: drop-shadow(0 0 8px rgba(232,193,90,.6));
-    animation: stampPulse 3s ease-in-out infinite;
-  }
-  .seal-ring { stroke:#e8c15a; }
-  .seal-text {
-    font-family:'Outfit', system-ui, sans-serif;
-    font-weight:800; font-size:13px; letter-spacing:2px;
-    fill:#ffe9b0;
-  }
-  .seal-dot { fill:#e8c15a; }
-  @keyframes stampPulse {
-    0%,100% { filter: drop-shadow(0 0 6px rgba(232,193,90,.5)); }
-    50%     { filter: drop-shadow(0 0 15px rgba(232,193,90,.95)); }
-  }
-
-  /* ---- reduced motion: still frame — room A, holding 72 ---- */
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation: none !important; }
-    .readout text { opacity:0 }
-    .n72c { opacity:1 }
-    .snow, .dust, .cobweb { opacity:0 }
-  }
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none !important}
+  .pacer{transform:translateX(-22vmin)}
+  .steam{display:none}
+  .ripple{opacity:.45;transform:scale(.8)}
+  .ripple.r2{display:none}
+  .herglow{opacity:.7}
+  .fig .phoneGlow{opacity:.8}
+  .p{opacity:.5}
+}
 </style>
 </head>
 <body>
-<div class="stage">
 
-  <div class="wall"></div>
-  <div class="glow"></div>
+<div class="scene">
+<div class="wall"></div>
+<div class="floor"></div>
+<div class="beam b1"></div>
+<div class="beam b2"></div>
+<div class="glow"></div>
 
-  <div class="title-block">
-    <div class="name">THE TRUTH</div>
-    <div class="theme-label">ONE MACHINE, THREE SETTINGS</div>
+<div class="name">AMARA</div>
+
+<div class="window">
+  <div class="sun"></div>
+  <div class="skyline">
+    <div class="bld a"><div class="lw w1"></div><div class="lw w3"></div></div>
+    <div class="bld b"><div class="lw w2"></div></div>
+    <div class="bld c"><div class="lw"></div><div class="lw2"></div></div>
+    <div class="bld d"></div>
   </div>
-
-  <div class="floor"></div>
-
-  <!-- ============ THE WINDOW: what's happening outside ============ -->
-  <div class="window">
-
-    <div class="view viewDay">
-      <svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <rect width="200" height="200" fill="#7fb2e0"/>
-        <circle cx="158" cy="40" r="16" fill="#ffd88a"/>
-        <ellipse cx="50" cy="38" rx="20" ry="8" fill="#fff" opacity=".8"/>
-        <ellipse cx="72" cy="44" rx="13" ry="6" fill="#fff" opacity=".6"/>
-        <ellipse cx="130" cy="70" rx="16" ry="6" fill="#fff" opacity=".55"/>
-        <rect y="140" width="200" height="60" fill="#4f8a4f"/>
-        <path d="M0 140 Q 50 128 100 140 T 200 140 L 200 150 L 0 150 Z" fill="#5c9a5c"/>
-        <rect x="92" y="96" width="10" height="50" fill="#6b4a2f"/>
-        <circle cx="97" cy="86" r="24" fill="#3f7a44"/>
-        <circle cx="82" cy="96" r="16" fill="#4c8c50"/>
-        <circle cx="112" cy="96" r="15" fill="#4c8c50"/>
-        <circle cx="97" cy="72" r="14" fill="#4c8c50"/>
-      </svg>
-    </div>
-
-    <div class="view viewAutumn">
-      <svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <rect width="200" height="200" fill="#c99a6a"/>
-        <circle cx="150" cy="44" r="14" fill="#e8b06a"/>
-        <ellipse cx="60" cy="40" rx="20" ry="8" fill="#e0c9a8" opacity=".6"/>
-        <rect y="140" width="200" height="60" fill="#8a7a4a"/>
-        <rect x="92" y="96" width="10" height="50" fill="#5c3f28"/>
-        <circle cx="97" cy="86" r="24" fill="#c96a2f"/>
-        <circle cx="82" cy="96" r="16" fill="#b5541f"/>
-        <circle cx="112" cy="96" r="15" fill="#d1803a"/>
-        <circle cx="97" cy="72" r="14" fill="#b5541f"/>
-        <circle cx="60" cy="120" r="3" fill="#c96a2f"/>
-        <circle cx="130" cy="128" r="2.5" fill="#b5541f"/>
-        <circle cx="74" cy="132" r="2" fill="#d1803a"/>
-      </svg>
-    </div>
-
-    <div class="view viewWinter">
-      <svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <rect width="200" height="200" fill="#aebfcf"/>
-        <ellipse cx="60" cy="42" rx="22" ry="9" fill="#c8d5e0" opacity=".8"/>
-        <ellipse cx="140" cy="60" rx="17" ry="7" fill="#c8d5e0" opacity=".6"/>
-        <path d="M0 138 Q 50 124 100 136 T 200 134 L 200 200 L 0 200 Z" fill="#e8eef4"/>
-        <rect x="94" y="86" width="9" height="56" fill="#4a3b2c"/>
-        <path d="M98 100 L 82 84 M98 112 L 114 92 M98 92 L 98 74" stroke="#4a3b2c" stroke-width="5" stroke-linecap="round"/>
-      </svg>
-    </div>
-
-    <div class="view viewCity">
-      <svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <rect width="200" height="200" fill="#0d1b30"/>
-        <circle cx="160" cy="38" r="12" fill="#e8e2c8"/>
-        <rect y="150" width="200" height="50" fill="#080e1a"/>
-        <g fill="#0a1322">
-          <rect x="6"  y="70"  width="30" height="80"/>
-          <rect x="42" y="46"  width="26" height="104"/>
-          <rect x="74" y="84"  width="34" height="66"/>
-          <rect x="114" y="38" width="28" height="112"/>
-          <rect x="148" y="78" width="32" height="72"/>
-          <rect x="184" y="58" width="20" height="92"/>
-        </g>
-        <g fill="#ffd88a">
-          <rect x="48" y="54" width="4" height="4"/><rect x="58" y="54" width="4" height="4"/>
-          <rect x="48" y="66" width="4" height="4"/><rect x="58" y="78" width="4" height="4"/>
-          <rect x="118" y="46" width="4" height="4"/><rect x="128" y="46" width="4" height="4"/>
-          <rect x="118" y="62" width="4" height="4"/><rect x="134" y="74" width="4" height="4"/>
-          <rect x="12" y="80" width="4" height="4"/><rect x="24" y="92" width="4" height="4"/>
-          <rect x="154" y="88" width="4" height="4"/><rect x="166" y="100" width="4" height="4"/>
-        </g>
-        <g fill="#58a6ff">
-          <rect x="52" y="90" width="4" height="4"/><rect x="122" y="90" width="4" height="4"/>
-          <rect x="80" y="94" width="4" height="4"/><rect x="156" y="112" width="4" height="4"/>
-        </g>
-      </svg>
-    </div>
-
-    <div class="view viewBeach">
-      <svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <rect width="200" height="200" fill="#f7c98d"/>
-        <circle cx="52" cy="44" r="15" fill="#ffdf9e"/>
-        <rect y="110" width="200" height="42" fill="#2f6f9e"/>
-        <path d="M0 116 Q 25 110 50 116 T 100 116 T 150 116 T 200 116" fill="none" stroke="#5a9ac8" stroke-width="3"/>
-        <path d="M0 152 Q 50 144 100 152 T 200 150 L 200 200 L 0 200 Z" fill="#e6cf9d"/>
-        <path d="M150 150 C 148 120 146 100 144 84" fill="none" stroke="#22331f" stroke-width="7" stroke-linecap="round"/>
-        <path d="M144 84 Q 120 74 104 84 M144 84 Q 124 62 106 64 M144 84 Q 140 58 156 54 M144 84 Q 164 66 180 72 M144 84 Q 168 82 178 94"
-              fill="none" stroke="#22331f" stroke-width="5" stroke-linecap="round"/>
-      </svg>
-    </div>
-
-    <div class="snow">
-      <div class="snowdot s1"></div>
-      <div class="snowdot s2"></div>
-      <div class="snowdot s3"></div>
-      <div class="snowdot s4"></div>
-      <div class="snowdot s5"></div>
-    </div>
-  </div>
-
-  <!-- ============ THE FRAME: what's on the wall ============ -->
-  <div class="frame">
-    <div class="art artA">
-      <svg viewBox="0 0 100 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <rect width="100" height="120" fill="#9fc3e8"/>
-        <circle cx="70" cy="30" r="10" fill="#ffe9b0"/>
-        <polygon points="0,120 38,52 66,120" fill="#37507a"/>
-        <polygon points="44,120 74,66 100,120" fill="#4d6a94"/>
-        <rect y="104" width="100" height="16" fill="#2c4056"/>
-      </svg>
-    </div>
-    <div class="art artB">
-      <svg viewBox="0 0 100 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <rect width="100" height="120" fill="#101826"/>
-        <g fill="#0a1220">
-          <rect x="6"  y="44" width="20" height="76"/>
-          <rect x="30" y="24" width="18" height="96"/>
-          <rect x="52" y="52" width="22" height="68"/>
-          <rect x="78" y="34" width="16" height="86"/>
-        </g>
-        <g fill="#ffd88a">
-          <rect x="34" y="32" width="3" height="3"/><rect x="40" y="44" width="3" height="3"/>
-          <rect x="34" y="58" width="3" height="3"/><rect x="56" y="60" width="3" height="3"/>
-          <rect x="64" y="74" width="3" height="3"/><rect x="82" y="42" width="3" height="3"/>
-        </g>
-      </svg>
-    </div>
-    <div class="art artC">
-      <svg viewBox="0 0 100 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <rect width="100" height="46" fill="#f2d9b0"/>
-        <circle cx="30" cy="26" r="9" fill="#ff9e6a"/>
-        <rect y="46" width="100" height="34" fill="#3f7fae"/>
-        <path d="M0 52 Q 25 46 50 52 T 100 52" fill="none" stroke="#7fb2d9" stroke-width="2.5"/>
-        <rect y="80" width="100" height="40" fill="#e0c48c"/>
-        <circle cx="74" cy="94" r="4" fill="#c9a15e"/>
-        <circle cx="26" cy="102" r="3" fill="#c9a15e"/>
-      </svg>
-    </div>
-  </div>
-
-  <!-- ============ THE PLANT: what lives in the room ============ -->
-  <div class="plant">
-    <svg class="plant plantA" viewBox="0 0 100 140" aria-hidden="true">
-      <path d="M50 84 L 38 88 M50 84 L 62 88" stroke="#2f5d45" stroke-width="4" stroke-linecap="round"/>
-      <circle cx="50" cy="52" r="20" fill="#3f7a44"/>
-      <circle cx="32" cy="64" r="14" fill="#4c8c50"/>
-      <circle cx="68" cy="64" r="14" fill="#4c8c50"/>
-      <circle cx="50" cy="34" r="12" fill="#4c8c50"/>
-      <circle cx="36" cy="46" r="9" fill="#57995b"/>
-      <path d="M32 88 L 68 88 L 62 130 L 38 130 Z" fill="#b3543d"/>
-      <rect x="28" y="82" width="44" height="10" rx="3" fill="#c96a4a"/>
-    </svg>
-    <svg class="plant plantB" viewBox="0 0 100 140" aria-hidden="true">
-      <rect x="44" y="44" width="16" height="46" rx="8" fill="#4c8c50"/>
-      <path d="M44 62 Q 30 62 30 76 Q 30 86 40 84 L 46 80" fill="none" stroke="#4c8c50" stroke-width="10" stroke-linecap="round"/>
-      <path d="M60 54 Q 74 54 74 66 Q 74 74 66 72 L 60 68" fill="none" stroke="#4c8c50" stroke-width="9" stroke-linecap="round"/>
-      <circle cx="52" cy="42" r="4" fill="#e86a8a"/>
-      <path d="M34 90 L 66 90 L 61 128 L 39 128 Z" fill="#7d8a99"/>
-      <rect x="30" y="84" width="40" height="10" rx="3" fill="#8e9aa8"/>
-    </svg>
-    <svg class="plant plantC" viewBox="0 0 100 140" aria-hidden="true">
-      <path d="M38 90 C 34 60 36 40 42 24 C 46 42 46 66 44 90 Z" fill="#2f5d45"/>
-      <path d="M52 90 C 50 56 54 34 62 18 C 64 40 60 68 58 90 Z" fill="#35684e"/>
-      <path d="M28 90 C 26 68 30 54 36 44 C 38 62 36 78 34 90 Z" fill="#27503c"/>
-      <path d="M64 90 C 64 70 68 58 74 50 C 74 66 72 80 70 90 Z" fill="#3c7355"/>
-      <path d="M30 92 L 70 92 L 64 128 L 36 128 Z" fill="#c9c2b4"/>
-      <rect x="26" y="86" width="48" height="10" rx="3" fill="#d8d2c4"/>
-    </svg>
-  </div>
-
-  <!-- ============ THE THERMOSTAT: the one machine ============ -->
-  <div class="thermo">
-    <svg viewBox="-140 -140 280 280" aria-hidden="true">
-      <defs>
-        <radialGradient id="face" cx=".5" cy=".35" r=".8">
-          <stop offset="0" stop-color="#161c26"/>
-          <stop offset="1" stop-color="#0b0f14"/>
-        </radialGradient>
-      </defs>
-
-      <!-- plastic body -->
-      <circle r="127" fill="#c9cdd4"/>
-      <circle r="127" fill="none" stroke="#8f97a2" stroke-width="3"/>
-      <circle r="117" fill="none" stroke="#a9b0ba" stroke-width="2"/>
-      <circle r="108" fill="url(#face)"/>
-      <circle r="108" fill="none" stroke="#232b36" stroke-width="2"/>
-      <circle cx="0" cy="131" r="3.5" fill="#8f97a2"/>
-
-      <!-- glass highlight -->
-      <path d="M -78 -62 A 100 100 0 0 1 -20 -98" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" opacity=".05"/>
-
-      <!-- tick ring -->
-      <circle r="95" fill="none" stroke="#4a5563" stroke-width="4" stroke-dasharray="3 22.62"/>
-
-      <!-- numbers -->
-      <g fill="#8fa2b8" font-family="Outfit, sans-serif" font-weight="600" font-size="14" text-anchor="middle">
-        <text x="0" y="-68">70</text>
-        <text x="-50" y="-49">65</text>
-        <text x="-71" y="5">60</text>
-        <text x="50" y="-49">75</text>
-        <text x="71" y="5">80</text>
-        <text x="34" y="64">85</text>
-      </g>
-
-      <!-- set marker: the "who I am" notch -->
-      <g class="marker-wrap">
-        <polygon points="-7,-101 0,-119 7,-101" fill="#e8c15a"/>
-      </g>
-
-      <!-- needle -->
-      <g class="needle-wrap">
-        <polygon points="-5,12 0,-88 5,12" fill="#f2ede4"/>
-        <polygon points="-5,12 5,12 0,24" fill="#c9c2b4"/>
-      </g>
-
-      <!-- pivot cap -->
-      <circle r="10" fill="#20242a" stroke="#454c56" stroke-width="2"/>
-
-      <!-- the readout: what it's holding right now -->
-      <rect x="-40" y="42" width="80" height="36" rx="6" fill="#050b10" stroke="#2c3642" stroke-width="2"/>
-      <g class="readout" font-family="Outfit, sans-serif" font-weight="800" font-size="21" text-anchor="middle" letter-spacing="1">
-        <text class="n72a"    x="0" y="67">72</text>
-        <text class="n68"     x="0" y="67">68</text>
-        <text class="n75"     x="0" y="67">75</text>
-        <text class="n63"     x="0" y="67">63</text>
-        <text class="n79"     x="0" y="67">79</text>
-        <text class="nqq"     x="0" y="67">??</text>
-        <text class="n72hold" x="0" y="67">72</text>
-        <text class="n72c"    x="0" y="67">72</text>
-      </g>
-
-      <!-- HOLD: the number is locked -->
-      <g class="holdbadge">
-        <rect x="-23" y="84" width="46" height="16" rx="8" fill="none" stroke="#e8c15a" stroke-width="1.6"/>
-        <text x="0" y="96" font-family="Outfit, sans-serif" font-weight="800" font-size="9" letter-spacing="3" text-anchor="middle" fill="#e8c15a">HOLD</text>
-      </g>
-    </svg>
-
-    <!-- cobweb: grows while it's frozen -->
-    <div class="cobweb">
-      <svg viewBox="0 0 100 100" aria-hidden="true">
-        <g stroke="#b9c2cc" stroke-width="1.4" opacity=".55" fill="none">
-          <path d="M0 0 L 96 6"/><path d="M0 0 L 84 48"/><path d="M0 0 L 52 88"/><path d="M0 0 L 14 98"/>
-        </g>
-        <g stroke="#b9c2cc" stroke-width="1.1" opacity=".45" fill="none">
-          <path d="M 36 3 Q 30 26 5 32"/>
-          <path d="M 68 10 Q 58 48 10 58"/>
-          <path d="M 88 32 Q 74 72 22 86"/>
-        </g>
-      </svg>
-    </div>
-  </div>
-
-  <div class="dust">
-    <div class="mote m1"></div>
-    <div class="mote m2"></div>
-    <div class="mote m3"></div>
-    <div class="mote m4"></div>
-    <div class="mote m5"></div>
-  </div>
-
-  <div class="vignette"></div>
-
-  <!-- corner stamp: glowing seal -->
-  <div class="stamp">
-    <svg viewBox="0 0 150 150" aria-label="You Do This Too">
-      <defs>
-        <path id="sealArc" d="M 15,75 a 60,60 0 1,1 120,0 a 60,60 0 1,1 -120,0"/>
-      </defs>
-      <circle class="seal-ring" cx="75" cy="75" r="72" fill="none" stroke-width="2.5"/>
-      <circle class="seal-ring" cx="75" cy="75" r="58" fill="none" stroke-width="1.2" opacity=".55"/>
-      <circle class="seal-dot" cx="9" cy="75" r="2"/>
-      <circle class="seal-dot" cx="141" cy="75" r="2"/>
-      <text class="seal-text">
-        <textPath href="#sealArc" startOffset="25%" text-anchor="middle">YOU DO THIS TOO</textPath>
-      </text>
-    </svg>
-  </div>
-
+  <div class="wglow"></div>
+  <div class="wbarV"></div>
+  <div class="wbarH"></div>
 </div>
+<div class="floorlight"></div>
+
+<div class="clock">
+  <div class="cticks"></div>
+  <div class="mh"></div>
+  <div class="hh"></div>
+  <div class="cdot"></div>
+</div>
+
+<div class="mirror"></div>
+
+<div class="sink">
+  <div class="faucet"></div>
+  <div class="stream"></div>
+  <div class="basin"></div>
+  <div class="ripple"></div>
+  <div class="ripple r2"></div>
+</div>
+
+<div class="towelzone">
+  <div class="rail"></div>
+  <div class="towel"></div>
+</div>
+
+<!-- goals rising forever, out from behind her achieved frames -->
+<div class="ladder">
+  <div class="laddercol">
+    <div class="lg" style="bottom:-10.5vmin"><div class="bar b1"></div><div class="bar b2"></div><div class="bar b3"></div><div class="ring"></div></div>
+    <div class="lg" style="bottom:0"><div class="bar b1"></div><div class="bar b2"></div><div class="bar b3"></div><div class="ring"></div></div>
+    <div class="lg" style="bottom:10.5vmin"><div class="bar b1"></div><div class="bar b2"></div><div class="bar b3"></div><div class="ring"></div></div>
+    <div class="lg" style="bottom:21vmin"><div class="bar b1"></div><div class="bar b2"></div><div class="bar b3"></div><div class="ring"></div></div>
+    <div class="lg" style="bottom:31.5vmin"><div class="bar b1"></div><div class="bar b2"></div><div class="bar b3"></div><div class="ring"></div></div>
+    <div class="lg" style="bottom:42vmin"><div class="bar b1"></div><div class="bar b2"></div><div class="bar b3"></div><div class="ring"></div></div>
+    <div class="lg" style="bottom:52.5vmin"><div class="bar b1"></div><div class="bar b2"></div><div class="bar b3"></div><div class="ring"></div></div>
+    <div class="lg" style="bottom:63vmin"><div class="bar b1"></div><div class="bar b2"></div><div class="bar b3"></div><div class="ring"></div></div>
+    <div class="lg" style="bottom:73.5vmin"><div class="bar b1"></div><div class="bar b2"></div><div class="bar b3"></div><div class="ring"></div></div>
+  </div>
+</div>
+
+<div class="frames">
+  <div class="f d1"><div class="bar b1"></div><div class="bar b2"></div><div class="bar b3"></div><div class="medal"></div></div>
+  <div class="f d2"><div class="bar b1"></div><div class="bar b2"></div><div class="bar b3"></div><div class="medal"></div></div>
+  <div class="f d3"><div class="bar b1"></div><div class="bar b2"></div><div class="bar b3"></div><div class="medal"></div></div>
+</div>
+
+<!-- HER — pacing behind the scale, phone in hand -->
+<div class="pacer">
+  <div class="herglow"></div>
+  <div class="figshadow"></div>
+  <div class="lean">
+    <div class="flip">
+      <div class="bob">
+        <svg class="fig" viewBox="0 0 100 170">
+          <defs>
+            <linearGradient id="coneGrad" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0" stop-color="rgba(216,204,255,.4)"/>
+              <stop offset="1" stop-color="rgba(216,204,255,0)"/>
+            </linearGradient>
+            <radialGradient id="phoneGlowG">
+              <stop offset="0" stop-color="rgba(216,204,255,.55)"/>
+              <stop offset="1" stop-color="rgba(216,204,255,0)"/>
+            </radialGradient>
+            <clipPath id="scr"><rect x="56.8" y="30.5" width="11.4" height="18" rx="1.2"/></clipPath>
+          </defs>
+
+          <!-- ponytail -->
+          <path class="pony body" d="M54 8 Q68 5 67 22 Q66 33 58 37 Z"/>
+
+          <!-- legs, sidestepping -->
+          <path class="limb legL" d="M44 88 Q42 120 41 166"/>
+          <path class="limb legR" d="M56 88 Q58 120 58 166"/>
+
+          <g class="torso">
+            <path class="body" d="M36 30 Q50 23 62 31 L68 86 Q50 94 32 86 Z"/>
+            <path class="limb armL" d="M38 36 Q30 50 33 62"/>
+            <g class="head">
+              <circle class="body" cx="49" cy="16" r="11"/>
+            </g>
+            <g class="armR">
+              <path class="limb" d="M58 32 Q70 35 73 42 Q71 50 65.5 52"/>
+              <circle class="phoneGlow" cx="62.5" cy="41" r="20" fill="url(#phoneGlowG)"/>
+              <polygon class="phoneGlow" points="56,29 69,29 73,16 51,16" fill="url(#coneGrad)"/>
+              <rect x="55" y="28" width="15" height="26" rx="1.6" fill="#0d0820" stroke="rgba(196,181,253,.9)" stroke-width=".9"/>
+              <rect x="56.8" y="30.5" width="11.4" height="18" rx="1.2" fill="#0b0718"/>
+              <g clip-path="url(#scr)">
+                <g class="bars">
+                  <rect x="58" y="32"   width="8.6" height="3.4" rx=".6" fill="#f2ecff" opacity=".95"/>
+                  <rect x="58" y="36.6" width="8.6" height="2"   rx=".6" fill="#a78bfa" opacity=".9"/>
+                  <rect x="58" y="41.2" width="8.6" height="3.4" rx=".6" fill="#f2ecff" opacity=".95"/>
+                  <rect x="58" y="45.8" width="8.6" height="2"   rx=".6" fill="#a78bfa" opacity=".9"/>
+                  <rect x="58" y="50.4" width="8.6" height="3.4" rx=".6" fill="#f2ecff" opacity=".95"/>
+                  <rect x="58" y="55"   width="8.6" height="2"   rx=".6" fill="#a78bfa" opacity=".9"/>
+                  <rect x="58" y="59.6" width="8.6" height="3.4" rx=".6" fill="#f2ecff" opacity=".95"/>
+                  <rect x="58" y="64.2" width="8.6" height="2"   rx=".6" fill="#a78bfa" opacity=".9"/>
+                  <rect x="58" y="68.8" width="8.6" height="3.4" rx=".6" fill="#f2ecff" opacity=".95"/>
+                  <rect x="58" y="73.2" width="8.6" height="2"   rx=".6" fill="#a78bfa" opacity=".9"/>
+                </g>
+              </g>
+              <rect x="59.8" y="50.4" width="5.4" height=".9" rx=".45" fill="rgba(196,181,253,.7)"/>
+            </g>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- the scale, in front of her, display facing us -->
+<div class="mat"></div>
+<div class="scalezone">
+  <div class="plate"></div>
+  <div class="console">
+    <div class="readwin">
+      <div class="odocol"><div class="strip s100">
+        <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
+        <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
+      </div></div>
+      <div class="odocol"><div class="strip s10">
+        <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
+        <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
+      </div></div>
+      <div class="odocol"><div class="strip s1">
+        <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
+        <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
+      </div></div>
+    </div>
+  </div>
+  <div class="sweep"></div>
+  <div class="wheel"></div>
+</div>
+
+<div class="steam st1"></div>
+<div class="steam st2"></div>
+<div class="steam st3"></div>
+<div class="dust">
+  <span class="p p1"></span><span class="p p2"></span><span class="p p3"></span>
+  <span class="p p4"></span><span class="p p5"></span><span class="p p6"></span>
+  <span class="p p7"></span><span class="p p8"></span><span class="p p9"></span>
+  <span class="p p10"></span><span class="p p11"></span><span class="p p12"></span>
+</div>
+<div class="vignette"></div>
+</div>
+
+<svg class="seal" viewBox="0 0 120 120" aria-hidden="true">
+  <defs><path id="sealArc" d="M 16 60 A 44 44 0 0 1 104 60"/></defs>
+  <circle class="ringA" cx="60" cy="60" r="54"/>
+  <circle class="ringB" cx="60" cy="60" r="43"/>
+  <text class="txt"><textPath href="#sealArc" startOffset="50%" text-anchor="middle">YOU DO THIS TOO</textPath></text>
+  <circle class="dot" cx="9" cy="60" r="3.2"/>
+  <circle class="dot" cx="111" cy="60" r="3.2"/>
+  <circle class="core" cx="60" cy="60" r="5"/>
+</svg>
+
 </body>
 </html>
