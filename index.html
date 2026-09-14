@@ -3,454 +3,360 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Toby — The Slow Boil | Recalibrate</title>
+<title>Clara — The Checklist | Recalibrate</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --red:#f87171;
-  --red-bright:#fecaca;
-  --red-mid:#fca5a5;
-  --red-deep:#7f1d1d;
+  --ice:#cfe4f7;
+  --ice-bright:#f2f8ff;
+  --ice-mid:#a9c6e2;
+  --ice-deep:#43648a;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;overflow:hidden}
-body{background:#050308;font-family:'Outfit',sans-serif}
+body{background:#04070d;font-family:'Outfit',sans-serif}
 .scene{position:absolute;inset:0;transform-origin:50% 55%;animation:sceneDrift 16s ease-in-out infinite}
 @keyframes sceneDrift{0%,100%{transform:scale(1)}50%{transform:scale(1.014)}}
 
 /* ============ ROOM ============ */
-.wall{position:absolute;top:0;left:0;right:0;height:52%;z-index:0;
-  background-color:#1a0b10;
+.wall{position:absolute;top:0;left:0;right:0;height:62%;z-index:0;
+  background-color:#0b1220;
   background-image:
-    radial-gradient(ellipse 70% 60% at 40% 30%, rgba(248,113,113,.16), transparent 75%),
-    repeating-linear-gradient(90deg, rgba(252,165,165,.06) 0 1px, transparent 1px 7vmin);
+    radial-gradient(ellipse 70% 60% at 50% 26%, rgba(169,198,226,.14), transparent 75%),
+    repeating-linear-gradient(90deg, rgba(169,198,226,.055) 0 1px, transparent 1px 7vmin);
   box-shadow:inset 0 -6vmin 10vmin rgba(0,0,0,.45)}
-.floor{position:absolute;left:0;right:0;bottom:0;height:48%;z-index:0;
+.floor{position:absolute;left:0;right:0;bottom:0;height:38%;z-index:0;
   background:
-    radial-gradient(ellipse 70% 90% at 45% 12%, rgba(239,68,68,.2), transparent 72%),
-    repeating-linear-gradient(to bottom, rgba(252,165,165,.07) 0 1px, transparent 1px 4.2vmin),
-    linear-gradient(#2a1216,#120608)}
-.baseboard{position:absolute;left:0;right:0;top:calc(52% - 2vmin);height:2vmin;z-index:0;
-  background:linear-gradient(#2e141d,#1a090f);box-shadow:0 1vmin 2vmin rgba(0,0,0,.5)}
+    radial-gradient(ellipse 65% 95% at 50% 16%, rgba(122,162,200,.18), transparent 72%),
+    repeating-linear-gradient(to bottom, rgba(169,198,226,.06) 0 1px, transparent 1px 4.2vmin),
+    linear-gradient(#101a2a,#060b14)}
+.beam{position:absolute;left:2%;top:3%;width:15vmin;height:88vmin;z-index:1;
+  transform-origin:10% 6%;pointer-events:none;
+  background:linear-gradient(90deg, transparent, rgba(220,236,250,.15) 45%, rgba(220,236,250,.09) 60%, transparent);
+  filter:blur(.6vmin);
+  animation:beamSway 26s ease-in-out infinite}
+@keyframes beamSway{0%,100%{transform:rotate(37deg)}50%{transform:rotate(41deg)}}
+.glow{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(ellipse 58% 48% at 50% 58%, rgba(122,162,200,.2), transparent 72%);
+  animation:roomGlow 9s ease-in-out infinite}
+@keyframes roomGlow{0%,100%{opacity:.75}50%{opacity:1}}
 
 /* ============ NAME ============ */
 .name{position:absolute;top:4.5%;left:50%;transform:translateX(-50%);z-index:2;
   font-weight:900;font-size:clamp(3rem,15vmin,10.5rem);letter-spacing:.08em;white-space:nowrap;
-  color:var(--red-mid);
+  color:#d8e9fa;
   animation:namePulse 6s ease-in-out infinite}
 @keyframes namePulse{
-  0%,100%{text-shadow:0 0 18px rgba(248,113,113,.95),0 0 60px rgba(239,68,68,.6),0 0 130px rgba(185,28,28,.4)}
-  50%{text-shadow:0 0 28px rgba(252,165,165,1),0 0 90px rgba(239,68,68,.85),0 0 160px rgba(185,28,28,.5)}}
+  0%,100%{text-shadow:0 0 18px rgba(169,198,226,.95),0 0 60px rgba(122,162,200,.6),0 0 130px rgba(67,100,138,.4)}
+  50%{text-shadow:0 0 28px rgba(220,236,250,1),0 0 90px rgba(169,198,226,.9),0 0 160px rgba(122,162,200,.55)}}
 
-/* ============ WINDOW: heavy rain, city, lightning ============ */
+/* ============ WINDOW: snow falling, moon ============ */
 .win{position:absolute;left:4%;top:10%;width:15vmin;height:18vmin;z-index:1;
-  border:1vmin solid #3b2028;border-radius:.8vmin;
-  background:linear-gradient(#4a1219,#26080e 55%,#5c2731);
+  border:1vmin solid #2b3f57;border-radius:.8vmin;
+  background:linear-gradient(#16263c,#24405c 55%,#3d6288);
   overflow:hidden;
-  box-shadow:0 0 24px rgba(248,113,113,.4), inset 0 0 10vmin rgba(0,0,0,.5)}
-.moon{position:absolute;left:2.5vmin;top:2.2vmin;width:3vmin;height:3vmin;border-radius:50%;
-  background:radial-gradient(circle at 38% 32%, #ffe9e9, #fca5a5 55%, #b4434f);
-  box-shadow:0 0 14px rgba(252,165,165,.85),0 0 30px rgba(248,113,113,.5);
+  box-shadow:0 0 24px rgba(169,198,226,.4), inset 0 0 10vmin rgba(0,0,0,.45)}
+.moon{position:absolute;left:2.4vmin;top:2vmin;width:3vmin;height:3vmin;border-radius:50%;
+  background:radial-gradient(circle at 38% 32%, #ffffff, #e8f2fc 50%, #a9c6e2);
+  box-shadow:0 0 16px rgba(242,248,255,.95),0 0 34px rgba(169,198,226,.6);
   animation:moonGlow 9s ease-in-out infinite}
 @keyframes moonGlow{0%,100%{opacity:.75}50%{opacity:1}}
-.city{position:absolute;left:0;right:0;bottom:0;height:7.5vmin}
-.bld{position:absolute;bottom:0;background:#170409;border-radius:.2vmin .2vmin 0 0}
-.bld.a{left:2%;width:26%;height:100%}
-.bld.b{left:33%;width:17%;height:64%}
-.bld.c{left:54%;width:26%;height:100%}
-.bld.d{left:85%;width:13%;height:52%}
-.lw{position:absolute;width:.65vmin;height:.65vmin;background:#fecaca;border-radius:.1vmin;
-  box-shadow:0 0 5px rgba(254,202,202,.9);
+.star{position:absolute;width:.5vmin;height:.5vmin;border-radius:50%;background:#f2f8ff;
+  box-shadow:0 0 5px rgba(242,248,255,.9);
   animation:twinkle 4s ease-in-out infinite}
-.lw.w1{left:20%;top:25%}
-.lw.w2{left:55%;top:55%;animation-delay:-2s}
-.lw.w3{left:12%;top:62%;animation-delay:-1s}
-.bld.c .lw{left:30%;top:30%;animation-delay:-3s}
-.bld.c .lw2{left:60%;top:58%;animation-delay:-1.5s}
-@keyframes twinkle{0%,100%{opacity:.25}50%{opacity:1}}
-.rain{position:absolute;inset:0;
-  background:repeating-linear-gradient(to bottom, transparent 0 7px, rgba(254,202,202,.26) 7px 9px, transparent 9px 22px);
-  animation:rainFall .7s linear infinite}
-@keyframes rainFall{to{background-position:0 22px}}
+.star.s1{left:8.5vmin;top:3vmin}
+.star.s2{left:11vmin;top:6vmin;animation-delay:-2s}
+.star.s3{left:6.5vmin;top:7.5vmin;animation-delay:-1s}
+@keyframes twinkle{0%,100%{opacity:.2}50%{opacity:1}}
+.hill{position:absolute;bottom:-1.5vmin;border-radius:50%;background:#0c1626}
+.hill.h1{left:-3vmin;width:11vmin;height:5.5vmin}
+.hill.h2{right:-4vmin;width:12vmin;height:6.5vmin;background:#0a1322}
+.flk{position:absolute;opacity:.8;
+  animation:flakeFall linear infinite}
+.fd{width:.8vmin;height:.8vmin;border-radius:50%;background:#f2f8ff;
+  box-shadow:0 0 6px rgba(242,248,255,.8);
+  animation:flakeDrift 3s ease-in-out infinite alternate}
+.flk.f1{left:2vmin;top:1vmin;animation-duration:9s}
+.flk.f2{left:5vmin;top:5vmin;animation-duration:12s;animation-delay:-4s}
+.flk.f3{left:8.5vmin;top:2.5vmin;animation-duration:10s;animation-delay:-7s}
+.flk.f4{left:11.5vmin;top:6vmin;animation-duration:13s;animation-delay:-2s}
+.flk.f5{left:4vmin;top:10vmin;animation-duration:11s;animation-delay:-9s}
+.flk.f6{left:10vmin;top:12vmin;animation-duration:14s;animation-delay:-6s}
+.flk.f6 .fd{width:.6vmin;height:.6vmin}
+.flk.f1 .fd{width:1vmin;height:1vmin}
+@keyframes flakeFall{
+  0%{transform:translateY(0);opacity:.8}
+  85%{opacity:.8}
+  100%{transform:translateY(21vmin);opacity:0}}
+@keyframes flakeDrift{from{transform:translateX(-1.3vmin)}to{transform:translateX(1.3vmin)}}
 .wglow{position:absolute;inset:0;
-  background:radial-gradient(circle at 50% 24%, rgba(252,165,165,.25), transparent 72%);
+  background:radial-gradient(circle at 50% 24%, rgba(220,236,250,.22), transparent 72%);
   animation:breath 8s ease-in-out infinite}
 @keyframes breath{0%,100%{opacity:.6}50%{opacity:1}}
-.lflash{position:absolute;inset:0;opacity:0;
-  background:radial-gradient(circle at 50% 30%, rgba(255,244,244,.9), rgba(254,202,202,.35) 60%, transparent 82%);
-  animation:lflash 9s linear infinite}
-@keyframes lflash{
-  0%,88%{opacity:0}90%{opacity:.95}92%{opacity:.15}94%{opacity:.8}96%,100%{opacity:0}}
-.wbarV{position:absolute;left:calc(50% - .4vmin);top:0;bottom:0;width:.8vmin;background:#3b2028}
-.wbarH{position:absolute;top:calc(50% - .4vmin);left:0;right:0;height:.8vmin;background:#3b2028}
+.wbarV{position:absolute;left:calc(50% - .4vmin);top:0;bottom:0;width:.8vmin;background:#2b3f57}
+.wbarH{position:absolute;top:calc(50% - .4vmin);left:0;right:0;height:.8vmin;background:#2b3f57}
+.floorlight{position:absolute;left:10%;bottom:24%;width:26vmin;height:9vmin;z-index:1;
+  border-radius:50%;filter:blur(2.4vmin);
+  background:radial-gradient(ellipse, rgba(220,236,250,.22), transparent 70%);
+  animation:poolDrift 18s ease-in-out infinite}
+@keyframes poolDrift{0%,100%{transform:translateX(-3vmin);opacity:.75}50%{transform:translateX(3vmin);opacity:1}}
 
-/* ============ SMOKE ALARM (fast blink) ============ */
-.alarm{position:absolute;left:20%;top:7.5%;width:4.5vmin;height:4.5vmin;z-index:1;border-radius:50%;
-  background:radial-gradient(circle at 40% 35%, #3a1a22, #1a090f 70%);
-  border:2px solid rgba(252,165,165,.45);
-  box-shadow:0 0 10px rgba(248,113,113,.35)}
-.led{position:absolute;left:calc(50% - .5vmin);top:calc(50% - .5vmin);width:1vmin;height:1vmin;border-radius:50%;
-  background:#fecaca;box-shadow:0 0 8px rgba(254,202,202,1);
-  animation:ledBlink .8s ease-in-out infinite}
-@keyframes ledBlink{0%,100%{opacity:.15}50%{opacity:1}}
+/* ============ CLOCK (time moves — the list doesn't) ============ */
+.clock{position:absolute;left:22.5%;top:13%;width:6.5vmin;height:6.5vmin;z-index:2;border-radius:50%;
+  background:radial-gradient(circle at 38% 32%, #22344c, #101a28 65%);
+  border:2px solid rgba(169,198,226,.55);
+  box-shadow:0 0 14px rgba(122,162,200,.45)}
+.cticks{position:absolute;inset:0;border-radius:50%;
+  background:repeating-conic-gradient(rgba(169,198,226,.65) 0 1.2deg, transparent 1.2deg 30deg);
+  -webkit-mask:radial-gradient(circle, transparent 0 78%, #000 80% 96%, transparent 98%);
+  mask:radial-gradient(circle, transparent 0 78%, #000 80% 96%, transparent 98%)}
+.mh{position:absolute;left:calc(50% - .15vmin);bottom:50%;width:.3vmin;height:2.5vmin;border-radius:.15vmin;
+  background:#f2f8ff;box-shadow:0 0 6px rgba(220,236,250,.9);
+  transform-origin:center bottom;animation:handSpin 20s linear infinite}
+.hh{position:absolute;left:calc(50% - .18vmin);bottom:50%;width:.36vmin;height:1.6vmin;border-radius:.18vmin;
+  background:var(--ice-mid);box-shadow:0 0 6px rgba(169,198,226,.9);
+  transform-origin:center bottom;animation:handSpin 100s linear infinite}
+.cdot{position:absolute;left:50%;top:50%;width:1vmin;height:1vmin;border-radius:50%;
+  transform:translate(-50%,-50%);
+  background:radial-gradient(circle at 35% 35%, #f2f8ff, #43648a);box-shadow:0 0 6px rgba(220,236,250,.9)}
+@keyframes handSpin{to{transform:rotate(360deg)}}
 
-/* ============ RANGE HOOD: strobing light + moths ============ */
-.hoodzone{position:absolute;left:22%;top:15%;width:24vmin;z-index:1}
-.chimney{position:absolute;left:calc(50% - 2.5vmin);top:0;width:5vmin;height:6vmin;
-  background:linear-gradient(#3a1a22,#241018)}
-.hbody{position:absolute;left:0;top:5vmin;width:24vmin;height:5vmin;
-  clip-path:polygon(0 100%, 100% 100%, 78% 0, 22% 0);
-  background:linear-gradient(#42222e,#241018);
-  box-shadow:inset 0 -1vmin 2vmin rgba(0,0,0,.5)}
-.klight{position:absolute;left:calc(50% - 6vmin);top:9.4vmin;width:12vmin;height:1.1vmin;border-radius:.55vmin;
-  background:linear-gradient(90deg, transparent, #fecaca 25%, #fff 50%, #fecaca 75%, transparent);
-  box-shadow:0 0 16px rgba(254,202,202,1),0 0 40px rgba(248,113,113,.6);
-  animation:klightFlick 3.1s linear infinite}
-@keyframes klightFlick{
-  0%{opacity:1}4%{opacity:.3}8%{opacity:1}14%{opacity:.45}19%{opacity:.95}
-  27%{opacity:.35}33%{opacity:1}41%{opacity:.5}47%{opacity:1}55%{opacity:.3}
-  62%{opacity:.9}70%{opacity:.5}78%{opacity:1}86%{opacity:.4}93%{opacity:1}100%{opacity:1}}
-.mw{position:absolute;left:34%;top:20.3%;width:0;height:0;z-index:3}
-.mw.a{animation:mothOrbit 5s linear infinite}
-.mw.b{animation:mothOrbit 7.5s linear infinite reverse}
-@keyframes mothOrbit{to{transform:rotate(360deg)}}
-.moth{position:absolute;left:5vmin;top:-.5vmin;width:1.3vmin;height:.8vmin;border-radius:50%;
-  background:#1a090f;border:1px solid rgba(252,165,165,.55);
-  box-shadow:0 0 6px rgba(248,113,113,.5);
-  animation:mothFlut .12s linear infinite alternate}
-.mw.b .moth{left:7.5vmin;top:1vmin}
-@keyframes mothFlut{from{transform:scaleX(.5)}to{transform:scaleX(1.25)}}
+/* ============ THE LIST (hero) — frozen on the wall ============ */
+.listzone{position:absolute;left:33%;top:14%;width:34vmin;height:30vmin;z-index:2}
+.lframe{position:absolute;inset:0;border-radius:1vmin;
+  background:linear-gradient(#1a2738,#101a28);
+  border:2px solid rgba(169,198,226,.55);
+  box-shadow:0 10px 22px rgba(0,0,0,.55), 0 0 26px rgba(122,162,200,.3), inset 0 0 12px rgba(0,0,0,.5);
+  padding:1.6vmin}
+.sheen{position:absolute;inset:0;border-radius:.6vmin;pointer-events:none;
+  background:linear-gradient(115deg, rgba(242,248,255,.13) 0 18%, transparent 30% 70%, rgba(242,248,255,.08) 92%)}
+.lhead{height:2.5vmin;border-radius:.5vmin;margin-bottom:1vmin;
+  background:linear-gradient(90deg, rgba(169,198,226,.5), rgba(169,198,226,.15));
+  box-shadow:0 0 8px rgba(169,198,226,.3)}
+.lrow{display:flex;align-items:center;gap:.8vmin;height:2.7vmin;margin-bottom:.55vmin}
+.lb{height:.55vmin;border-radius:.27vmin}
+.lb.a{width:52%}
+.lb.b{width:28%}
+.lbox{margin-left:auto;width:2.3vmin;height:2.3vmin;border:2px solid;border-radius:.45vmin;position:relative;flex:none}
+.check{position:absolute;left:24%;top:10%;width:1.3vmin;height:.66vmin;
+  border-left:.42vmin solid;border-bottom:.42vmin solid;
+  transform:rotate(-48deg)}
+.lrow.done .lb{background:rgba(169,198,226,.16)}
+.lrow.done .lbox{border-color:rgba(169,198,226,.3)}
+.lrow.done .check{border-color:rgba(169,198,226,.3)}
+.lrow.fresh .lb{background:rgba(169,198,226,.32)}
+.lrow.fresh .lbox{border-color:rgba(220,236,250,.7)}
+.lrow.fresh .check{border-color:#f2f8ff;animation:checkGlow 4s ease-in-out infinite}
+@keyframes checkGlow{
+  0%,100%{filter:drop-shadow(0 0 3px rgba(242,248,255,.4))}
+  50%{filter:drop-shadow(0 0 10px rgba(242,248,255,1))}}
+.lrow.open .lb{background:rgba(169,198,226,.28)}
+.lrow.open .lbox{border-color:var(--ice-bright);animation:boxPulse 6s ease-in-out infinite}
+.lrow.open.r7 .lbox{animation-delay:-3s}
+@keyframes boxPulse{
+  0%,100%{box-shadow:0 0 5px rgba(242,248,255,.35)}
+  50%{box-shadow:0 0 16px rgba(242,248,255,.95)}}
+/* frost on the frame */
+.fr{position:absolute;border-radius:50%;filter:blur(1vmin);pointer-events:none;
+  background:radial-gradient(circle, rgba(242,248,255,.3), transparent 70%)}
+.fr.f1{left:-1.4vmin;top:-1.4vmin;width:7vmin;height:5vmin}
+.fr.f2{right:-1.6vmin;top:30%;width:5.5vmin;height:8vmin}
+.fr.f3{left:22%;bottom:-2vmin;width:9vmin;height:4.5vmin}
+.gl{position:absolute;width:.7vmin;height:.7vmin;border-radius:50%;background:#fff;
+  box-shadow:0 0 8px #fff,0 0 16px rgba(220,236,250,.9);
+  animation:glint 3.2s ease-in-out infinite}
+.gl.g1{left:1vmin;top:1vmin}
+.gl.g2{right:2vmin;top:5vmin;animation-delay:-1.2s}
+.gl.g3{left:38%;bottom:1vmin;animation-delay:-2s}
+.gl.g4{right:31%;top:34%;animation-delay:-.6s}
+@keyframes glint{0%,100%{opacity:.2}50%{opacity:1}}
+/* icicles under the frame */
+.ic{position:absolute;top:100%;background:linear-gradient(rgba(242,248,255,.5), rgba(242,248,255,.03));
+  clip-path:polygon(50% 100%, 0 0, 100% 0);filter:blur(.15vmin)}
+.ic.ic1{left:18%;width:1.5vmin;height:2.8vmin}
+.ic.ic2{left:47%;width:2.2vmin;height:4.3vmin}
+.ic.ic3{left:71%;width:1.3vmin;height:2.4vmin}
+/* pencil on a string, swaying — used once, eight years ago */
+.pencilwrap{position:absolute;right:-2.8vmin;top:34%;width:2vmin;
+  transform-origin:top center;animation:pSway 5s ease-in-out infinite}
+@keyframes pSway{0%,100%{transform:rotate(4deg)}50%{transform:rotate(-4deg)}}
+.string{width:.18vmin;height:3.4vmin;margin:0 auto;background:rgba(169,198,226,.6)}
+.pencil{width:1.1vmin;height:4.6vmin;margin:0 auto;border-radius:.2vmin;
+  background:linear-gradient(90deg,#c9dcf0,#8fb0d0);position:relative}
+.pencil::after{content:"";position:absolute;left:0;bottom:-1.3vmin;width:1.1vmin;height:1.4vmin;
+  clip-path:polygon(50% 100%, 0 0, 100% 0);background:#eef4fb}
 
-/* ============ KITCHEN ============ */
-.backsplash{position:absolute;left:20%;top:21%;width:32vmin;height:11%;z-index:1;
-  background-color:#1c0a10;
+/* ============ CALENDAR — months never torn off ============ */
+.calzone{position:absolute;right:4%;top:12%;width:13vmin;height:11vmin;z-index:1}
+.cpg{position:absolute;left:0;width:12.5vmin;height:9vmin;border-radius:.5vmin;
+  background:linear-gradient(#1c2a3c,#0f1726);
+  border:2px solid rgba(169,198,226,.3);
+  box-shadow:0 4px 8px rgba(0,0,0,.45)}
+.cpg.p1{bottom:0}
+.cpg.p2{bottom:.7vmin;transform:rotate(-1deg)}
+.cpg.p3{bottom:1.4vmin;transform:rotate(1.2deg)}
+.cpg.p4{bottom:2.1vmin;transform:rotate(-.8deg)}
+.cpg.top{bottom:2.8vmin;transform:rotate(.6deg);
   background-image:
-    linear-gradient(rgba(252,165,165,.09) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(252,165,165,.09) 1px, transparent 1px);
-  background-size:3vmin 3vmin}
-.counter{position:absolute;left:4%;top:32%;width:48vmin;height:5vmin;z-index:1;border-radius:.6vmin;
-  background:linear-gradient(#4a232f,#2a121c 70%,#1e0c14);
-  border:2px solid rgba(252,165,165,.5);
-  box-shadow:0 8px 16px rgba(0,0,0,.55), 0 0 24px rgba(239,68,68,.3), inset 0 .5vmin 1vmin rgba(254,202,202,.3)}
-.cabinet{position:absolute;left:4%;top:34.5%;width:48vmin;height:17.5vmin;z-index:1;
-  background:linear-gradient(#2e141d,#1a090f);
-  border:2px solid rgba(252,165,165,.3);
-  box-shadow:inset 0 0 12vmin rgba(0,0,0,.4)}
-.doorAjar{position:absolute;left:4vmin;top:1.5vmin;width:7vmin;height:9vmin;border-radius:.5vmin;
-  transform:rotate(-16deg);transform-origin:left center;
-  background:linear-gradient(#26121c,#160a10);
-  border:2px solid rgba(252,165,165,.35);
-  box-shadow:2px 2px 8px rgba(0,0,0,.6)}
-.note{position:absolute;width:2.8vmin;height:2.8vmin;border-radius:.25vmin;
-  background:linear-gradient(160deg,#fca5a5,#e07a7a);
-  box-shadow:0 2px 4px rgba(0,0,0,.5)}
-.note.n1{left:41vmin;top:2vmin;transform:rotate(-8deg)}
-.note.n2{left:44.5vmin;top:3.5vmin;transform:rotate(6deg)}
-.note.n3{left:42.5vmin;top:6.5vmin;transform:rotate(-4deg);background:linear-gradient(160deg,#8a5a5a,#6b3a3a)}
-.note::after{content:"";position:absolute;left:14%;right:14%;top:20%;height:.3vmin;
-  border-radius:.15vmin;background:rgba(20,8,12,.45);box-shadow:0 .5vmin 0 rgba(20,8,12,.35)}
-.knobs{position:absolute;left:22vmin;top:1vmin;width:100%;height:4vmin}
-.knob{position:absolute;top:.4vmin;width:3.2vmin;height:3.2vmin;border-radius:50%;
-  background:radial-gradient(circle at 40% 35%, #4a2330, #22090f 70%);
-  border:2px solid rgba(252,165,165,.6);
-  box-shadow:0 0 10px rgba(248,113,113,.4)}
-.knob::before{content:"";position:absolute;left:calc(50% - .9vmin);top:calc(50% - .9vmin);
-  width:1.8vmin;height:1.8vmin;border-radius:50%;
-  background:radial-gradient(circle at 35% 35%, #fecaca, #b4434f)}
-.knob::after{content:"";position:absolute;left:calc(50% - .15vmin);top:.15vmin;
-  width:.3vmin;height:1.1vmin;border-radius:.15vmin;
-  background:#fecaca;box-shadow:0 0 5px rgba(254,202,202,.9)}
-.kn1{left:0;transform:rotate(40deg)}
-.kn2{left:8vmin;transform:rotate(-15deg)}
-.kn3{left:16vmin;transform:rotate(70deg)}
-.kn4{left:24vmin;animation:turn 40s linear infinite}
-@keyframes turn{to{transform:rotate(360deg)}}
+    linear-gradient(rgba(169,198,226,.14) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(169,198,226,.14) 1px, transparent 1px);
+  background-size:2.2vmin 2.2vmin;
+  border-color:rgba(169,198,226,.5)}
+.cmark{position:absolute;left:3.4vmin;top:3.2vmin;width:1.4vmin;height:1.4vmin;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%, #f2f8ff, #7c9cc0);
+  box-shadow:0 0 8px rgba(220,236,250,.7)}
+.curl{position:absolute;right:0;bottom:0;width:3vmin;height:3vmin;
+  clip-path:polygon(100% 0, 0 100%, 100% 100%);
+  background:linear-gradient(135deg, rgba(242,248,255,.28), rgba(169,198,226,.08));
+  transform-origin:top left;animation:curlFlut 4.5s ease-in-out infinite}
+@keyframes curlFlut{0%,100%{transform:rotate(-1deg)}50%{transform:rotate(13deg)}}
 
-/* wobbling dish tower */
-.dishes{position:absolute;left:6%;top:27.2%;width:14vmin;height:8vmin;z-index:1;
-  transform-origin:50% 100%;animation:dishWobble 2.8s ease-in-out infinite}
-@keyframes dishWobble{0%,100%{transform:rotate(-1.2deg)}50%{transform:rotate(1.2deg)}}
-.dish{position:absolute;width:13vmin;height:1.55vmin;border-radius:.8vmin;
-  background:linear-gradient(#4a232f,#2a1219);
-  border:1.5px solid rgba(252,165,165,.4);
-  box-shadow:0 2px 4px rgba(0,0,0,.5)}
-.dish.d1{bottom:0}
-.dish.d2{bottom:1.65vmin}
-.dish.d3{bottom:3.3vmin}
-.dish.d4{bottom:4.95vmin}
-.dish.d5{bottom:6.6vmin;left:1.2vmin;transform:rotate(3deg)}
+/* ============ SHELF: the living starter ============ */
+.shelfzone{position:absolute;right:4%;top:25.5%;width:15vmin;z-index:1}
+.sboard{position:relative;height:1.2vmin;border-radius:.4vmin;
+  background:linear-gradient(#33465f,#1a2738);
+  border:1.5px solid rgba(169,198,226,.4);
+  box-shadow:0 4px 10px rgba(0,0,0,.5)}
+.sbr{position:absolute;right:1.5vmin;top:1.1vmin;width:1.2vmin;height:2.2vmin;
+  background:#22344c;border-radius:.2vmin}
+.jar{position:absolute;bottom:1.1vmin;left:1vmin;width:4.6vmin;height:6.5vmin;border-radius:.8vmin .8vmin 1.2vmin 1.2vmin;
+  background:linear-gradient(105deg, rgba(220,236,250,.16), rgba(220,236,250,.04) 45%, rgba(242,248,255,.14) 50%, rgba(220,236,250,.05));
+  border:2px solid rgba(169,198,226,.5);
+  box-shadow:0 0 14px rgba(122,162,200,.3), inset 0 0 8px rgba(0,0,0,.4);
+  overflow:hidden}
+.liq{position:absolute;left:0;right:0;bottom:0;height:62%;
+  background:linear-gradient(to top, rgba(169,198,226,.4), rgba(169,198,226,.12))}
+.bub{position:absolute;width:.55vmin;height:.55vmin;border-radius:50%;
+  background:#f2f8ff;box-shadow:0 0 5px rgba(242,248,255,.9);opacity:.9;
+  animation:bubUp 2.6s linear infinite}
+.bub.b1{left:1vmin;bottom:.8vmin}
+.bub.b2{left:2.4vmin;bottom:.5vmin;animation-delay:-1s}
+.bub.b3{left:3.2vmin;bottom:1.4vmin;animation-delay:-1.9s}
+@keyframes bubUp{
+  0%{transform:translateY(0);opacity:.9}
+  85%{opacity:.9}
+  100%{transform:translateY(-3.8vmin);opacity:0}}
+.cloth{position:absolute;left:.2vmin;top:-.4vmin;width:5.2vmin;height:1.8vmin;border-radius:.9vmin;
+  background:linear-gradient(#dce8f5,#a9c6e2);
+  box-shadow:0 2px 5px rgba(0,0,0,.4)}
+.cloth::after{content:"";position:absolute;left:calc(50% - 1.2vmin);top:1.5vmin;width:2.4vmin;height:.3vmin;
+  border-radius:.15vmin;background:rgba(122,162,200,.7)}
+.fjar{position:absolute;bottom:1.1vmin;left:8vmin;width:4.2vmin;height:6vmin;border-radius:.7vmin .7vmin 1vmin 1vmin;
+  background:linear-gradient(160deg,#dfe9f2,#b9cfe4);
+  border:2px solid rgba(169,198,226,.5);
+  box-shadow:0 0 12px rgba(122,162,200,.25), inset 0 0 8px rgba(0,0,0,.2)}
+.fjar::after{content:"";position:absolute;left:.5vmin;right:.5vmin;top:-.9vmin;height:1.4vmin;border-radius:.5vmin;
+  background:linear-gradient(#33465f,#1a2738);border:1.5px solid rgba(169,198,226,.4)}
 
-/* pizza stack, top box overhanging */
-.pzs{position:absolute;left:43.5%;top:27.6%;width:9vmin;z-index:1;
-  transform-origin:50% 100%;animation:pzSway 5s ease-in-out infinite}
-@keyframes pzSway{0%,100%{transform:rotate(-.7deg)}50%{transform:rotate(.7deg)}}
-.pz{position:relative;width:9vmin;height:2.4vmin;border-radius:.5vmin;margin-bottom:.15vmin;
-  background:linear-gradient(#3a222c,#241218);
-  border:1.5px solid rgba(252,165,165,.35);
-  box-shadow:0 3px 7px rgba(0,0,0,.5)}
-.pz::after{content:"";position:absolute;left:calc(50% - 1.6vmin);top:calc(50% - .25vmin);
-  width:3.2vmin;height:.5vmin;border-radius:.25vmin;background:rgba(252,165,165,.25)}
-.pz:nth-child(4){transform:rotate(2.4deg);left:.8vmin}
-
-/* ============ THE POT — boiled over, behind him ============ */
-.potzone{position:absolute;left:24%;top:24.5%;width:19vmin;height:17vmin;z-index:2}
-.burnglow{position:absolute;left:2%;right:2%;bottom:-3.4vmin;height:2.6vmin;border-radius:50%;
-  background:radial-gradient(ellipse, rgba(255,120,80,.55), transparent 70%);
-  filter:blur(.6vmin);
-  animation:burnPulse 2s ease-in-out infinite}
-@keyframes burnPulse{0%,100%{opacity:.6}50%{opacity:1}}
-.flame{position:absolute;left:12%;right:12%;bottom:-3vmin;height:3.6vmin;
-  border-radius:50% 50% 0 0 / 70% 70% 0 0;
-  background:linear-gradient(to top, rgba(255,110,70,.95), rgba(255,170,140,.3));
-  filter:blur(.35vmin);
-  transform-origin:bottom center;
-  animation:flameFlick .28s ease-in-out infinite alternate}
-.flame.f2{left:30%;right:34%;height:4.4vmin;bottom:-3.4vmin;
-  animation-duration:.22s}
-@keyframes flameFlick{
-  from{transform:scaleY(.82) scaleX(1.08);opacity:.8}
-  to{transform:scaleY(1.18) scaleX(.92);opacity:1}}
-.potbody{position:absolute;bottom:0;left:0;right:0;height:11.5vmin;
-  border-radius:1.2vmin 1.2vmin 1.8vmin 1.8vmin;
-  background:linear-gradient(150deg,#4a222c,#210a10 70%);
-  border:2px solid rgba(252,165,165,.55);
-  box-shadow:inset 0 1vmin 2vmin rgba(0,0,0,.5), 0 0 26px rgba(239,68,68,.45)}
-.phandle{position:absolute;bottom:7.5vmin;width:3vmin;height:1.2vmin;border-radius:.6vmin;
-  background:#3a1a22;border:1.5px solid rgba(252,165,165,.45)}
-.phandle.l{left:-2.4vmin}
-.phandle.r{right:-2.4vmin}
-.rimglow{position:absolute;bottom:10.8vmin;left:3%;right:3%;height:.7vmin;border-radius:.35vmin;
-  background:linear-gradient(90deg, transparent, #fecaca 30%, #fff 50%, #fecaca 70%, transparent);
-  box-shadow:0 0 12px rgba(254,202,202,.9);
-  animation:rimGlow 1.2s ease-in-out infinite}
-@keyframes rimGlow{0%,100%{opacity:.55}50%{opacity:1}}
-.lid{position:absolute;top:.3vmin;left:4%;right:4%;height:3.6vmin;
-  border-radius:1.8vmin 1.8vmin .8vmin .8vmin;
-  background:linear-gradient(#552835,#26090f);
-  border:2px solid rgba(252,165,165,.6);
-  box-shadow:0 0 16px rgba(248,113,113,.45);
-  animation:lidRattle .14s linear infinite alternate}
-@keyframes lidRattle{
-  from{transform:translateY(-.5vmin) rotate(1.1deg)}
-  to{transform:translateY(.15vmin) rotate(-1.2deg)}}
-.lidknob{position:absolute;left:calc(50% - 1vmin);top:-1.4vmin;width:2vmin;height:1.6vmin;border-radius:.8vmin .8vmin .2vmin .2vmin;
-  background:linear-gradient(#5c2c3a,#2a0c14);border:1.5px solid rgba(252,165,165,.55)}
-/* boil-over foam */
-.foam{position:absolute;background:radial-gradient(circle at 40% 35%, #ffd9cf, #e8947e 70%);
-  border-radius:60% 40% 55% 45%;
-  box-shadow:0 0 9px rgba(255,180,150,.65);
-  animation:foamPulse .9s ease-in-out infinite}
-.foam.f1{right:-1.4vmin;top:2.2vmin;width:3.8vmin;height:2.7vmin}
-.foam.f2{right:-1vmin;top:5.6vmin;width:2.7vmin;height:2.1vmin;animation-delay:-.4s}
-@keyframes foamPulse{0%,100%{transform:scale(.82)}50%{transform:scale(1.12)}}
-/* spill running off the counter */
-.spill{position:absolute;left:41.3%;top:32%;width:1.7vmin;height:3vmin;z-index:2;
-  border-radius:0 0 .9vmin .9vmin;
-  background:linear-gradient(rgba(255,180,150,.75), rgba(255,180,150,.12));
-  box-shadow:0 0 6px rgba(255,180,150,.4)}
-.drip{position:absolute;left:42.9%;top:34.6%;width:.8vmin;height:1.5vmin;border-radius:50%;
-  background:#ffb4a6;box-shadow:0 0 7px rgba(255,180,150,.8);opacity:0;
-  animation:dripFall 1.7s linear infinite;z-index:2}
-.drip.d2{animation-delay:-.6s}
-.drip.d3{animation-delay:-1.1s}
-@keyframes dripFall{
-  0%{transform:translateY(0);opacity:0}
-  10%{opacity:1}
-  85%{transform:translateY(6vmin);opacity:1}
-  100%{transform:translateY(6vmin);opacity:0}}
-.spark{position:absolute;left:41.6%;top:31.2%;width:.55vmin;height:.55vmin;border-radius:50%;
-  background:#ffd9c4;box-shadow:0 0 7px rgba(255,190,150,1);opacity:0;
-  animation:sparkPop .7s linear infinite;z-index:2}
-.spark.s2{left:40.4%;animation-delay:-.35s}
-@keyframes sparkPop{
-  0%{transform:translateY(0);opacity:0}
-  25%{opacity:1}
-  100%{transform:translateY(-2vmin);opacity:0}}
-.emb{position:absolute;width:.7vmin;height:.7vmin;border-radius:50%;
-  background:#ffc9a8;box-shadow:0 0 9px rgba(255,170,120,1);opacity:0;
-  animation:emberUp 3.4s linear infinite;z-index:2}
-.emb.e1{left:29%;top:27%}
-.emb.e2{left:33%;top:26%;animation-delay:-1.2s}
-.emb.e3{left:37%;top:27.5%;animation-delay:-2.1s}
-.emb.e4{left:41%;top:26.5%;animation-delay:-2.8s}
-@keyframes emberUp{
-  0%{transform:translateY(0) translateX(0);opacity:0}
-  12%{opacity:.95}
-  100%{transform:translateY(-25vmin) translateX(2vmin);opacity:0}}
-/* steam, more of it, faster */
-.steam{position:absolute;z-index:2;pointer-events:none;filter:blur(1.3vmin);
-  border-radius:50%;opacity:0;
-  animation:steamUp linear infinite}
-.ps1{left:26%;bottom:73%;width:6vmin;height:9vmin;
-  background:radial-gradient(ellipse, rgba(254,202,202,.16), transparent 70%);
-  animation-duration:15s}
-.ps2{left:31%;bottom:74%;width:5vmin;height:8vmin;
-  background:radial-gradient(ellipse, rgba(254,202,202,.13), transparent 70%);
-  animation-duration:18s;animation-delay:-7s}
-.ps3{left:36%;bottom:72%;width:5.5vmin;height:8.5vmin;
-  background:radial-gradient(ellipse, rgba(254,202,202,.14), transparent 70%);
-  animation-duration:16s;animation-delay:-12s}
-.ps4{left:40%;bottom:73%;width:4.5vmin;height:7vmin;
-  background:radial-gradient(ellipse, rgba(254,202,202,.12), transparent 70%);
-  animation-duration:20s;animation-delay:-4s}
-.ps5{left:43%;bottom:74%;width:5vmin;height:7.5vmin;
-  background:radial-gradient(ellipse, rgba(254,202,202,.11), transparent 70%);
-  animation-duration:17s;animation-delay:-10s}
-@keyframes steamUp{
-  0%{transform:translateY(0) translateX(0)}
-  25%{opacity:.85}
-  100%{transform:translateY(-26vmin) translateX(6vmin);opacity:0}}
-
-/* ============ SWINGING CROOKED FRAME ============ */
-.crook{position:absolute;left:58%;top:14%;width:7vmin;height:5.2vmin;z-index:1;
-  border-radius:.5vmin;
-  transform-origin:50% -.6vmin;
-  background:linear-gradient(150deg,#261522,#14090f);
-  border:.6vmin solid #45307080;
-  box-shadow:0 5px 10px rgba(0,0,0,.5), inset 0 0 8px rgba(0,0,0,.5);
-  animation:frameSwing 3.4s ease-in-out infinite}
-@keyframes frameSwing{0%,100%{transform:rotate(4.5deg)}50%{transform:rotate(-4.5deg)}}
-.crook::before{content:"";position:absolute;left:calc(50% - .3vmin);top:-1.3vmin;
-  width:.6vmin;height:.8vmin;border-radius:.3vmin;background:#5a4394}
-.crook .medal{position:absolute;right:12%;top:16%;width:2.2vmin;height:2.2vmin;border-radius:50%;
-  background:radial-gradient(circle at 35% 35%, #fca5a5, #7f1d1d);
-  box-shadow:0 0 10px rgba(248,113,113,.5)}
-
-/* ============ TV — the chaos he stares at ============ */
-.tvzone{position:absolute;left:78%;top:27.5%;width:17vmin;z-index:1}
-.tvbez{position:relative;width:17vmin;height:12.5vmin;border-radius:1vmin;
-  background:linear-gradient(160deg,#241018,#120609);
-  border:2px solid rgba(252,165,165,.5);
-  box-shadow:0 0 30px rgba(248,113,113,.5),0 10px 22px rgba(0,0,0,.6)}
-.screen{position:absolute;inset:1.1vmin;border-radius:.6vmin;overflow:hidden;
-  background:#0c0508;
-  animation:screenFlick .5s linear infinite}
-.band{position:absolute;inset:0;
-  background:linear-gradient(100deg, transparent 20%, rgba(254,202,202,.5) 45%, rgba(248,113,113,.28) 55%, transparent 80%);
-  animation:bandSlide 1.7s linear infinite alternate}
-.band.b2{background:linear-gradient(80deg, transparent 30%, rgba(255,190,160,.35) 50%, transparent 70%);
-  animation:bandSlide2 2.9s linear infinite}
-@keyframes bandSlide{from{transform:translateX(-45%)}to{transform:translateX(45%)}}
-@keyframes bandSlide2{from{transform:translateX(35%)}to{transform:translateX(-35%)}}
-.scan{position:absolute;inset:0;
-  background:repeating-linear-gradient(to bottom, rgba(254,202,202,.14) 0 1px, transparent 1px 5px);
-  animation:scanDown .9s linear infinite}
-@keyframes scanDown{to{background-position:0 5px}}
-@keyframes screenFlick{
-  0%{opacity:.7}20%{opacity:1}35%{opacity:.65}50%{opacity:.95}70%{opacity:.6}100%{opacity:.9}}
-.tvstand{position:absolute;left:79.5%;top:40.8%;width:14vmin;height:8vmin;z-index:1;border-radius:.8vmin;
-  background:linear-gradient(#2e141d,#180910);
-  border:2px solid rgba(252,165,165,.4);
-  box-shadow:0 8px 16px rgba(0,0,0,.55)}
-.tvleg{position:absolute;top:7.5vmin;width:2vmin;height:3.2vmin;border-radius:.5vmin;
-  background:#1e0a10}
-.tvleg.l{left:1.5vmin}
-.tvleg.r{right:1.5vmin}
-
-/* ============ COUCH (side view) ============ */
-.couch{position:absolute;left:27%;top:40%;width:44vmin;height:30vmin;z-index:2}
-.cback{position:absolute;left:0;top:0;width:15vmin;height:23vmin;border-radius:2vmin 2vmin 1vmin 1vmin;
-  background:repeating-linear-gradient(90deg,#43202e 0 5vmin,#331521 5vmin 10vmin);
-  border:2px solid rgba(252,165,165,.35);
-  box-shadow:0 0 20px rgba(239,68,68,.2), inset 0 -1vmin 3vmin rgba(0,0,0,.4)}
-.cseat{position:absolute;left:0;right:0;top:21vmin;height:8.5vmin;border-radius:1vmin;
-  background:repeating-linear-gradient(90deg,#3a1a27 0 5vmin,#2b121d 5vmin 10vmin);
-  border:2px solid rgba(252,165,165,.3);
-  box-shadow:0 8px 16px rgba(0,0,0,.5)}
-.carmR{position:absolute;right:0;top:14.5vmin;width:7vmin;height:15.5vmin;border-radius:3.5vmin;
-  background:linear-gradient(#4a2330,#2e1219);
-  border:2px solid rgba(252,165,165,.4)}
-.cleg{position:absolute;bottom:-1.5vmin;width:2vmin;height:2vmin;border-radius:.5vmin;
-  background:#1e0a10}
-.cleg.l{left:3vmin}
-.cleg.r{right:4vmin}
-
-/* ============ TOBY — calm, in profile, back to the pot ============ */
-.tobyzone{position:absolute;left:30%;top:30%;width:34vmin;height:41vmin;z-index:3}
+/* ============ COUNTER + OVEN ============ */
+.clarazone{position:absolute;left:28%;top:35%;width:30vmin;height:51vmin;z-index:3}
 .fig{position:absolute;inset:0;width:100%;height:100%;
-  filter:drop-shadow(0 0 9px rgba(248,113,113,.45))}
+  filter:drop-shadow(0 0 9px rgba(122,162,200,.45))}
 .breathe{transform-box:fill-box;transform-origin:50% 100%;
-  animation:breatheT 4.2s ease-in-out infinite}
+  animation:breatheT 4.6s ease-in-out infinite}
 @keyframes breatheT{0%,100%{transform:translateY(0)}50%{transform:translateY(1.2)}}
-.fig .body{fill:#080410;stroke:rgba(252,165,165,.36);stroke-width:1.3}
-.fig .limb{fill:none;stroke:#080410;stroke-width:9.5;stroke-linecap:round}
+.fig .body{fill:#070d16;stroke:rgba(207,228,247,.36);stroke-width:1.3}
+.fig .limb{fill:none;stroke:#070d16;stroke-width:9.5;stroke-linecap:round}
+.fig .apron{fill:#0e1a2a;stroke:rgba(207,228,247,.2);stroke-width:1}
+.fig .dough{fill:#e4edf7;stroke:rgba(242,248,255,.7);stroke-width:1}
+.fig .fl{fill:rgba(255,255,255,.85)}
 .headg{transform-box:fill-box;transform-origin:50% 95%;
   animation:headNod 11s ease-in-out infinite}
 @keyframes headNod{
-  0%,30%{transform:rotate(14deg)}
+  0%,30%{transform:rotate(7deg)}
   42%,58%{transform:rotate(-4deg)}
-  70%,100%{transform:rotate(14deg)}}
-.pharm{transform-box:fill-box;transform-origin:55% 90%;
-  animation:armSway 6s ease-in-out infinite}
-@keyframes armSway{0%,100%{transform:rotate(1deg)}50%{transform:rotate(-1deg)}}
-.pglow{opacity:.8;animation:phonePulse 5s ease-in-out infinite}
-@keyframes phonePulse{0%,100%{opacity:.45}50%{opacity:.95}}
-.chat{animation:chatScroll 2.6s linear infinite}
-@keyframes chatScroll{to{transform:translateY(-112px)}}
-.typing{animation:typingPulse 1.2s ease-in-out infinite}
-@keyframes typingPulse{0%,100%{opacity:.3}50%{opacity:.9}}
+  70%,100%{transform:rotate(7deg)}}
+.arms{transform-box:fill-box;transform-origin:50% 5%;
+  animation:knead 2s ease-in-out infinite}
+@keyframes knead{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(4) rotate(1deg)}}
+.doughg{transform-box:fill-box;transform-origin:50% 100%;
+  animation:doughSquish 2s ease-in-out infinite}
+@keyframes doughSquish{0%,100%{transform:scale(1,1)}50%{transform:scale(1.06,.88)}}
 
-/* ============ COFFEE TABLE ============ */
-.table{position:absolute;left:62%;top:56.2%;width:18vmin;height:13vmin;z-index:4}
-.msteam{position:absolute;left:2.6vmin;top:-7.3vmin;width:2vmin;height:3.5vmin;border-radius:50%;
-  filter:blur(.8vmin);opacity:0;
-  background:radial-gradient(ellipse, rgba(254,202,202,.35), transparent 70%);
-  animation:mugSteam 6s linear infinite}
-@keyframes mugSteam{
-  0%{transform:translateY(0) scale(.7);opacity:0}
-  30%{opacity:.8}
-  100%{transform:translateY(-3.5vmin) scale(1.3);opacity:0}}
-.mug{position:absolute;left:1.2vmin;top:-3.2vmin;width:3.6vmin;height:3.6vmin;border-radius:.4vmin .4vmin 1vmin 1vmin;
-  background:linear-gradient(#4a2330,#26121a);
-  border:2px solid rgba(252,165,165,.5);
-  animation:mugVibe .35s linear infinite alternate}
-@keyframes mugVibe{from{transform:translateX(-.15vmin)}to{transform:translateX(.15vmin)}}
-.mug::after{content:"";position:absolute;right:-1.5vmin;top:.7vmin;width:1.3vmin;height:1.9vmin;
-  border:.5vmin solid rgba(252,165,165,.5);border-left:none;border-radius:0 1vmin 1vmin 0}
-.remote{position:absolute;right:1.5vmin;top:-1.4vmin;width:6.5vmin;height:1.9vmin;border-radius:.6vmin;
-  transform:rotate(-7deg);
-  background:linear-gradient(#2e141d,#180910);
-  border:1.5px solid rgba(252,165,165,.4)}
-.remote::after{content:"";position:absolute;left:.6vmin;top:.5vmin;width:2.6vmin;height:.8vmin;border-radius:.4vmin;
-  background:rgba(252,165,165,.4);box-shadow:.9vmin 0 0 rgba(252,165,165,.3)}
-.ttop{position:absolute;left:0;right:0;top:0;height:3.4vmin;border-radius:.9vmin;
-  background:linear-gradient(#4a2330,#2a1219);
-  border:2px solid rgba(252,165,165,.45);
-  box-shadow:0 10px 20px rgba(0,0,0,.55), inset 0 .5vmin 1vmin rgba(254,202,202,.25)}
-.tleg{position:absolute;top:3.4vmin;width:2.2vmin;height:9vmin;border-radius:.5vmin;
-  background:linear-gradient(#3a1a22,#1e0a10)}
-.tleg.l{left:1.5vmin}
-.tleg.r{right:1.5vmin}
+.cface{position:absolute;left:12%;top:63.8%;width:56vmin;height:13vmin;z-index:4;border-radius:1vmin;
+  background:linear-gradient(#22344c,#131f30);
+  border:2px solid rgba(169,198,226,.4);
+  box-shadow:0 12px 24px rgba(0,0,0,.6), inset 0 0 12px rgba(0,0,0,.4)}
+.oven{position:absolute;left:1.2vmin;top:2.2vmin;width:17vmin;height:10.4vmin;border-radius:.8vmin;
+  background:linear-gradient(#1c2a3c,#101a28);
+  border:2px solid rgba(169,198,226,.4)}
+.ohandle{position:absolute;left:2vmin;right:2vmin;top:.9vmin;height:.8vmin;border-radius:.4vmin;
+  background:linear-gradient(#33465f,#1a2738);border:1px solid rgba(169,198,226,.35)}
+.oglass{position:absolute;left:1.4vmin;top:2.8vmin;right:1.4vmin;bottom:1.2vmin;border-radius:.6vmin;
+  background:radial-gradient(circle at 50% 62%, rgba(242,248,255,.5), rgba(169,198,226,.16) 60%, rgba(20,30,44,.35));
+  border:2px solid rgba(169,198,226,.5);
+  box-shadow:0 0 18px rgba(207,228,247,.35), inset 0 0 10px rgba(0,0,0,.4);
+  animation:ovenBreathe 6s ease-in-out infinite}
+@keyframes ovenBreathe{0%,100%{opacity:.7}50%{opacity:1}}
+.bd{position:absolute;bottom:.6vmin;width:4.5vmin;height:2.6vmin;
+  border-radius:2.2vmin 2.2vmin .6vmin .6vmin;background:#0d1624}
+.bd.b1{left:2vmin}
+.bd.b2{right:2.2vmin}
+.dline{position:absolute;right:3vmin;left:21vmin;top:4vmin;height:2px;background:rgba(169,198,226,.25)}
+.dline.d2{top:9vmin}
+.okn{position:absolute;width:2.2vmin;height:2.2vmin;border-radius:50%;
+  background:radial-gradient(circle at 40% 35%, #33465f, #1a2738 70%);
+  border:2px solid rgba(169,198,226,.5)}
+.okn.o1{right:3vmin;top:2.6vmin}
+.okn.o2{right:6.4vmin;top:2.6vmin}
+.slab{position:absolute;left:12%;top:61%;width:56vmin;height:3vmin;z-index:4;border-radius:.7vmin;
+  background:linear-gradient(#44586f,#243548 70%,#182637);
+  border:2px solid rgba(169,198,226,.55);
+  box-shadow:0 10px 22px rgba(0,0,0,.6), 0 0 22px rgba(122,162,200,.3), inset 0 .5vmin 1vmin rgba(220,236,250,.3)}
 
-/* ============ FLOOR: the fallout he never picked up ============ */
-.fbox{position:absolute;left:14%;top:84%;width:14vmin;height:3.6vmin;z-index:1;
-  border-radius:.5vmin;transform:rotate(-3deg);
-  background:linear-gradient(#3a222c,#241218);
-  border:1.5px solid rgba(252,165,165,.35);
-  box-shadow:0 4px 8px rgba(0,0,0,.55)}
-.fbox::after{content:"";position:absolute;left:calc(50% - 2.4vmin);top:calc(50% - .3vmin);
-  width:4.8vmin;height:.6vmin;border-radius:.3vmin;background:rgba(252,165,165,.25)}
-.shard{position:absolute;z-index:1;background:linear-gradient(160deg,#3a1a22,#22101a);
-  border:1.5px solid rgba(252,165,165,.4);
-  box-shadow:0 3px 6px rgba(0,0,0,.5)}
-.shard.s1{left:7.5%;top:52.8%;width:4.4vmin;height:1.8vmin;
-  clip-path:polygon(0 100%, 15% 0, 100% 30%, 85% 100%);transform:rotate(-8deg)}
-.shard.s2{left:12.5%;top:53.6%;width:3vmin;height:1.4vmin;
-  clip-path:polygon(0 60%, 40% 0, 100% 100%, 20% 100%);transform:rotate(12deg)}
+/* phone, face-down, dark — the only dead object in the room */
+.ph{position:absolute;left:13.5%;top:59.4%;width:8vmin;height:4.4vmin;z-index:5;border-radius:.9vmin;
+  transform:rotate(-5deg);
+  background:linear-gradient(160deg,#18222e,#0c131c);
+  border:2px solid rgba(169,198,226,.3);
+  box-shadow:0 4px 10px rgba(0,0,0,.5)}
+.ph::after{content:"";position:absolute;left:1vmin;top:1.1vmin;width:1vmin;height:1vmin;border-radius:50%;
+  background:#0a1017;border:1px solid rgba(169,198,226,.25)}
 
-/* ============ LIGHT ============ */
-.tvwash{position:absolute;inset:0;z-index:5;pointer-events:none;
-  background:radial-gradient(ellipse 40% 32% at 84% 40%, rgba(254,202,202,.19), transparent 72%);
-  animation:tvwashFlick 3.7s linear infinite}
-@keyframes tvwashFlick{
-  0%{opacity:.55}6%{opacity:1}12%{opacity:.5}20%{opacity:.9}28%{opacity:.6}
-  36%{opacity:1}45%{opacity:.5}55%{opacity:.95}64%{opacity:.55}75%{opacity:.85}
-  85%{opacity:.5}94%{opacity:1}100%{opacity:.55}}
+/* the loaves — one straight, one lopsided, the one she likes most */
+.rack{position:absolute;left:51%;top:57.7%;width:13vmin;height:5.2vmin;z-index:5}
+.rleg{position:absolute;top:2.4vmin;width:.7vmin;height:2.8vmin;border-radius:.3vmin;
+  background:linear-gradient(#33465f,#1a2738)}
+.rleg.l{left:.8vmin}
+.rleg.r{right:.8vmin}
+.rrail{position:absolute;left:0;right:0;top:2.4vmin;height:.5vmin;border-radius:.25vmin;
+  background:linear-gradient(#44586f,#243548)}
+.rrail.r2{top:3.4vmin;height:.3vmin;background:#33465f}
+.loaf1{position:absolute;left:.3vmin;top:-1.3vmin;width:7.6vmin;height:3.4vmin;border-radius:1.7vmin 1.7vmin 1.2vmin 1.2vmin;
+  background:
+    repeating-linear-gradient(78deg, transparent 0 1.5vmin, rgba(122,162,200,.25) 1.5vmin 1.9vmin),
+    linear-gradient(#e8f1fa,#b9cfe4);
+  border:1.5px solid rgba(169,198,226,.5);
+  box-shadow:0 3px 8px rgba(0,0,0,.5), 0 0 12px rgba(122,162,200,.2)}
+.loaf2{position:absolute;right:.1vmin;top:-1.5vmin;width:8.2vmin;height:3.6vmin;border-radius:1.8vmin 1.8vmin 1.3vmin 1.3vmin;
+  transform:rotate(-5deg);
+  background:repeating-linear-gradient(105deg, #e2edf7 0 1.4vmin, #c3d8ea 1.4vmin 2.8vmin);
+  border:1.5px solid rgba(169,198,226,.55);
+  box-shadow:0 3px 9px rgba(0,0,0,.5), 0 0 16px rgba(169,198,226,.35)}
 
-.dust{position:absolute;inset:0;z-index:5;pointer-events:none}
-.p{position:absolute;border-radius:50%;background:var(--red-mid);
-  box-shadow:0 0 9px rgba(252,165,165,.95);opacity:.55;
+/* ============ HER ============ */
+
+/* ============ STEAM & DUST ============ */
+.steam{position:absolute;z-index:5;pointer-events:none;filter:blur(1.4vmin);
+  border-radius:50%;opacity:0;
+  animation:steamUp linear infinite}
+.ls1{left:52%;bottom:42%;width:5vmin;height:8vmin;
+  background:radial-gradient(ellipse, rgba(220,236,250,.13), transparent 70%);
+  animation-duration:20s}
+.ls2{left:55.5%;bottom:43%;width:4vmin;height:7vmin;
+  background:radial-gradient(ellipse, rgba(220,236,250,.11), transparent 70%);
+  animation-duration:26s;animation-delay:-11s}
+.ls3{left:58.5%;bottom:42%;width:4.5vmin;height:7vmin;
+  background:radial-gradient(ellipse, rgba(220,236,250,.12), transparent 70%);
+  animation-duration:23s;animation-delay:-18s}
+@keyframes steamUp{
+  0%{transform:translateY(0) translateX(0)}
+  25%{opacity:.8}
+  100%{transform:translateY(-22vmin) translateX(4vmin);opacity:0}}
+.dust{position:absolute;inset:0;z-index:6;pointer-events:none}
+.p{position:absolute;border-radius:50%;background:var(--ice-mid);
+  box-shadow:0 0 9px rgba(169,198,226,.95);opacity:.55;
   animation:floatUp linear infinite}
 .p1{left:9%;bottom:14%;width:4px;height:4px;animation-duration:19s;animation-delay:-3s}
 .p2{left:22%;bottom:6%;width:6px;height:6px;animation-duration:23s;animation-delay:-11s}
@@ -469,34 +375,30 @@ body{background:#050308;font-family:'Outfit',sans-serif}
   12%{opacity:.6}
   85%{opacity:.5}
   100%{transform:translateY(-88vh);opacity:0}}
-.vignette{position:absolute;inset:0;z-index:6;pointer-events:none;
-  background:radial-gradient(ellipse at 50% 50%, transparent 62%, rgba(0,0,0,.4))}
+.vignette{position:absolute;inset:0;z-index:7;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 50%, transparent 64%, rgba(0,0,0,.38))}
 
 /* ============ SEAL ============ */
 .seal{position:absolute;right:2.6vmin;bottom:2.6vmin;z-index:10;
   width:15vmin;height:15vmin;opacity:.95;
   animation:sealPulse 4s ease-in-out infinite}
-.seal .ringA{fill:none;stroke:var(--red-mid);stroke-width:2.5}
-.seal .ringB{fill:none;stroke:rgba(252,165,165,.8);stroke-width:1.5}
-.seal .txt{fill:#fecaca;font-family:'Outfit',sans-serif;font-weight:800;
+.seal .ringA{fill:none;stroke:var(--ice-mid);stroke-width:2.5}
+.seal .ringB{fill:none;stroke:rgba(169,198,226,.8);stroke-width:1.5}
+.seal .txt{fill:#f2f8ff;font-family:'Outfit',sans-serif;font-weight:800;
   font-size:10.5px;letter-spacing:2px}
-.seal .dot{fill:var(--red-mid)}
-.seal .core{fill:#fecaca}
+.seal .dot{fill:var(--ice-mid)}
+.seal .core{fill:#f2f8ff}
 @keyframes sealPulse{
-  0%,100%{filter:drop-shadow(0 0 6px rgba(252,165,165,.7))}
-  50%{filter:drop-shadow(0 0 16px rgba(252,165,165,1))}}
+  0%,100%{filter:drop-shadow(0 0 6px rgba(169,198,226,.7))}
+  50%{filter:drop-shadow(0 0 16px rgba(169,198,226,1))}}
 
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation:none !important}
-  .steam,.msteam{opacity:.45}
-  .flame{opacity:.9}
-  .klight{opacity:.85}
-  .screen{opacity:.85}
-  .tvwash{opacity:.55}
-  .pglow{opacity:.8}
-  .led{opacity:.9}
-  .drip,.emb,.spark{opacity:.75}
-  .moth{opacity:.9}
+  .steam{display:none}
+  .flk{opacity:.7}
+  .bub{opacity:.9}
+  .oglass{opacity:.85}
+  .gl{opacity:.8}
   .p{opacity:.5}
 }
 </style>
@@ -506,219 +408,151 @@ body{background:#050308;font-family:'Outfit',sans-serif}
 <div class="scene">
 <div class="wall"></div>
 <div class="floor"></div>
-<div class="baseboard"></div>
+<div class="beam"></div>
+<div class="glow"></div>
 
-<div class="name">TOBY</div>
+<div class="name">CLARA</div>
 
 <div class="win">
   <div class="moon"></div>
-  <div class="city">
-    <div class="bld a"><div class="lw w1"></div><div class="lw w3"></div></div>
-    <div class="bld b"><div class="lw w2"></div></div>
-    <div class="bld c"><div class="lw"></div><div class="lw2"></div></div>
-    <div class="bld d"></div>
-  </div>
-  <div class="rain"></div>
-  <div class="lflash"></div>
+  <div class="star s1"></div>
+  <div class="star s2"></div>
+  <div class="star s3"></div>
+  <div class="hill h1"></div>
+  <div class="hill h2"></div>
+  <div class="flk f1"><div class="fd"></div></div>
+  <div class="flk f2"><div class="fd"></div></div>
+  <div class="flk f3"><div class="fd"></div></div>
+  <div class="flk f4"><div class="fd"></div></div>
+  <div class="flk f5"><div class="fd"></div></div>
+  <div class="flk f6"><div class="fd"></div></div>
   <div class="wglow"></div>
   <div class="wbarV"></div>
   <div class="wbarH"></div>
 </div>
+<div class="floorlight"></div>
 
-<div class="alarm"><div class="led"></div></div>
-
-<div class="hoodzone">
-  <div class="chimney"></div>
-  <div class="hbody"></div>
-  <div class="klight"></div>
+<div class="clock">
+  <div class="cticks"></div>
+  <div class="mh"></div>
+  <div class="hh"></div>
+  <div class="cdot"></div>
 </div>
 
-<!-- moths circling the broken light -->
-<div class="mw a"><div class="moth"></div></div>
-<div class="mw b"><div class="moth"></div></div>
-
-<div class="backsplash"></div>
-<div class="counter"></div>
-<div class="cabinet">
-  <div class="doorAjar"></div>
-  <div class="note n1"></div>
-  <div class="note n2"></div>
-  <div class="note n3"></div>
-  <div class="knobs">
-    <div class="knob kn1"></div>
-    <div class="knob kn2"></div>
-    <div class="knob kn3"></div>
-    <div class="knob kn4"></div>
+<!-- THE LIST: frozen on the wall, everything else lives -->
+<div class="listzone">
+  <div class="lframe">
+    <div class="fr f1"></div>
+    <div class="fr f2"></div>
+    <div class="fr f3"></div>
+    <div class="lhead"></div>
+    <div class="lrow done r1"><div class="lb a"></div><div class="lb b"></div><div class="lbox"><div class="check"></div></div></div>
+    <div class="lrow done r2"><div class="lb a"></div><div class="lb b"></div><div class="lbox"><div class="check"></div></div></div>
+    <div class="lrow done r3"><div class="lb a"></div><div class="lb b"></div><div class="lbox"><div class="check"></div></div></div>
+    <div class="lrow done r4"><div class="lb a"></div><div class="lb b"></div><div class="lbox"><div class="check"></div></div></div>
+    <div class="lrow fresh r5"><div class="lb a"></div><div class="lb b"></div><div class="lbox"><div class="check"></div></div></div>
+    <div class="lrow open r6"><div class="lb a"></div><div class="lb b"></div><div class="lbox"></div></div>
+    <div class="lrow open r7"><div class="lb a"></div><div class="lb b"></div><div class="lbox"></div></div>
+    <div class="sheen"></div>
+    <div class="gl g1"></div>
+    <div class="gl g2"></div>
+    <div class="gl g3"></div>
+    <div class="gl g4"></div>
+  </div>
+  <div class="ic ic1"></div>
+  <div class="ic ic2"></div>
+  <div class="ic ic3"></div>
+  <div class="pencilwrap">
+    <div class="string"></div>
+    <div class="pencil"></div>
   </div>
 </div>
 
-<div class="dishes">
-  <div class="dish d1"></div>
-  <div class="dish d2"></div>
-  <div class="dish d3"></div>
-  <div class="dish d4"></div>
-  <div class="dish d5"></div>
-</div>
-
-<div class="pzs">
-  <div class="pz"></div>
-  <div class="pz"></div>
-  <div class="pz"></div>
-  <div class="pz"></div>
-</div>
-
-<!-- the pot, boiled over, directly behind his head -->
-<div class="potzone">
-  <div class="burnglow"></div>
-  <div class="flame"></div>
-  <div class="flame f2"></div>
-  <div class="potbody"></div>
-  <div class="phandle l"></div>
-  <div class="phandle r"></div>
-  <div class="rimglow"></div>
-  <div class="foam f1"></div>
-  <div class="foam f2"></div>
-  <div class="lid">
-    <div class="lidknob"></div>
+<!-- months she never tore off -->
+<div class="calzone">
+  <div class="cpg p1"></div>
+  <div class="cpg p2"></div>
+  <div class="cpg p3"></div>
+  <div class="cpg p4"></div>
+  <div class="cpg top">
+    <div class="cmark"></div>
+    <div class="curl"></div>
   </div>
 </div>
-<div class="spill"></div>
-<div class="drip"></div>
-<div class="drip d2"></div>
-<div class="drip d3"></div>
-<div class="spark"></div>
-<div class="spark s2"></div>
-<div class="emb e1"></div>
-<div class="emb e2"></div>
-<div class="emb e3"></div>
-<div class="emb e4"></div>
 
-<div class="crook">
-  <div class="medal"></div>
-</div>
-
-<!-- the TV he can't stop watching -->
-<div class="tvzone">
-  <div class="tvbez">
-    <div class="screen">
-      <div class="band"></div>
-      <div class="band b2"></div>
-      <div class="scan"></div>
+<!-- the shelf: the starter, alive -->
+<div class="shelfzone">
+  <div class="sboard"><div class="sbr"></div></div>
+  <div class="jar">
+    <div class="liq">
+      <div class="bub b1"></div>
+      <div class="bub b2"></div>
+      <div class="bub b3"></div>
     </div>
   </div>
-</div>
-<div class="tvstand">
-  <div class="tvleg l"></div>
-  <div class="tvleg r"></div>
+  <div class="cloth"></div>
+  <div class="fjar"></div>
 </div>
 
-<!-- TOBY, in profile, back to the pot, face to the TV -->
-<div class="tobyzone">
-  <svg class="fig" viewBox="0 0 100 120">
-    <defs>
-      <linearGradient id="coneGrad" x1="0" y1="1" x2="0" y2="0">
-        <stop offset="0" stop-color="rgba(254,202,202,.4)"/>
-        <stop offset="1" stop-color="rgba(254,202,202,0)"/>
-      </linearGradient>
-      <radialGradient id="phoneGlowG">
-        <stop offset="0" stop-color="rgba(254,202,202,.55)"/>
-        <stop offset="1" stop-color="rgba(254,202,202,0)"/>
-      </radialGradient>
-      <clipPath id="scr"><rect x="47.5" y="44.5" width="11" height="23" rx="1.2"/></clipPath>
-    </defs>
-
+<!-- CLARA, kneading behind the counter -->
+<div class="clarazone">
+  <svg class="fig" viewBox="0 0 100 170">
     <g class="breathe">
-      <!-- far arm resting on his thigh -->
-      <path class="limb" d="M44 62 Q50 76 60 84"/>
-      <circle class="body" cx="61" cy="85" r="4"/>
-      <!-- far leg -->
-      <path class="limb" d="M50 92 Q62 86 72 92"/>
-      <path class="limb" d="M72 92 Q74 102 72 110"/>
-      <ellipse class="body" cx="75" cy="111" rx="6.5" ry="2.6"/>
-      <!-- torso, sunk back into the couch -->
-      <path class="body" d="M37 95 L36 74 Q34 54 50 50 L62 51 Q68 62 66 82 L64 95 Z"/>
-      <!-- near leg -->
-      <path class="limb" d="M52 92 Q68 88 82 93"/>
-      <path class="limb" d="M82 93 Q84 104 82 117"/>
-      <ellipse class="body" cx="85" cy="118" rx="7" ry="2.8"/>
-      <!-- head: down at the phone, up at the TV -->
+      <path class="body" d="M33 60 Q35 46 50 44 L65 46 Q67 52 67 60 L69 170 L31 170 Z"/>
+      <path class="apron" d="M41 64 L59 64 L63 170 L37 170 Z"/>
       <g class="headg">
-        <circle class="body" cx="58" cy="30" r="13"/>
-        <path class="body" d="M69 27 Q74 30 70 34 Q67 32 69 27 Z"/>
-        <path class="body" d="M45 34 Q42 15 58 14 Q71 15 70 27 Q64 20 57 20 Q49 20 45 34 Z"/>
+        <circle class="body" cx="61" cy="12" r="6"/>
+        <circle class="body" cx="50" cy="24" r="12"/>
+        <path class="body" d="M38 26 Q37 10 50 9 Q63 10 62 26 Q57 18 50 18 Q43 18 38 26 Z"/>
       </g>
-      <!-- the phone, in his lap, work chat flying -->
-      <g class="pharm">
-        <path class="limb" d="M56 58 Q68 62 66 76"/>
-        <path class="limb" d="M66 76 Q60 72 53 68"/>
-        <circle class="body" cx="53" cy="68" r="4"/>
-        <circle class="pglow" cx="52.5" cy="55" r="22" fill="url(#phoneGlowG)"/>
-        <polygon class="pglow" points="46,44 60,44 66,24 48,24" fill="url(#coneGrad)"/>
-        <g transform="rotate(-4 53 56)">
-          <rect x="45.5" y="42" width="15" height="28" rx="2" fill="#0d0810" stroke="rgba(252,165,165,.85)" stroke-width="1"/>
-          <rect x="47.5" y="44.5" width="11" height="23" rx="1.2" fill="#0b0712"/>
-          <g clip-path="url(#scr)">
-            <g class="chat">
-              <rect x="48.5" y="46" width="9" height="4" rx="1.2" fill="rgba(252,165,165,.2)" stroke="rgba(252,165,165,.5)" stroke-width=".5"/>
-              <rect x="51" y="53" width="7.5" height="3" rx="1.2" fill="rgba(248,113,113,.25)" stroke="rgba(252,165,165,.45)" stroke-width=".5"/>
-              <rect x="48.5" y="60" width="9" height="4" rx="1.2" fill="rgba(252,165,165,.2)" stroke="rgba(252,165,165,.5)" stroke-width=".5"/>
-              <rect x="51" y="67" width="7.5" height="3" rx="1.2" fill="rgba(248,113,113,.25)" stroke="rgba(252,165,165,.45)" stroke-width=".5"/>
-              <rect x="48.5" y="74" width="9" height="4" rx="1.2" fill="rgba(252,165,165,.2)" stroke="rgba(252,165,165,.5)" stroke-width=".5"/>
-              <rect x="51" y="81" width="7.5" height="3" rx="1.2" fill="rgba(248,113,113,.25)" stroke="rgba(252,165,165,.45)" stroke-width=".5"/>
-              <rect x="48.5" y="88" width="9" height="4" rx="1.2" fill="rgba(252,165,165,.2)" stroke="rgba(252,165,165,.5)" stroke-width=".5"/>
-              <rect x="51" y="95" width="7.5" height="3" rx="1.2" fill="rgba(248,113,113,.25)" stroke="rgba(252,165,165,.45)" stroke-width=".5"/>
-              <rect x="48.5" y="102" width="9" height="4" rx="1.2" fill="rgba(252,165,165,.2)" stroke="rgba(252,165,165,.5)" stroke-width=".5"/>
-              <rect x="51" y="109" width="7.5" height="3" rx="1.2" fill="rgba(248,113,113,.25)" stroke="rgba(252,165,165,.45)" stroke-width=".5"/>
-              <rect x="48.5" y="116" width="9" height="4" rx="1.2" fill="rgba(252,165,165,.2)" stroke="rgba(252,165,165,.5)" stroke-width=".5"/>
-              <rect x="51" y="123" width="7.5" height="3" rx="1.2" fill="rgba(248,113,113,.25)" stroke="rgba(252,165,165,.45)" stroke-width=".5"/>
-              <rect x="48.5" y="130" width="9" height="4" rx="1.2" fill="rgba(252,165,165,.2)" stroke="rgba(252,165,165,.5)" stroke-width=".5"/>
-              <rect x="51" y="137" width="7.5" height="3" rx="1.2" fill="rgba(248,113,113,.25)" stroke="rgba(252,165,165,.45)" stroke-width=".5"/>
-              <rect x="48.5" y="144" width="9" height="4" rx="1.2" fill="rgba(252,165,165,.2)" stroke="rgba(252,165,165,.5)" stroke-width=".5"/>
-              <rect x="51" y="151" width="7.5" height="3" rx="1.2" fill="rgba(248,113,113,.25)" stroke="rgba(252,165,165,.45)" stroke-width=".5"/>
-            </g>
-          </g>
-          <!-- cracked screen he never fixed -->
-          <polyline points="48,46 53,50 51,55 56,60 54,65" fill="none" stroke="#050308" stroke-width=".9"/>
-          <circle class="typing" cx="50" cy="65.5" r="1"/>
-          <circle class="typing" cx="53" cy="65.5" r="1" style="animation-delay:.2s"/>
-          <circle class="typing" cx="56" cy="65.5" r="1" style="animation-delay:.4s"/>
-        </g>
+      <g class="arms">
+        <path class="limb" d="M40 54 Q33 80 39 104 Q43 118 41 126"/>
+        <path class="limb" d="M60 54 Q67 80 61 104 Q57 118 59 126"/>
+        <circle class="body" cx="41" cy="128" r="4.5"/>
+        <circle class="body" cx="59" cy="128" r="4.5"/>
+      </g>
+      <g class="doughg">
+        <rect class="dough" x="31" y="132" width="38" height="18" rx="9"/>
+        <circle class="fl" cx="42" cy="137" r="1"/>
+        <circle class="fl" cx="55" cy="141" r=".8"/>
       </g>
     </g>
   </svg>
 </div>
 
-<!-- the couch, between his back and the kitchen -->
-<div class="couch">
-  <div class="cback"></div>
-  <div class="cseat"></div>
-  <div class="carmR"></div>
-  <div class="cleg l"></div>
-  <div class="cleg r"></div>
+<!-- counter, in front of her -->
+<div class="cface">
+  <div class="oven">
+    <div class="ohandle"></div>
+    <div class="oglass">
+      <div class="bd b1"></div>
+      <div class="bd b2"></div>
+    </div>
+  </div>
+  <div class="dline"></div>
+  <div class="dline d2"></div>
+  <div class="okn o1"></div>
+  <div class="okn o2"></div>
+</div>
+<div class="slab"></div>
+
+<!-- phone face-down, dark -->
+<div class="ph"></div>
+
+<!-- the loaves -->
+<div class="rack">
+  <div class="loaf1"></div>
+  <div class="loaf2"></div>
+  <div class="rrail"></div>
+  <div class="rrail r2"></div>
+  <div class="rleg l"></div>
+  <div class="rleg r"></div>
 </div>
 
-<!-- coffee table in front of him -->
-<div class="table">
-  <div class="msteam"></div>
-  <div class="mug"></div>
-  <div class="remote"></div>
-  <div class="ttop"></div>
-  <div class="tleg l"></div>
-  <div class="tleg r"></div>
-</div>
+<div class="steam ls1"></div>
+<div class="steam ls2"></div>
+<div class="steam ls3"></div>
 
-<!-- the fallout on the floor -->
-<div class="fbox"></div>
-<div class="shard s1"></div>
-<div class="shard s2"></div>
-
-<div class="steam ps1"></div>
-<div class="steam ps2"></div>
-<div class="steam ps3"></div>
-<div class="steam ps4"></div>
-<div class="steam ps5"></div>
-
-<div class="tvwash"></div>
 <div class="dust">
   <span class="p p1"></span><span class="p p2"></span><span class="p p3"></span>
   <span class="p p4"></span><span class="p p5"></span><span class="p p6"></span>
