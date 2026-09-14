@@ -3,403 +3,566 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Clara — The Checklist | Recalibrate</title>
+<title>Recalibrate — The Truth</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root{
+  --day:#f5ead0;
+  --day-bright:#fffaf0;
+  --day-dim:#b8ab8f;
+  --vio:#a78bfa;
+  --red:#f87171;
   --ice:#cfe4f7;
-  --ice-bright:#f2f8ff;
-  --ice-mid:#a9c6e2;
-  --ice-deep:#43648a;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;overflow:hidden}
-body{background:#04070d;font-family:'Outfit',sans-serif}
+body{background:#040301;font-family:'Outfit',sans-serif}
 .scene{position:absolute;inset:0;transform-origin:50% 55%;animation:sceneDrift 16s ease-in-out infinite}
-@keyframes sceneDrift{0%,100%{transform:scale(1)}50%{transform:scale(1.014)}}
+@keyframes sceneDrift{0%,100%{transform:scale(1)}50%{transform:scale(1.013)}}
 
 /* ============ ROOM ============ */
-.wall{position:absolute;top:0;left:0;right:0;height:62%;z-index:0;
-  background-color:#0b1220;
+.wall{position:absolute;top:0;left:0;right:0;height:72%;z-index:0;
+  background-color:#1a120a;
   background-image:
-    radial-gradient(ellipse 70% 60% at 50% 26%, rgba(169,198,226,.14), transparent 75%),
-    repeating-linear-gradient(90deg, rgba(169,198,226,.055) 0 1px, transparent 1px 7vmin);
-  box-shadow:inset 0 -6vmin 10vmin rgba(0,0,0,.45)}
-.floor{position:absolute;left:0;right:0;bottom:0;height:38%;z-index:0;
+    radial-gradient(ellipse 70% 60% at 50% 30%, rgba(245,234,208,.06), transparent 75%),
+    linear-gradient(rgba(245,234,208,.04) 1px, transparent 1px);
+  background-size:100% 100%,7vmin 7vmin;
+  box-shadow:inset 0 -6vmin 10vmin rgba(0,0,0,.5)}
+.floor{position:absolute;left:0;right:0;bottom:0;height:28%;z-index:0;
   background:
-    radial-gradient(ellipse 65% 95% at 50% 16%, rgba(122,162,200,.18), transparent 72%),
-    repeating-linear-gradient(to bottom, rgba(169,198,226,.06) 0 1px, transparent 1px 4.2vmin),
-    linear-gradient(#101a2a,#060b14)}
-.beam{position:absolute;left:2%;top:3%;width:15vmin;height:88vmin;z-index:1;
-  transform-origin:10% 6%;pointer-events:none;
-  background:linear-gradient(90deg, transparent, rgba(220,236,250,.15) 45%, rgba(220,236,250,.09) 60%, transparent);
-  filter:blur(.6vmin);
-  animation:beamSway 26s ease-in-out infinite}
-@keyframes beamSway{0%,100%{transform:rotate(37deg)}50%{transform:rotate(41deg)}}
+    radial-gradient(ellipse 60% 90% at 40% 14%, rgba(245,234,208,.07), transparent 70%),
+    repeating-linear-gradient(to bottom, rgba(245,234,208,.05) 0 1px, transparent 1px 4.4vmin),
+    linear-gradient(#1c130a,#0a0603)}
+.baseboard{position:absolute;left:0;right:0;top:calc(72% - 2vmin);height:2vmin;z-index:1;
+  background:linear-gradient(#332413,#0d0805);box-shadow:0 1vmin 2vmin rgba(0,0,0,.6)}
 .glow{position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:radial-gradient(ellipse 58% 48% at 50% 58%, rgba(122,162,200,.2), transparent 72%);
+  background:radial-gradient(ellipse 60% 45% at 50% 40%, rgba(255,240,200,.09), transparent 72%);
   animation:roomGlow 9s ease-in-out infinite}
 @keyframes roomGlow{0%,100%{opacity:.75}50%{opacity:1}}
 
+.kglow{position:absolute;left:14%;top:26%;width:36vmin;height:34vmin;z-index:1;pointer-events:none;
+  border-radius:50%;filter:blur(3vmin);
+  background:radial-gradient(ellipse, rgba(248,113,113,.16), transparent 70%);
+  animation:kglowB 7s ease-in-out infinite}
+@keyframes kglowB{0%,100%{opacity:.7}50%{opacity:1}}
+.ladglow{position:absolute;left:38%;top:5%;width:32vmin;height:28vmin;z-index:1;pointer-events:none;
+  border-radius:50%;filter:blur(3vmin);
+  background:radial-gradient(ellipse, rgba(167,139,250,.15), transparent 70%);
+  animation:ladglowB 9s ease-in-out infinite}
+@keyframes ladglowB{0%,100%{opacity:.7}50%{opacity:1}}
+.sglow{position:absolute;left:64%;top:8%;width:34vmin;height:32vmin;z-index:1;pointer-events:none;
+  border-radius:50%;filter:blur(3vmin);
+  background:radial-gradient(ellipse, rgba(207,228,247,.14), transparent 70%);
+  animation:sglowB 8s ease-in-out infinite}
+@keyframes sglowB{0%,100%{opacity:.7}50%{opacity:1}}
+
 /* ============ NAME ============ */
 .name{position:absolute;top:4.5%;left:50%;transform:translateX(-50%);z-index:2;
-  font-weight:900;font-size:clamp(3rem,15vmin,10.5rem);letter-spacing:.08em;white-space:nowrap;
-  color:#d8e9fa;
+  font-weight:900;font-size:clamp(2rem,9.5vmin,7rem);letter-spacing:.05em;white-space:nowrap;
+  color:var(--day);
   animation:namePulse 6s ease-in-out infinite}
 @keyframes namePulse{
-  0%,100%{text-shadow:0 0 18px rgba(169,198,226,.95),0 0 60px rgba(122,162,200,.6),0 0 130px rgba(67,100,138,.4)}
-  50%{text-shadow:0 0 28px rgba(220,236,250,1),0 0 90px rgba(169,198,226,.9),0 0 160px rgba(122,162,200,.55)}}
+  0%,100%{text-shadow:0 0 16px rgba(245,234,208,.8),0 0 50px rgba(200,170,110,.4)}
+  50%{text-shadow:0 0 26px rgba(255,250,240,1),0 0 80px rgba(220,190,130,.6)}}
 
-/* ============ WINDOW: snow falling, moon ============ */
-.win{position:absolute;left:4%;top:10%;width:15vmin;height:18vmin;z-index:1;
-  border:1vmin solid #2b3f57;border-radius:.8vmin;
-  background:linear-gradient(#16263c,#24405c 55%,#3d6288);
-  overflow:hidden;
-  box-shadow:0 0 24px rgba(169,198,226,.4), inset 0 0 10vmin rgba(0,0,0,.45)}
-.moon{position:absolute;left:2.4vmin;top:2vmin;width:3vmin;height:3vmin;border-radius:50%;
-  background:radial-gradient(circle at 38% 32%, #ffffff, #e8f2fc 50%, #a9c6e2);
-  box-shadow:0 0 16px rgba(242,248,255,.95),0 0 34px rgba(169,198,226,.6);
-  animation:moonGlow 9s ease-in-out infinite}
-@keyframes moonGlow{0%,100%{opacity:.75}50%{opacity:1}}
-.star{position:absolute;width:.5vmin;height:.5vmin;border-radius:50%;background:#f2f8ff;
-  box-shadow:0 0 5px rgba(242,248,255,.9);
-  animation:twinkle 4s ease-in-out infinite}
-.star.s1{left:8.5vmin;top:3vmin}
-.star.s2{left:11vmin;top:6vmin;animation-delay:-2s}
-.star.s3{left:6.5vmin;top:7.5vmin;animation-delay:-1s}
-@keyframes twinkle{0%,100%{opacity:.2}50%{opacity:1}}
-.hill{position:absolute;bottom:-1.5vmin;border-radius:50%;background:#0c1626}
-.hill.h1{left:-3vmin;width:11vmin;height:5.5vmin}
-.hill.h2{right:-4vmin;width:12vmin;height:6.5vmin;background:#0a1322}
-.flk{position:absolute;opacity:.8;
-  animation:flakeFall linear infinite}
-.fd{width:.8vmin;height:.8vmin;border-radius:50%;background:#f2f8ff;
-  box-shadow:0 0 6px rgba(242,248,255,.8);
-  animation:flakeDrift 3s ease-in-out infinite alternate}
-.flk.f1{left:2vmin;top:1vmin;animation-duration:9s}
-.flk.f2{left:5vmin;top:5vmin;animation-duration:12s;animation-delay:-4s}
-.flk.f3{left:8.5vmin;top:2.5vmin;animation-duration:10s;animation-delay:-7s}
-.flk.f4{left:11.5vmin;top:6vmin;animation-duration:13s;animation-delay:-2s}
-.flk.f5{left:4vmin;top:10vmin;animation-duration:11s;animation-delay:-9s}
-.flk.f6{left:10vmin;top:12vmin;animation-duration:14s;animation-delay:-6s}
-.flk.f6 .fd{width:.6vmin;height:.6vmin}
-.flk.f1 .fd{width:1vmin;height:1vmin}
-@keyframes flakeFall{
-  0%{transform:translateY(0);opacity:.8}
-  85%{opacity:.8}
-  100%{transform:translateY(21vmin);opacity:0}}
-@keyframes flakeDrift{from{transform:translateX(-1.3vmin)}to{transform:translateX(1.3vmin)}}
-.wglow{position:absolute;inset:0;
-  background:radial-gradient(circle at 50% 24%, rgba(220,236,250,.22), transparent 72%);
-  animation:breath 8s ease-in-out infinite}
-@keyframes breath{0%,100%{opacity:.6}50%{opacity:1}}
-.wbarV{position:absolute;left:calc(50% - .4vmin);top:0;bottom:0;width:.8vmin;background:#2b3f57}
-.wbarH{position:absolute;top:calc(50% - .4vmin);left:0;right:0;height:.8vmin;background:#2b3f57}
-.floorlight{position:absolute;left:10%;bottom:24%;width:26vmin;height:9vmin;z-index:1;
+/* ============ FRONT DOOR + GUEST (the fresh nose, reacting) ============ */
+.dz{position:absolute;left:1.5%;top:20%;width:15vmin;height:92.5vmin;z-index:4}
+.lintelD{position:absolute;left:-1vmin;right:-1vmin;top:0;height:3vmin;border-radius:.5vmin;
+  background:linear-gradient(#6b4726,#3a2411);
+  border:2px solid rgba(245,234,208,.3);
+  box-shadow:0 5px 12px rgba(0,0,0,.6)}
+.jambD{position:absolute;top:2.5vmin;bottom:0;width:2.6vmin;
+  background:linear-gradient(90deg,#5c3d1e,#38220e);
+  border:2px solid rgba(245,234,208,.25)}
+.jambD.l{left:0;border-radius:0 0 .4vmin .4vmin}
+.jambD.r{right:0;background:linear-gradient(270deg,#5c3d1e,#38220e)}
+.dopen{position:absolute;left:2.6vmin;right:2.6vmin;top:2.5vmin;bottom:0;overflow:hidden;
+  background:linear-gradient(#ffefc2,#f0c586 60%,#c99b52);
+  box-shadow:0 0 34px rgba(255,220,150,.4)}
+.dsun{position:absolute;left:calc(50% - 2vmin);top:20%;width:4vmin;height:4vmin;border-radius:50%;
+  background:radial-gradient(circle at 40% 35%, #fffdf5, #ffe9b0 60%, rgba(255,220,150,0));
+  box-shadow:0 0 20px rgba(255,248,220,.9),0 0 48px rgba(255,220,150,.5)}
+.dhor{position:absolute;left:0;right:0;bottom:0;height:6vmin;
+  background:linear-gradient(transparent, rgba(90,60,20,.5))}
+.doorpD{position:absolute;left:7.5vmin;top:-1.5vmin;width:9.5vmin;height:95vmin;
+  transform-origin:right center;transform:rotate(9deg);
+  background:linear-gradient(90deg,#5c3d1e 0 8%,#4a2f14 8% 45%,#5c3d1e 45% 55%,#4a2f14 55% 92%,#5c3d1e 92%);
+  border:2px solid rgba(245,234,208,.3);border-radius:.6vmin;
+  box-shadow:8px 10px 26px rgba(0,0,0,.65), inset 0 0 10px rgba(0,0,0,.4);
+  animation:doorSway 9s ease-in-out infinite}
+@keyframes doorSway{0%,100%{transform:rotate(8.2deg)}50%{transform:rotate(10deg)}}
+.doorpD::before{content:"";position:absolute;left:1.2vmin;right:1.2vmin;top:3vmin;height:26vmin;
+  border-radius:.5vmin;border:2px solid rgba(0,0,0,.3);
+  box-shadow:inset 0 0 8px rgba(0,0,0,.35)}
+.doorpD::after{content:"";position:absolute;left:1.2vmin;right:1.2vmin;bottom:5vmin;height:28vmin;
+  border-radius:.5vmin;border:2px solid rgba(0,0,0,.3);
+  box-shadow:inset 0 0 8px rgba(0,0,0,.35)}
+.knobD{position:absolute;left:.5vmin;top:43vmin;width:1.4vmin;height:1.4vmin;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%, #f5ead0, #8a6a30);
+  box-shadow:0 0 8px rgba(245,234,208,.5)}
+/* the guest: recoiling, hand over nose, fanning the air */
+.gz{position:absolute;left:1.6vmin;bottom:.3vmin;width:11.5vmin;height:29.9vmin;z-index:3}
+.gfig{position:absolute;inset:0;width:100%;height:100%;
+  filter:drop-shadow(0 0 9px rgba(255,235,190,.4))}
+.gfig .body{fill:#0b0603;stroke:rgba(255,242,214,.45);stroke-width:1.2}
+.gfig .limb{fill:none;stroke:#0b0603;stroke-width:9;stroke-linecap:round}
+.gbreathe{transform-box:fill-box;transform-origin:50% 100%;
+  animation:gbreatheT 4.8s ease-in-out infinite}
+@keyframes gbreatheT{0%,100%{transform:translateY(0)}50%{transform:translateY(1.1)}}
+.grecoil{transform-box:fill-box;transform-origin:50% 100%;
+  animation:grecoilS 2.8s ease-in-out infinite alternate}
+@keyframes grecoilS{from{transform:rotate(-2.5deg)}to{transform:rotate(.5deg)}}
+.fanarm{transform-box:fill-box;transform-origin:12% 18%;
+  animation:fanWave 1.2s ease-in-out infinite alternate}
+@keyframes fanWave{from{transform:rotate(-6deg)}to{transform:rotate(13deg)}}
+.duffle{position:absolute;left:-1.2vmin;bottom:0;width:6vmin;height:3.6vmin;border-radius:.9vmin;
+  background:linear-gradient(160deg,#4a3318,#241606);
+  border:2px solid rgba(245,234,208,.35);
+  box-shadow:0 4px 10px rgba(0,0,0,.6), inset 0 0 6px rgba(0,0,0,.4)}
+.duffle::before{content:"";position:absolute;left:1.2vmin;top:-1.3vmin;width:3.2vmin;height:1.5vmin;
+  border:.5vmin solid rgba(245,234,208,.5);border-bottom:none;border-radius:1vmin 1vmin 0 0}
+
+/* light into the room */
+.shaft{position:absolute;left:1%;bottom:5%;width:50vmin;height:15vmin;z-index:1;pointer-events:none;
+  clip-path:polygon(0 100%, 20% 0, 100% 28%, 84% 100%);
+  background:linear-gradient(115deg, rgba(255,246,220,.26), rgba(255,225,160,.11) 60%, transparent);
+  filter:blur(1.2vmin);
+  animation:shaftBreathe 8s ease-in-out infinite}
+@keyframes shaftBreathe{0%,100%{opacity:.6}50%{opacity:1}}
+.poolD{position:absolute;left:4%;bottom:9%;width:24vmin;height:8vmin;z-index:1;
   border-radius:50%;filter:blur(2.4vmin);
-  background:radial-gradient(ellipse, rgba(220,236,250,.22), transparent 70%);
+  background:radial-gradient(ellipse, rgba(255,240,200,.22), transparent 70%);
   animation:poolDrift 18s ease-in-out infinite}
-@keyframes poolDrift{0%,100%{transform:translateX(-3vmin);opacity:.75}50%{transform:translateX(3vmin);opacity:1}}
+@keyframes poolDrift{0%,100%{transform:translateX(-2vmin);opacity:.75}50%{transform:translateX(2vmin);opacity:1}}
+.motes{position:absolute;left:3%;top:56%;width:32vmin;height:22vmin;z-index:5;pointer-events:none}
+.mo{position:absolute;border-radius:50%;background:var(--day-bright);
+  box-shadow:0 0 8px rgba(255,248,220,.95);opacity:.7;
+  animation:moteFloat linear infinite}
+.mo.m1{left:8%;top:20%;width:4px;height:4px;animation-duration:17s;animation-delay:-3s}
+.mo.m2{left:22%;top:40%;width:5px;height:5px;animation-duration:21s;animation-delay:-11s}
+.mo.m3{left:36%;top:12%;width:3px;height:3px;animation-duration:15s;animation-delay:-7s}
+.mo.m4{left:52%;top:55%;width:4px;height:4px;animation-duration:19s;animation-delay:-14s}
+.mo.m5{left:64%;top:30%;width:5px;height:5px;animation-duration:23s;animation-delay:-5s}
+.mo.m6{left:44%;top:70%;width:3px;height:3px;animation-duration:16s;animation-delay:-9s}
+@keyframes moteFloat{
+  0%{transform:translateY(0) translateX(0);opacity:0}
+  15%{opacity:.7}
+  85%{opacity:.5}
+  100%{transform:translateY(-24vmin) translateX(-3vmin);opacity:0}}
 
-/* ============ CLOCK (time moves — the list doesn't) ============ */
-.clock{position:absolute;left:22.5%;top:13%;width:6.5vmin;height:6.5vmin;z-index:2;border-radius:50%;
-  background:radial-gradient(circle at 38% 32%, #22344c, #101a28 65%);
-  border:2px solid rgba(169,198,226,.55);
-  box-shadow:0 0 14px rgba(122,162,200,.45)}
-.cticks{position:absolute;inset:0;border-radius:50%;
-  background:repeating-conic-gradient(rgba(169,198,226,.65) 0 1.2deg, transparent 1.2deg 30deg);
-  -webkit-mask:radial-gradient(circle, transparent 0 78%, #000 80% 96%, transparent 98%);
-  mask:radial-gradient(circle, transparent 0 78%, #000 80% 96%, transparent 98%)}
-.mh{position:absolute;left:calc(50% - .15vmin);bottom:50%;width:.3vmin;height:2.5vmin;border-radius:.15vmin;
-  background:#f2f8ff;box-shadow:0 0 6px rgba(220,236,250,.9);
-  transform-origin:center bottom;animation:handSpin 20s linear infinite}
-.hh{position:absolute;left:calc(50% - .18vmin);bottom:50%;width:.36vmin;height:1.6vmin;border-radius:.18vmin;
-  background:var(--ice-mid);box-shadow:0 0 6px rgba(169,198,226,.9);
-  transform-origin:center bottom;animation:handSpin 100s linear infinite}
-.cdot{position:absolute;left:50%;top:50%;width:1vmin;height:1vmin;border-radius:50%;
-  transform:translate(-50%,-50%);
-  background:radial-gradient(circle at 35% 35%, #f2f8ff, #43648a);box-shadow:0 0 6px rgba(220,236,250,.9)}
-@keyframes handSpin{to{transform:rotate(360deg)}}
+/* ============ KITCHEN — Toby's room (untouched) ============ */
+.backsplash{position:absolute;left:20%;top:34%;width:25vmin;height:28vmin;z-index:1;
+  background-color:#1c0a10;
+  background-image:
+    linear-gradient(rgba(252,165,165,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(252,165,165,.08) 1px, transparent 1px);
+  background-size:2.6vmin 2.6vmin}
+.counter{position:absolute;left:19%;top:49.4%;width:27vmin;height:4.5vmin;z-index:1;border-radius:.6vmin;
+  background:linear-gradient(#4a232f,#2a121c 70%,#1e0c14);
+  border:2px solid rgba(252,165,165,.5);
+  box-shadow:0 8px 16px rgba(0,0,0,.55), 0 0 20px rgba(239,68,68,.22), inset 0 .5vmin 1vmin rgba(254,202,202,.28)}
+.cabinet{position:absolute;left:19%;top:54%;width:27vmin;height:32vmin;z-index:1;
+  background:linear-gradient(#2e141d,#1a090f);
+  border:2px solid rgba(252,165,165,.28);
+  box-shadow:inset 0 0 12vmin rgba(0,0,0,.4)}
+.knobs{position:absolute;left:0;top:1.2vmin;width:100%;height:4vmin}
+.knob{position:absolute;top:.4vmin;width:3vmin;height:3vmin;border-radius:50%;
+  background:radial-gradient(circle at 40% 35%, #4a2330, #22090f 70%);
+  border:2px solid rgba(252,165,165,.6);
+  box-shadow:0 0 10px rgba(248,113,113,.4)}
+.knob::before{content:"";position:absolute;left:calc(50% - .85vmin);top:calc(50% - .85vmin);
+  width:1.7vmin;height:1.7vmin;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%, #fecaca, #b4434f)}
+.knob::after{content:"";position:absolute;left:calc(50% - .14vmin);top:.14vmin;
+  width:.28vmin;height:1vmin;border-radius:.14vmin;
+  background:#fecaca;box-shadow:0 0 5px rgba(254,202,202,.9)}
+.kn1{left:2.5vmin;transform:rotate(40deg)}
+.kn2{left:8.5vmin;transform:rotate(-15deg)}
+.kn3{left:14.5vmin;transform:rotate(70deg)}
+.kn4{left:20.5vmin;animation:turn 40s linear infinite}
+@keyframes turn{to{transform:rotate(360deg)}}
 
-/* ============ THE LIST (hero) — frozen on the wall ============ */
-.listzone{position:absolute;left:33%;top:14%;width:34vmin;height:30vmin;z-index:2}
-.lframe{position:absolute;inset:0;border-radius:1vmin;
+.potz{position:absolute;left:23%;top:41%;width:14vmin;height:15vmin;z-index:2}
+.burnglow{position:absolute;left:2%;right:2%;bottom:-3.2vmin;height:2.4vmin;border-radius:50%;
+  background:radial-gradient(ellipse, rgba(255,120,80,.55), transparent 70%);
+  filter:blur(.6vmin);
+  animation:burnPulse 2s ease-in-out infinite}
+@keyframes burnPulse{0%,100%{opacity:.6}50%{opacity:1}}
+.flame{position:absolute;left:12%;right:12%;bottom:-2.6vmin;height:3vmin;
+  border-radius:50% 50% 0 0 / 70% 70% 0 0;
+  background:linear-gradient(to top, rgba(255,110,70,.95), rgba(255,170,140,.3));
+  filter:blur(.35vmin);
+  transform-origin:bottom center;
+  animation:flameFlick .28s ease-in-out infinite alternate}
+.flame.f2{left:30%;right:34%;height:3.8vmin;bottom:-3vmin;
+  animation-duration:.22s}
+@keyframes flameFlick{
+  from{transform:scaleY(.82) scaleX(1.08);opacity:.8}
+  to{transform:scaleY(1.18) scaleX(.92);opacity:1}}
+.potbody{position:absolute;bottom:0;left:0;right:0;height:10vmin;
+  border-radius:1vmin 1vmin 1.6vmin 1.6vmin;
+  background:linear-gradient(150deg,#4a222c,#210a10 70%);
+  border:2px solid rgba(252,165,165,.55);
+  box-shadow:inset 0 1vmin 2vmin rgba(0,0,0,.5), 0 0 22px rgba(239,68,68,.4)}
+.phandle{position:absolute;bottom:6.5vmin;width:2.6vmin;height:1.1vmin;border-radius:.55vmin;
+  background:#3a1a22;border:1.5px solid rgba(252,165,165,.45)}
+.phandle.l{left:-2.1vmin}
+.phandle.r{right:-2.1vmin}
+.rimglow{position:absolute;bottom:9.4vmin;left:3%;right:3%;height:.6vmin;border-radius:.3vmin;
+  background:linear-gradient(90deg, transparent, #fecaca 30%, #fff 50%, #fecaca 70%, transparent);
+  box-shadow:0 0 10px rgba(254,202,202,.85);
+  animation:rimGlow 1.2s ease-in-out infinite}
+@keyframes rimGlow{0%,100%{opacity:.55}50%{opacity:1}}
+.lid{position:absolute;top:.3vmin;left:4%;right:4%;height:3.2vmin;
+  border-radius:1.6vmin 1.6vmin .7vmin .7vmin;
+  background:linear-gradient(#552835,#26090f);
+  border:2px solid rgba(252,165,165,.6);
+  box-shadow:0 0 14px rgba(248,113,113,.4);
+  animation:lidRattle .14s linear infinite alternate}
+@keyframes lidRattle{
+  from{transform:translateY(-.45vmin) rotate(.9deg)}
+  to{transform:translateY(.12vmin) rotate(-.9deg)}}
+.lidknob{position:absolute;left:calc(50% - .9vmin);top:-1.3vmin;width:1.8vmin;height:1.5vmin;border-radius:.7vmin .7vmin .2vmin .2vmin;
+  background:linear-gradient(#5c2c3a,#2a0c14);border:1.5px solid rgba(252,165,165,.55)}
+.steamK{position:absolute;z-index:2;pointer-events:none;filter:blur(1.3vmin);
+  border-radius:50%;opacity:0;
+  animation:steamUp linear infinite}
+.steamK.s1{left:24%;bottom:58%;width:5vmin;height:8vmin;
+  background:radial-gradient(ellipse, rgba(254,202,202,.14), transparent 70%);
+  animation-duration:19s}
+.steamK.s2{left:29%;bottom:59%;width:4.5vmin;height:7vmin;
+  background:radial-gradient(ellipse, rgba(254,202,202,.12), transparent 70%);
+  animation-duration:24s;animation-delay:-11s}
+@keyframes steamUp{
+  0%{transform:translateY(0) translateX(0)}
+  25%{opacity:.8}
+  100%{transform:translateY(-24vmin) translateX(5vmin);opacity:0}}
+.pzs{position:absolute;left:37.5%;top:44.5%;width:8vmin;z-index:2}
+.pz{position:relative;width:8vmin;height:2.2vmin;border-radius:.5vmin;margin-bottom:.15vmin;
+  background:linear-gradient(#3a222c,#241218);
+  border:1.5px solid rgba(252,165,165,.35);
+  box-shadow:0 3px 7px rgba(0,0,0,.5)}
+.pz:nth-child(2){transform:rotate(1.8deg);left:.6vmin}
+.pz::after{content:"";position:absolute;left:calc(50% - 1.5vmin);top:calc(50% - .25vmin);
+  width:3vmin;height:.5vmin;border-radius:.25vmin;background:rgba(252,165,165,.25)}
+
+/* ============ LIVING — Amara's room (untouched) ============ */
+.ladclip{position:absolute;left:42%;top:11%;width:24vmin;height:38vmin;z-index:1;overflow:hidden}
+.ladcol{animation:ladUp 30s linear infinite}
+@keyframes ladUp{to{transform:translateY(-50%)}}
+.lset{display:block;padding-left:5.5vmin}
+.lgf{position:relative;width:13vmin;height:9vmin;border-radius:.7vmin;margin-bottom:3vmin;
+  border:2.5px dashed rgba(167,139,250,.6);
+  box-shadow:0 0 10px rgba(139,92,246,.2), inset 0 0 8px rgba(139,92,246,.12)}
+.lgf .bar{position:absolute;left:16%;height:.5vmin;border-radius:.25vmin;background:rgba(196,181,253,.25)}
+.lgf .bar.b1{top:24%;right:16%}
+.lgf .bar.b2{top:40%;right:34%}
+.lgf .bar.b3{top:56%;right:48%}
+.lgf .ring{position:absolute;right:13%;top:20%;width:2.6vmin;height:2.6vmin;border-radius:50%;
+  border:2px dashed rgba(196,181,253,.55)}
+.lgf.done{border:.5vmin solid rgba(167,139,250,.3);
+  box-shadow:0 0 8px rgba(139,92,246,.12)}
+.lgf.done .ring{border:2px solid rgba(167,139,250,.3)}
+.lgf.done .bar{background:rgba(167,139,250,.18)}
+
+.oz{position:absolute;left:47%;top:49.4%;width:15vmin;height:39vmin;z-index:3}
+.ofig{position:absolute;inset:0;width:100%;height:100%;
+  filter:drop-shadow(0 0 9px rgba(167,139,250,.35))}
+.obreathe{transform-box:fill-box;transform-origin:50% 100%;
+  animation:obreatheT 4.6s ease-in-out infinite}
+@keyframes obreatheT{0%,100%{transform:translateY(0)}50%{transform:translateY(1.2)}}
+.ofig .body{fill:#0b0603;stroke:rgba(245,234,208,.3);stroke-width:1.2}
+.ofig .limb{fill:none;stroke:#0b0603;stroke-width:9;stroke-linecap:round}
+.oheadg{transform-box:fill-box;transform-origin:50% 92%;
+  animation:oheadNod 11s ease-in-out infinite}
+@keyframes oheadNod{
+  0%,30%{transform:rotate(7deg)}
+  42%,58%{transform:rotate(-3deg)}
+  70%,100%{transform:rotate(7deg)}}
+.pglow{opacity:.8;animation:phonePulse 5s ease-in-out infinite}
+@keyframes phonePulse{0%,100%{opacity:.45}50%{opacity:.95}}
+.obars{animation:obarsScroll 3.5s linear infinite}
+@keyframes obarsScroll{to{transform:translateY(-84px)}}
+
+.lampz{position:absolute;left:63.5%;top:33%;width:9vmin;height:67vmin;z-index:2}
+.shade2{position:relative;width:9vmin;height:8vmin;
+  clip-path:polygon(18% 0, 82% 0, 100% 100%, 0 100%);
+  background:linear-gradient(#5c2c3a,#2e1219);
+  border-radius:1vmin;
+  box-shadow:0 0 24px rgba(248,113,113,.4)}
+.shade2::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1.3vmin;
+  background:linear-gradient(90deg, transparent, #f5ead0 30%, #fffaf0 50%, #f5ead0 70%, transparent);
+  box-shadow:0 0 16px rgba(255,248,220,.85);
+  animation:lampBreathe 8s ease-in-out infinite}
+@keyframes lampBreathe{0%,100%{opacity:.7}50%{opacity:1}}
+.lpole2{position:relative;margin:0 auto;width:.9vmin;height:52vmin;
+  background:linear-gradient(90deg,#4a2330,#241018 60%)}
+.lbase2{position:relative;margin:0 auto;width:6vmin;height:1.4vmin;border-radius:.7vmin;
+  background:linear-gradient(#3a1a22,#1e0a10)}
+.poolL{position:absolute;left:60%;bottom:12%;width:20vmin;height:7vmin;z-index:1;
+  border-radius:50%;filter:blur(2.4vmin);
+  background:radial-gradient(ellipse, rgba(255,240,200,.2), transparent 70%);
+  animation:poolDrift 18s ease-in-out infinite reverse}
+
+/* ============ STUDY — Clara's room (untouched) ============ */
+.slist{position:absolute;left:70%;top:15%;width:17vmin;height:19vmin;z-index:2}
+.slframe{position:absolute;inset:0;border-radius:1vmin;
   background:linear-gradient(#1a2738,#101a28);
   border:2px solid rgba(169,198,226,.55);
-  box-shadow:0 10px 22px rgba(0,0,0,.55), 0 0 26px rgba(122,162,200,.3), inset 0 0 12px rgba(0,0,0,.5);
-  padding:1.6vmin}
-.sheen{position:absolute;inset:0;border-radius:.6vmin;pointer-events:none;
-  background:linear-gradient(115deg, rgba(242,248,255,.13) 0 18%, transparent 30% 70%, rgba(242,248,255,.08) 92%)}
-.lhead{height:2.5vmin;border-radius:.5vmin;margin-bottom:1vmin;
+  box-shadow:0 8px 18px rgba(0,0,0,.55), 0 0 22px rgba(122,162,200,.28), inset 0 0 12px rgba(0,0,0,.5);
+  padding:1.2vmin}
+.shead{height:2vmin;border-radius:.5vmin;margin-bottom:.8vmin;
   background:linear-gradient(90deg, rgba(169,198,226,.5), rgba(169,198,226,.15));
   box-shadow:0 0 8px rgba(169,198,226,.3)}
-.lrow{display:flex;align-items:center;gap:.8vmin;height:2.7vmin;margin-bottom:.55vmin}
-.lb{height:.55vmin;border-radius:.27vmin}
-.lb.a{width:52%}
-.lb.b{width:28%}
-.lbox{margin-left:auto;width:2.3vmin;height:2.3vmin;border:2px solid;border-radius:.45vmin;position:relative;flex:none}
-.check{position:absolute;left:24%;top:10%;width:1.3vmin;height:.66vmin;
-  border-left:.42vmin solid;border-bottom:.42vmin solid;
+.srow{display:flex;align-items:center;gap:.7vmin;height:1.9vmin;margin-bottom:.35vmin}
+.slb{height:.45vmin;border-radius:.22vmin}
+.slb.a{width:52%}
+.slb.b{width:28%}
+.sbox{margin-left:auto;width:1.9vmin;height:1.9vmin;border:2px solid;border-radius:.4vmin;position:relative;flex:none}
+.scheck{position:absolute;left:24%;top:10%;width:1.1vmin;height:.55vmin;
+  border-left:.36vmin solid;border-bottom:.36vmin solid;
   transform:rotate(-48deg)}
-.lrow.done .lb{background:rgba(169,198,226,.16)}
-.lrow.done .lbox{border-color:rgba(169,198,226,.3)}
-.lrow.done .check{border-color:rgba(169,198,226,.3)}
-.lrow.fresh .lb{background:rgba(169,198,226,.32)}
-.lrow.fresh .lbox{border-color:rgba(220,236,250,.7)}
-.lrow.fresh .check{border-color:#f2f8ff;animation:checkGlow 4s ease-in-out infinite}
+.srow.done .slb{background:rgba(169,198,226,.16)}
+.srow.done .sbox{border-color:rgba(169,198,226,.3)}
+.srow.done .scheck{border-color:rgba(169,198,226,.3)}
+.srow.fresh .slb{background:rgba(169,198,226,.32)}
+.srow.fresh .sbox{border-color:rgba(220,236,250,.7)}
+.srow.fresh .scheck{border-color:#f2f8ff;animation:checkGlow 4s ease-in-out infinite}
 @keyframes checkGlow{
   0%,100%{filter:drop-shadow(0 0 3px rgba(242,248,255,.4))}
   50%{filter:drop-shadow(0 0 10px rgba(242,248,255,1))}}
-.lrow.open .lb{background:rgba(169,198,226,.28)}
-.lrow.open .lbox{border-color:var(--ice-bright);animation:boxPulse 6s ease-in-out infinite}
-.lrow.open.r7 .lbox{animation-delay:-3s}
+.srow.open .slb{background:rgba(169,198,226,.28)}
+.srow.open .sbox{border-color:var(--ice-bright);animation:boxPulse 6s ease-in-out infinite}
+.srow.open.r7 .sbox{animation-delay:-3s}
 @keyframes boxPulse{
-  0%,100%{box-shadow:0 0 5px rgba(242,248,255,.35)}
-  50%{box-shadow:0 0 16px rgba(242,248,255,.95)}}
-/* frost on the frame */
-.fr{position:absolute;border-radius:50%;filter:blur(1vmin);pointer-events:none;
+  0%,100%{box-shadow:0 0 4px rgba(242,248,255,.35)}
+  50%{box-shadow:0 0 14px rgba(242,248,255,.95)}}
+.sfr{position:absolute;border-radius:50%;filter:blur(1vmin);pointer-events:none;
   background:radial-gradient(circle, rgba(242,248,255,.3), transparent 70%)}
-.fr.f1{left:-1.4vmin;top:-1.4vmin;width:7vmin;height:5vmin}
-.fr.f2{right:-1.6vmin;top:30%;width:5.5vmin;height:8vmin}
-.fr.f3{left:22%;bottom:-2vmin;width:9vmin;height:4.5vmin}
-.gl{position:absolute;width:.7vmin;height:.7vmin;border-radius:50%;background:#fff;
-  box-shadow:0 0 8px #fff,0 0 16px rgba(220,236,250,.9);
+.sfr.f1{left:-1.2vmin;top:-1.2vmin;width:6vmin;height:4.5vmin}
+.sfr.f2{right:-1.4vmin;top:30%;width:5vmin;height:7vmin}
+.sgl{position:absolute;width:.6vmin;height:.6vmin;border-radius:50%;background:#fff;
+  box-shadow:0 0 8px #fff,0 0 16px rgba(207,228,247,.9);
   animation:glint 3.2s ease-in-out infinite}
-.gl.g1{left:1vmin;top:1vmin}
-.gl.g2{right:2vmin;top:5vmin;animation-delay:-1.2s}
-.gl.g3{left:38%;bottom:1vmin;animation-delay:-2s}
-.gl.g4{right:31%;top:34%;animation-delay:-.6s}
-@keyframes glint{0%,100%{opacity:.2}50%{opacity:1}}
-/* icicles under the frame */
-.ic{position:absolute;top:100%;background:linear-gradient(rgba(242,248,255,.5), rgba(242,248,255,.03));
+.sgl.gl1{left:.8vmin;top:.8vmin}
+.sgl.gl2{right:1.6vmin;top:4vmin;animation-delay:-1.4s}
+@keyframes glint{0%,100%{opacity:.15}50%{opacity:1}}
+.sic{position:absolute;top:100%;background:linear-gradient(rgba(242,248,255,.5), rgba(242,248,255,.03));
   clip-path:polygon(50% 100%, 0 0, 100% 0);filter:blur(.15vmin)}
-.ic.ic1{left:18%;width:1.5vmin;height:2.8vmin}
-.ic.ic2{left:47%;width:2.2vmin;height:4.3vmin}
-.ic.ic3{left:71%;width:1.3vmin;height:2.4vmin}
-/* pencil on a string, swaying — used once, eight years ago */
-.pencilwrap{position:absolute;right:-2.8vmin;top:34%;width:2vmin;
+.sic.ic1{left:16%;width:1.3vmin;height:2.4vmin}
+.sic.ic2{left:64%;width:1.9vmin;height:3.6vmin}
+.spencil{position:absolute;right:-2.6vmin;top:32%;width:2vmin;
   transform-origin:top center;animation:pSway 5s ease-in-out infinite}
 @keyframes pSway{0%,100%{transform:rotate(4deg)}50%{transform:rotate(-4deg)}}
-.string{width:.18vmin;height:3.4vmin;margin:0 auto;background:rgba(169,198,226,.6)}
-.pencil{width:1.1vmin;height:4.6vmin;margin:0 auto;border-radius:.2vmin;
+.sstring{width:.16vmin;height:3vmin;margin:0 auto;background:rgba(169,198,226,.6)}
+.spencilB{width:1vmin;height:4vmin;margin:0 auto;border-radius:.2vmin;
   background:linear-gradient(90deg,#c9dcf0,#8fb0d0);position:relative}
-.pencil::after{content:"";position:absolute;left:0;bottom:-1.3vmin;width:1.1vmin;height:1.4vmin;
+.spencilB::after{content:"";position:absolute;left:0;bottom:-1.2vmin;width:1vmin;height:1.3vmin;
   clip-path:polygon(50% 100%, 0 0, 100% 0);background:#eef4fb}
 
-/* ============ CALENDAR — months never torn off ============ */
-.calzone{position:absolute;right:4%;top:12%;width:13vmin;height:11vmin;z-index:1}
-.cpg{position:absolute;left:0;width:12.5vmin;height:9vmin;border-radius:.5vmin;
+.calz{position:absolute;left:88.5%;top:17%;width:9vmin;z-index:2}
+.cpg{position:absolute;left:0;width:8.5vmin;height:6.2vmin;border-radius:.5vmin;
   background:linear-gradient(#1c2a3c,#0f1726);
   border:2px solid rgba(169,198,226,.3);
   box-shadow:0 4px 8px rgba(0,0,0,.45)}
 .cpg.p1{bottom:0}
-.cpg.p2{bottom:.7vmin;transform:rotate(-1deg)}
-.cpg.p3{bottom:1.4vmin;transform:rotate(1.2deg)}
-.cpg.p4{bottom:2.1vmin;transform:rotate(-.8deg)}
-.cpg.top{bottom:2.8vmin;transform:rotate(.6deg);
+.cpg.p2{bottom:.6vmin;transform:rotate(-1deg)}
+.cpg.p3{bottom:1.2vmin;transform:rotate(1.1deg)}
+.cpg.p4{bottom:1.8vmin;transform:rotate(-.7deg)}
+.cpg.top{bottom:2.4vmin;transform:rotate(.5deg);
   background-image:
     linear-gradient(rgba(169,198,226,.14) 1px, transparent 1px),
     linear-gradient(90deg, rgba(169,198,226,.14) 1px, transparent 1px);
-  background-size:2.2vmin 2.2vmin;
+  background-size:2vmin 2vmin;
   border-color:rgba(169,198,226,.5)}
-.cmark{position:absolute;left:3.4vmin;top:3.2vmin;width:1.4vmin;height:1.4vmin;border-radius:50%;
+.cmark{position:absolute;left:2.2vmin;top:2.2vmin;width:1.2vmin;height:1.2vmin;border-radius:50%;
   background:radial-gradient(circle at 35% 35%, #f2f8ff, #7c9cc0);
   box-shadow:0 0 8px rgba(220,236,250,.7)}
-.curl{position:absolute;right:0;bottom:0;width:3vmin;height:3vmin;
+.curl{position:absolute;right:0;bottom:0;width:2.6vmin;height:2.6vmin;
   clip-path:polygon(100% 0, 0 100%, 100% 100%);
   background:linear-gradient(135deg, rgba(242,248,255,.28), rgba(169,198,226,.08));
   transform-origin:top left;animation:curlFlut 4.5s ease-in-out infinite}
-@keyframes curlFlut{0%,100%{transform:rotate(-1deg)}50%{transform:rotate(13deg)}}
+@keyframes curlFlut{0%,100%{transform:rotate(-1deg)}50%{transform:rotate(12deg)}}
 
-/* ============ SHELF: the living starter ============ */
-.shelfzone{position:absolute;right:4%;top:25.5%;width:15vmin;z-index:1}
-.sboard{position:relative;height:1.2vmin;border-radius:.4vmin;
-  background:linear-gradient(#33465f,#1a2738);
-  border:1.5px solid rgba(169,198,226,.4);
-  box-shadow:0 4px 10px rgba(0,0,0,.5)}
-.sbr{position:absolute;right:1.5vmin;top:1.1vmin;width:1.2vmin;height:2.2vmin;
-  background:#22344c;border-radius:.2vmin}
-.jar{position:absolute;bottom:1.1vmin;left:1vmin;width:4.6vmin;height:6.5vmin;border-radius:.8vmin .8vmin 1.2vmin 1.2vmin;
-  background:linear-gradient(105deg, rgba(220,236,250,.16), rgba(220,236,250,.04) 45%, rgba(242,248,255,.14) 50%, rgba(220,236,250,.05));
-  border:2px solid rgba(169,198,226,.5);
-  box-shadow:0 0 14px rgba(122,162,200,.3), inset 0 0 8px rgba(0,0,0,.4);
-  overflow:hidden}
-.liq{position:absolute;left:0;right:0;bottom:0;height:62%;
-  background:linear-gradient(to top, rgba(169,198,226,.4), rgba(169,198,226,.12))}
-.bub{position:absolute;width:.55vmin;height:.55vmin;border-radius:50%;
-  background:#f2f8ff;box-shadow:0 0 5px rgba(242,248,255,.9);opacity:.9;
-  animation:bubUp 2.6s linear infinite}
-.bub.b1{left:1vmin;bottom:.8vmin}
-.bub.b2{left:2.4vmin;bottom:.5vmin;animation-delay:-1s}
-.bub.b3{left:3.2vmin;bottom:1.4vmin;animation-delay:-1.9s}
-@keyframes bubUp{
-  0%{transform:translateY(0);opacity:.9}
-  85%{opacity:.9}
-  100%{transform:translateY(-3.8vmin);opacity:0}}
-.cloth{position:absolute;left:.2vmin;top:-.4vmin;width:5.2vmin;height:1.8vmin;border-radius:.9vmin;
-  background:linear-gradient(#dce8f5,#a9c6e2);
-  box-shadow:0 2px 5px rgba(0,0,0,.4)}
-.cloth::after{content:"";position:absolute;left:calc(50% - 1.2vmin);top:1.5vmin;width:2.4vmin;height:.3vmin;
-  border-radius:.15vmin;background:rgba(122,162,200,.7)}
-.fjar{position:absolute;bottom:1.1vmin;left:8vmin;width:4.2vmin;height:6vmin;border-radius:.7vmin .7vmin 1vmin 1vmin;
-  background:linear-gradient(160deg,#dfe9f2,#b9cfe4);
-  border:2px solid rgba(169,198,226,.5);
-  box-shadow:0 0 12px rgba(122,162,200,.25), inset 0 0 8px rgba(0,0,0,.2)}
-.fjar::after{content:"";position:absolute;left:.5vmin;right:.5vmin;top:-.9vmin;height:1.4vmin;border-radius:.5vmin;
-  background:linear-gradient(#33465f,#1a2738);border:1.5px solid rgba(169,198,226,.4)}
+.books{position:absolute;left:71%;top:58%;width:19vmin;height:22.5vmin;z-index:2}
+.bk{position:absolute;bottom:1.3vmin;border-radius:.3vmin .3vmin 0 0;
+  box-shadow:inset 0 0 4px rgba(0,0,0,.4)}
+.bk.b1{left:.6vmin;width:2.6vmin;height:11vmin;background:linear-gradient(#4a3018,#33200f)}
+.bk.b2{left:3.6vmin;width:2.2vmin;height:9.5vmin;background:linear-gradient(#6d5a9e,#4a3c73)}
+.bk.b3{left:6.1vmin;width:2.8vmin;height:10.5vmin;background:linear-gradient(#5c3d1e,#3a2411)}
+.bk.b4{left:9.2vmin;width:2.4vmin;height:8.8vmin;background:linear-gradient(#a05050,#6b3030)}
+.bk.b5{left:11.9vmin;width:2.6vmin;height:11vmin;background:linear-gradient(#4a3018,#33200f)}
+.bk.b6{left:14.8vmin;width:2.2vmin;height:9.2vmin;background:linear-gradient(#7c93a8,#4e6070)}
+.bk.b7{left:17.2vmin;width:1.4vmin;height:10vmin;background:linear-gradient(#5c3d1e,#3a2411);
+  transform:rotate(6deg);transform-origin:bottom right}
+.shelfB{position:absolute;left:0;right:0;bottom:0;height:1.3vmin;border-radius:.4vmin;
+  background:linear-gradient(#5c3d1e,#33200f);
+  border:1.5px solid rgba(245,234,208,.3);
+  box-shadow:0 6px 14px rgba(0,0,0,.55)}
 
-/* ============ COUNTER + OVEN ============ */
-.clarazone{position:absolute;left:28%;top:35%;width:30vmin;height:51vmin;z-index:3}
-.fig{position:absolute;inset:0;width:100%;height:100%;
-  filter:drop-shadow(0 0 9px rgba(122,162,200,.45))}
-.breathe{transform-box:fill-box;transform-origin:50% 100%;
-  animation:breatheT 4.6s ease-in-out infinite}
-@keyframes breatheT{0%,100%{transform:translateY(0)}50%{transform:translateY(1.2)}}
-.fig .body{fill:#070d16;stroke:rgba(207,228,247,.36);stroke-width:1.3}
-.fig .limb{fill:none;stroke:#070d16;stroke-width:9.5;stroke-linecap:round}
-.fig .apron{fill:#0e1a2a;stroke:rgba(207,228,247,.2);stroke-width:1}
-.fig .dough{fill:#e4edf7;stroke:rgba(242,248,255,.7);stroke-width:1}
-.fig .fl{fill:rgba(255,255,255,.85)}
-.headg{transform-box:fill-box;transform-origin:50% 95%;
-  animation:headNod 11s ease-in-out infinite}
-@keyframes headNod{
-  0%,30%{transform:rotate(7deg)}
-  42%,58%{transform:rotate(-4deg)}
-  70%,100%{transform:rotate(7deg)}}
-.arms{transform-box:fill-box;transform-origin:50% 5%;
-  animation:knead 2s ease-in-out infinite}
-@keyframes knead{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(4) rotate(1deg)}}
-.doughg{transform-box:fill-box;transform-origin:50% 100%;
-  animation:doughSquish 2s ease-in-out infinite}
-@keyframes doughSquish{0%,100%{transform:scale(1,1)}50%{transform:scale(1.06,.88)}}
+/* ============ THE MESS (the house nobody sees) ============ */
+.tbin{position:absolute;left:16.8%;bottom:20%;width:7.5vmin;height:5vmin;z-index:3;
+  border-radius:1vmin 1.6vmin 1.6vmin 1vmin;transform:rotate(-68deg);
+  background:linear-gradient(160deg,#3a2410,#241606);
+  border:2px solid rgba(245,234,208,.28);
+  box-shadow:0 4px 10px rgba(0,0,0,.6)}
+.tbin::after{content:"";position:absolute;left:-1.4vmin;top:1.2vmin;width:2vmin;height:2.6vmin;
+  border-radius:.6vmin;background:#2e1c0a;border:1.5px solid rgba(245,234,208,.22)}
+.crum{position:absolute;border-radius:55% 45% 60% 40%;z-index:3;
+  background:radial-gradient(circle at 35% 30%, #5c3d1e, #33200f);
+  border:1.5px solid rgba(245,234,208,.22);
+  box-shadow:0 3px 7px rgba(0,0,0,.55)}
+.crum.c1{left:21%;bottom:20.5%;width:2.2vmin;height:2vmin}
+.crum.c2{left:23.4%;bottom:19.4%;width:1.8vmin;height:1.6vmin}
+.crum.c3{left:22.4%;bottom:22.2%;width:2vmin;height:1.8vmin;animation:crumRock 3s ease-in-out infinite}
+@keyframes crumRock{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(7deg)}}
+.env{position:absolute;width:4.2vmin;height:2.7vmin;border-radius:.25vmin;z-index:3;
+  background:linear-gradient(160deg,#c9b98a,#8a7a52);
+  border:1.5px solid rgba(245,234,208,.3);
+  box-shadow:0 3px 6px rgba(0,0,0,.5)}
+.env.e1{left:17%;bottom:6%;transform:rotate(-14deg)}
+.env.e2{left:20.5%;bottom:5.2%;transform:rotate(8deg)}
+.env.e3{left:19%;bottom:8%;transform:rotate(-30deg)}
+.env.e4{left:23.5%;bottom:6.5%;transform:rotate(22deg)}
+.env.e5{left:21.5%;bottom:9.2%;transform:rotate(-4deg)}
+.fbox{position:absolute;left:27.5%;bottom:12.5%;width:13vmin;height:3.4vmin;z-index:3;
+  border-radius:.5vmin;transform:rotate(-7deg);
+  background:linear-gradient(#3a222c,#241218);
+  border:1.5px solid rgba(252,165,165,.3);
+  box-shadow:0 5px 10px rgba(0,0,0,.55)}
+.fbox::after{content:"";position:absolute;left:calc(50% - 2.2vmin);top:calc(50% - .3vmin);
+  width:4.4vmin;height:.6vmin;border-radius:.3vmin;background:rgba(252,165,165,.22)}
+.dtower{position:absolute;left:37.5%;bottom:21%;width:12vmin;height:8.2vmin;z-index:3;
+  transform-origin:50% 100%;animation:dtWobble 2.6s ease-in-out infinite}
+@keyframes dtWobble{0%,100%{transform:rotate(-1.4deg)}50%{transform:rotate(1.4deg)}}
+.dtpl{position:absolute;width:11vmin;height:1.3vmin;border-radius:.65vmin;
+  background:linear-gradient(#4a232f,#2a1219);
+  border:1.5px solid rgba(252,165,165,.32);
+  box-shadow:0 2px 4px rgba(0,0,0,.5)}
+.dtpl.t1{left:.5vmin;bottom:0}
+.dtpl.t2{left:1.4vmin;bottom:1.45vmin}
+.dtpl.t3{left:.3vmin;bottom:2.9vmin}
+.dtpl.t4{left:1.5vmin;bottom:4.35vmin}
+.dmug{position:absolute;left:4.5vmin;bottom:5.8vmin;width:2.8vmin;height:2.4vmin;
+  border-radius:.4vmin .4vmin .8vmin .8vmin;
+  background:linear-gradient(#4a2330,#26121a);
+  border:1.5px solid rgba(252,165,165,.35)}
+.fstain{position:absolute;left:43%;bottom:17%;width:9vmin;height:4vmin;z-index:2;
+  border-radius:50%;filter:blur(.8vmin);
+  background:radial-gradient(ellipse, rgba(15,8,4,.75), transparent 70%)}
+.cstain{position:absolute;left:28.5%;top:49.8%;width:2.6vmin;height:1.2vmin;z-index:3;
+  border-radius:50%;border:1.5px solid rgba(20,10,5,.7);border-bottom:none}
+.cdrip{position:absolute;left:33.5%;top:51%;width:.8vmin;height:3.4vmin;z-index:3;
+  border-radius:0 0 .4vmin .4vmin;
+  background:linear-gradient(rgba(20,10,5,.7), rgba(20,10,5,.1))}
+.hood{position:absolute;left:51%;bottom:9%;width:11vmin;height:5vmin;z-index:3;
+  border-radius:3vmin 3vmin 1.5vmin 1.5vmin;
+  background:radial-gradient(circle at 40% 30%, #4a3018, #241606);
+  border:2px solid rgba(245,234,208,.22);
+  box-shadow:0 5px 12px rgba(0,0,0,.6)}
+.hood::after{content:"";position:absolute;right:-2.8vmin;bottom:.8vmin;width:4vmin;height:1.6vmin;
+  border-radius:.8vmin;background:#3a2410;
+  border:1.5px solid rgba(245,234,208,.18)}
+.fpap{position:absolute;width:4.6vmin;height:3vmin;border-radius:.2vmin;z-index:3;
+  background:linear-gradient(160deg,#c9b98a,#9a8a5e);
+  border:1px solid rgba(245,234,208,.25);
+  box-shadow:0 2px 5px rgba(0,0,0,.5)}
+.fpap.f1{left:56.5%;bottom:12%;transform:rotate(10deg)}
+.fpap.f2{left:60%;bottom:11%;transform:rotate(-16deg)}
+.fpap.f3{left:58%;bottom:13.8%;transform:rotate(30deg)}
+.sock{position:absolute;left:48.5%;bottom:5%;width:3.6vmin;height:1.4vmin;z-index:3;
+  border-radius:1.2vmin .6vmin .6vmin 1.2vmin;transform:rotate(18deg);
+  background:linear-gradient(#4a3c2a,#2a2015);
+  border:1.5px solid rgba(245,234,208,.18)}
+.bkflat{position:absolute;width:6.5vmin;height:2vmin;border-radius:.3vmin;z-index:3;
+  box-shadow:0 3px 7px rgba(0,0,0,.5)}
+.bkflat.k1{left:73%;bottom:6%;transform:rotate(-8deg);background:linear-gradient(90deg,#4a3018,#33200f)}
+.bkflat.k2{left:78%;bottom:7.5%;transform:rotate(14deg);background:linear-gradient(90deg,#6d5a9e,#4a3c73)}
+.bklean{position:absolute;left:84%;bottom:6%;width:2.4vmin;height:9.5vmin;z-index:3;
+  border-radius:.3vmin;transform:rotate(24deg);transform-origin:bottom right;
+  background:linear-gradient(#5c3d1e,#3a2411);
+  box-shadow:0 4px 9px rgba(0,0,0,.55)}
+.cwb{position:absolute;pointer-events:none;z-index:2}
+.cwb i{position:absolute;background:rgba(245,234,208,.18)}
+.cwb.k1{left:19.8%;top:34.5%;width:5vmin;height:4vmin}
+.cwb.k1 i.w1{left:0;top:0;width:100%;height:1px;transform:rotate(20deg);transform-origin:left top}
+.cwb.k1 i.w2{left:0;top:0;width:90%;height:1px;transform:rotate(45deg);transform-origin:left top}
+.cwb.k1 i.w3{left:28%;top:0;width:1px;height:85%}
+.cwb.k2{right:2.5%;top:13.5%;width:5vmin;height:4vmin}
+.cwb.k2 i.w1{right:0;top:0;width:100%;height:1px;transform:rotate(-20deg);transform-origin:right top}
+.cwb.k2 i.w2{right:0;top:0;width:90%;height:1px;transform:rotate(-45deg);transform-origin:right top}
+.cwb.k2 i.w3{right:28%;top:0;width:1px;height:85%}
 
-.cface{position:absolute;left:12%;top:63.8%;width:56vmin;height:13vmin;z-index:4;border-radius:1vmin;
-  background:linear-gradient(#22344c,#131f30);
-  border:2px solid rgba(169,198,226,.4);
-  box-shadow:0 12px 24px rgba(0,0,0,.6), inset 0 0 12px rgba(0,0,0,.4)}
-.oven{position:absolute;left:1.2vmin;top:2.2vmin;width:17vmin;height:10.4vmin;border-radius:.8vmin;
-  background:linear-gradient(#1c2a3c,#101a28);
-  border:2px solid rgba(169,198,226,.4)}
-.ohandle{position:absolute;left:2vmin;right:2vmin;top:.9vmin;height:.8vmin;border-radius:.4vmin;
-  background:linear-gradient(#33465f,#1a2738);border:1px solid rgba(169,198,226,.35)}
-.oglass{position:absolute;left:1.4vmin;top:2.8vmin;right:1.4vmin;bottom:1.2vmin;border-radius:.6vmin;
-  background:radial-gradient(circle at 50% 62%, rgba(242,248,255,.5), rgba(169,198,226,.16) 60%, rgba(20,30,44,.35));
-  border:2px solid rgba(169,198,226,.5);
-  box-shadow:0 0 18px rgba(207,228,247,.35), inset 0 0 10px rgba(0,0,0,.4);
-  animation:ovenBreathe 6s ease-in-out infinite}
-@keyframes ovenBreathe{0%,100%{opacity:.7}50%{opacity:1}}
-.bd{position:absolute;bottom:.6vmin;width:4.5vmin;height:2.6vmin;
-  border-radius:2.2vmin 2.2vmin .6vmin .6vmin;background:#0d1624}
-.bd.b1{left:2vmin}
-.bd.b2{right:2.2vmin}
-.dline{position:absolute;right:3vmin;left:21vmin;top:4vmin;height:2px;background:rgba(169,198,226,.25)}
-.dline.d2{top:9vmin}
-.okn{position:absolute;width:2.2vmin;height:2.2vmin;border-radius:50%;
-  background:radial-gradient(circle at 40% 35%, #33465f, #1a2738 70%);
-  border:2px solid rgba(169,198,226,.5)}
-.okn.o1{right:3vmin;top:2.6vmin}
-.okn.o2{right:6.4vmin;top:2.6vmin}
-.slab{position:absolute;left:12%;top:61%;width:56vmin;height:3vmin;z-index:4;border-radius:.7vmin;
-  background:linear-gradient(#44586f,#243548 70%,#182637);
-  border:2px solid rgba(169,198,226,.55);
-  box-shadow:0 10px 22px rgba(0,0,0,.6), 0 0 22px rgba(122,162,200,.3), inset 0 .5vmin 1vmin rgba(220,236,250,.3)}
-
-/* phone, face-down, dark — the only dead object in the room */
-.ph{position:absolute;left:13.5%;top:59.4%;width:8vmin;height:4.4vmin;z-index:5;border-radius:.9vmin;
-  transform:rotate(-5deg);
-  background:linear-gradient(160deg,#18222e,#0c131c);
-  border:2px solid rgba(169,198,226,.3);
-  box-shadow:0 4px 10px rgba(0,0,0,.5)}
-.ph::after{content:"";position:absolute;left:1vmin;top:1.1vmin;width:1vmin;height:1vmin;border-radius:50%;
-  background:#0a1017;border:1px solid rgba(169,198,226,.25)}
-
-/* the loaves — one straight, one lopsided, the one she likes most */
-.rack{position:absolute;left:51%;top:57.7%;width:13vmin;height:5.2vmin;z-index:5}
-.rleg{position:absolute;top:2.4vmin;width:.7vmin;height:2.8vmin;border-radius:.3vmin;
-  background:linear-gradient(#33465f,#1a2738)}
-.rleg.l{left:.8vmin}
-.rleg.r{right:.8vmin}
-.rrail{position:absolute;left:0;right:0;top:2.4vmin;height:.5vmin;border-radius:.25vmin;
-  background:linear-gradient(#44586f,#243548)}
-.rrail.r2{top:3.4vmin;height:.3vmin;background:#33465f}
-.loaf1{position:absolute;left:.3vmin;top:-1.3vmin;width:7.6vmin;height:3.4vmin;border-radius:1.7vmin 1.7vmin 1.2vmin 1.2vmin;
-  background:
-    repeating-linear-gradient(78deg, transparent 0 1.5vmin, rgba(122,162,200,.25) 1.5vmin 1.9vmin),
-    linear-gradient(#e8f1fa,#b9cfe4);
-  border:1.5px solid rgba(169,198,226,.5);
-  box-shadow:0 3px 8px rgba(0,0,0,.5), 0 0 12px rgba(122,162,200,.2)}
-.loaf2{position:absolute;right:.1vmin;top:-1.5vmin;width:8.2vmin;height:3.6vmin;border-radius:1.8vmin 1.8vmin 1.3vmin 1.3vmin;
-  transform:rotate(-5deg);
-  background:repeating-linear-gradient(105deg, #e2edf7 0 1.4vmin, #c3d8ea 1.4vmin 2.8vmin);
-  border:1.5px solid rgba(169,198,226,.55);
-  box-shadow:0 3px 9px rgba(0,0,0,.5), 0 0 16px rgba(169,198,226,.35)}
-
-/* ============ HER ============ */
-
-/* ============ STEAM & DUST ============ */
-.steam{position:absolute;z-index:5;pointer-events:none;filter:blur(1.4vmin);
+/* ============ THE SMELL, drifting ============ */
+.wsp{position:absolute;z-index:3;pointer-events:none;filter:blur(2vmin);
   border-radius:50%;opacity:0;
-  animation:steamUp linear infinite}
-.ls1{left:52%;bottom:42%;width:5vmin;height:8vmin;
-  background:radial-gradient(ellipse, rgba(220,236,250,.13), transparent 70%);
-  animation-duration:20s}
-.ls2{left:55.5%;bottom:43%;width:4vmin;height:7vmin;
-  background:radial-gradient(ellipse, rgba(220,236,250,.11), transparent 70%);
-  animation-duration:26s;animation-delay:-11s}
-.ls3{left:58.5%;bottom:42%;width:4.5vmin;height:7vmin;
-  background:radial-gradient(ellipse, rgba(220,236,250,.12), transparent 70%);
-  animation-duration:23s;animation-delay:-18s}
-@keyframes steamUp{
-  0%{transform:translateY(0) translateX(0)}
-  25%{opacity:.8}
-  100%{transform:translateY(-22vmin) translateX(4vmin);opacity:0}}
-.dust{position:absolute;inset:0;z-index:6;pointer-events:none}
-.p{position:absolute;border-radius:50%;background:var(--ice-mid);
-  box-shadow:0 0 9px rgba(169,198,226,.95);opacity:.55;
+  animation:smellDrift linear infinite}
+.wsp.w3{left:50%;top:34%;width:8vmin;height:6vmin;
+  background:radial-gradient(ellipse, rgba(167,139,250,.12), transparent 70%);
+  animation-duration:26s}
+.wsp.w4{left:54%;top:40%;width:7vmin;height:5vmin;
+  background:radial-gradient(ellipse, rgba(167,139,250,.11), transparent 70%);
+  animation-duration:31s;animation-delay:-15s}
+.wsp.w5{left:80%;top:30%;width:7vmin;height:5.5vmin;
+  background:radial-gradient(ellipse, rgba(207,228,247,.11), transparent 70%);
+  animation-duration:28s;animation-delay:-8s}
+.wsp.w6{left:16%;top:48%;width:7vmin;height:5vmin;
+  background:radial-gradient(ellipse, rgba(245,234,208,.13), transparent 70%);
+  animation-duration:19s}
+.wsp.w7{left:18%;top:55%;width:6vmin;height:4.5vmin;
+  background:radial-gradient(ellipse, rgba(245,234,208,.12), transparent 70%);
+  animation-duration:23s;animation-delay:-10s}
+@keyframes smellDrift{
+  0%{transform:translate(0,0);opacity:0}
+  18%{opacity:.6}
+  100%{transform:translate(-13vmin,3vmin);opacity:0}}
+/* the puff hitting the guest's covered nose */
+.wsp.w8{left:7%;top:40%;width:5.5vmin;height:4vmin;z-index:5;
+  background:radial-gradient(ellipse, rgba(245,234,208,.14), transparent 70%);
+  animation:smellHit 3.4s ease-in-out infinite}
+@keyframes smellHit{
+  0%,100%{transform:scale(.7);opacity:.15}
+  50%{transform:scale(1.2);opacity:.6}}
+
+.dust{position:absolute;inset:0;z-index:5;pointer-events:none}
+.p{position:absolute;border-radius:50%;background:var(--day-dim);
+  box-shadow:0 0 7px rgba(245,234,208,.5);opacity:.35;
   animation:floatUp linear infinite}
-.p1{left:9%;bottom:14%;width:4px;height:4px;animation-duration:19s;animation-delay:-3s}
-.p2{left:22%;bottom:6%;width:6px;height:6px;animation-duration:23s;animation-delay:-11s}
-.p3{left:35%;bottom:20%;width:4px;height:4px;animation-duration:16s;animation-delay:-7s}
-.p4{left:47%;bottom:8%;width:5px;height:5px;animation-duration:21s;animation-delay:-15s}
-.p5{left:58%;bottom:26%;width:4px;height:4px;animation-duration:18s;animation-delay:-2s}
-.p6{left:66%;bottom:12%;width:6px;height:6px;animation-duration:24s;animation-delay:-9s}
-.p7{left:78%;bottom:18%;width:4px;height:4px;animation-duration:17s;animation-delay:-13s}
-.p8{left:88%;bottom:8%;width:5px;height:5px;animation-duration:22s;animation-delay:-5s}
-.p9{left:15%;bottom:32%;width:4px;height:4px;animation-duration:20s;animation-delay:-17s}
-.p10{left:28%;bottom:40%;width:5px;height:5px;animation-duration:21s;animation-delay:-8s}
-.p11{left:62%;bottom:44%;width:4px;height:4px;animation-duration:18s;animation-delay:-14s}
-.p12{left:84%;bottom:36%;width:5px;height:5px;animation-duration:23s;animation-delay:-6s}
+.p1{left:30%;bottom:12%;width:4px;height:4px;animation-duration:24s;animation-delay:-4s}
+.p2{left:44%;bottom:30%;width:5px;height:5px;animation-duration:28s;animation-delay:-15s}
+.p3{left:58%;bottom:18%;width:4px;height:4px;animation-duration:22s;animation-delay:-8s}
+.p4{left:76%;bottom:34%;width:5px;height:5px;animation-duration:26s;animation-delay:-12s}
+.p5{left:88%;bottom:10%;width:4px;height:4px;animation-duration:20s;animation-delay:-6s}
 @keyframes floatUp{
   0%{transform:translateY(0);opacity:0}
-  12%{opacity:.6}
-  85%{opacity:.5}
-  100%{transform:translateY(-88vh);opacity:0}}
-.vignette{position:absolute;inset:0;z-index:7;pointer-events:none;
-  background:radial-gradient(ellipse at 50% 50%, transparent 64%, rgba(0,0,0,.38))}
+  12%{opacity:.4}
+  85%{opacity:.3}
+  100%{transform:translateY(-80vh);opacity:0}}
+.vignette{position:absolute;inset:0;z-index:6;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 48%, transparent 60%, rgba(0,0,0,.4))}
 
 /* ============ SEAL ============ */
 .seal{position:absolute;right:2.6vmin;bottom:2.6vmin;z-index:10;
   width:15vmin;height:15vmin;opacity:.95;
   animation:sealPulse 4s ease-in-out infinite}
-.seal .ringA{fill:none;stroke:var(--ice-mid);stroke-width:2.5}
-.seal .ringB{fill:none;stroke:rgba(169,198,226,.8);stroke-width:1.5}
-.seal .txt{fill:#f2f8ff;font-family:'Outfit',sans-serif;font-weight:800;
+.seal .ringA{fill:none;stroke:var(--day);stroke-width:2.5}
+.seal .ringB{fill:none;stroke:rgba(245,234,208,.75);stroke-width:1.5}
+.seal .txt{fill:var(--day-bright);font-family:'Outfit',sans-serif;font-weight:800;
   font-size:10.5px;letter-spacing:2px}
-.seal .dot{fill:var(--ice-mid)}
-.seal .core{fill:#f2f8ff}
+.seal .dot{fill:var(--day)}
+.seal .core{fill:var(--day-bright)}
 @keyframes sealPulse{
-  0%,100%{filter:drop-shadow(0 0 6px rgba(169,198,226,.7))}
-  50%{filter:drop-shadow(0 0 16px rgba(169,198,226,1))}}
+  0%,100%{filter:drop-shadow(0 0 6px rgba(245,234,208,.6))}
+  50%{filter:drop-shadow(0 0 16px rgba(245,234,208,1))}}
 
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation:none !important}
-  .steam{display:none}
-  .flk{opacity:.7}
-  .bub{opacity:.9}
-  .oglass{opacity:.85}
-  .gl{opacity:.8}
-  .p{opacity:.5}
+  .wsp{opacity:.4}
+  .steamK{opacity:.4}
+  .mo{opacity:.6}
+  .p{opacity:.3}
+  .sgl{opacity:.8}
 }
 </style>
 </head>
@@ -408,68 +571,191 @@ body{background:#04070d;font-family:'Outfit',sans-serif}
 <div class="scene">
 <div class="wall"></div>
 <div class="floor"></div>
-<div class="beam"></div>
+<div class="baseboard"></div>
 <div class="glow"></div>
+<div class="kglow"></div>
+<div class="ladglow"></div>
+<div class="sglow"></div>
 
-<div class="name">CLARA</div>
+<div class="name">RECALIBRATE</div>
 
-<div class="win">
-  <div class="moon"></div>
-  <div class="star s1"></div>
-  <div class="star s2"></div>
-  <div class="star s3"></div>
-  <div class="hill h1"></div>
-  <div class="hill h2"></div>
-  <div class="flk f1"><div class="fd"></div></div>
-  <div class="flk f2"><div class="fd"></div></div>
-  <div class="flk f3"><div class="fd"></div></div>
-  <div class="flk f4"><div class="fd"></div></div>
-  <div class="flk f5"><div class="fd"></div></div>
-  <div class="flk f6"><div class="fd"></div></div>
-  <div class="wglow"></div>
-  <div class="wbarV"></div>
-  <div class="wbarH"></div>
-</div>
-<div class="floorlight"></div>
-
-<div class="clock">
-  <div class="cticks"></div>
-  <div class="mh"></div>
-  <div class="hh"></div>
-  <div class="cdot"></div>
-</div>
-
-<!-- THE LIST: frozen on the wall, everything else lives -->
-<div class="listzone">
-  <div class="lframe">
-    <div class="fr f1"></div>
-    <div class="fr f2"></div>
-    <div class="fr f3"></div>
-    <div class="lhead"></div>
-    <div class="lrow done r1"><div class="lb a"></div><div class="lb b"></div><div class="lbox"><div class="check"></div></div></div>
-    <div class="lrow done r2"><div class="lb a"></div><div class="lb b"></div><div class="lbox"><div class="check"></div></div></div>
-    <div class="lrow done r3"><div class="lb a"></div><div class="lb b"></div><div class="lbox"><div class="check"></div></div></div>
-    <div class="lrow done r4"><div class="lb a"></div><div class="lb b"></div><div class="lbox"><div class="check"></div></div></div>
-    <div class="lrow fresh r5"><div class="lb a"></div><div class="lb b"></div><div class="lbox"><div class="check"></div></div></div>
-    <div class="lrow open r6"><div class="lb a"></div><div class="lb b"></div><div class="lbox"></div></div>
-    <div class="lrow open r7"><div class="lb a"></div><div class="lb b"></div><div class="lbox"></div></div>
-    <div class="sheen"></div>
-    <div class="gl g1"></div>
-    <div class="gl g2"></div>
-    <div class="gl g3"></div>
-    <div class="gl g4"></div>
+<!-- FRONT DOOR + GUEST, reacting -->
+<div class="dz">
+  <div class="dopen">
+    <div class="dsun"></div>
+    <div class="dhor"></div>
   </div>
-  <div class="ic ic1"></div>
-  <div class="ic ic2"></div>
-  <div class="ic ic3"></div>
-  <div class="pencilwrap">
-    <div class="string"></div>
-    <div class="pencil"></div>
+  <div class="jambD l"></div>
+  <div class="jambD r"></div>
+  <div class="doorpD"></div>
+  <div class="knobD"></div>
+  <div class="lintelD"></div>
+  <div class="gz">
+    <div class="duffle"></div>
+    <svg class="gfig" viewBox="0 0 100 260">
+      <g class="gbreathe">
+        <g class="grecoil">
+          <path class="limb" d="M40 152 Q35 202 37 248"/>
+          <path class="limb" d="M58 152 Q64 202 60 250"/>
+          <path class="body" d="M46 152 L42 92 Q40 64 54 58 L64 62 Q70 78 68 100 L70 152 Z"/>
+          <!-- head tilted back, away from the room -->
+          <circle class="body" cx="46" cy="38" r="13"/>
+          <path class="body" d="M57 31 Q63 29 58 37 Q55 35 57 31 Z"/>
+          <path class="body" d="M33 40 Q31 22 46 20 Q59 21 58 34 Q52 26 46 26 Q39 26 33 40 Z"/>
+          <!-- far arm fanning the air, nonstop -->
+          <g class="fanarm">
+            <path class="limb" d="M50 72 Q64 80 74 72"/>
+            <circle class="body" cx="76" cy="71" r="4.5"/>
+          </g>
+          <!-- near arm: hand clamped over the nose -->
+          <path class="limb" d="M60 66 Q70 56 58 42"/>
+          <circle class="body" cx="56" cy="35" r="5.5"/>
+        </g>
+      </g>
+    </svg>
   </div>
 </div>
+<div class="shaft"></div>
+<div class="poolD"></div>
+<div class="motes">
+  <span class="mo m1"></span><span class="mo m2"></span><span class="mo m3"></span>
+  <span class="mo m4"></span><span class="mo m5"></span><span class="mo m6"></span>
+</div>
 
-<!-- months she never tore off -->
-<div class="calzone">
+<!-- KITCHEN (untouched) -->
+<div class="backsplash"></div>
+<div class="counter"></div>
+<div class="cabinet">
+  <div class="knobs">
+    <div class="knob kn1"></div>
+    <div class="knob kn2"></div>
+    <div class="knob kn3"></div>
+    <div class="knob kn4"></div>
+  </div>
+</div>
+<div class="potz">
+  <div class="burnglow"></div>
+  <div class="flame"></div>
+  <div class="flame f2"></div>
+  <div class="potbody"></div>
+  <div class="phandle l"></div>
+  <div class="phandle r"></div>
+  <div class="rimglow"></div>
+  <div class="lid">
+    <div class="lidknob"></div>
+  </div>
+</div>
+<div class="steamK s1"></div>
+<div class="steamK s2"></div>
+<div class="pzs">
+  <div class="pz"></div>
+  <div class="pz"></div>
+</div>
+
+<!-- counter grime -->
+<div class="cstain"></div>
+<div class="cdrip"></div>
+
+<!-- LIVING (untouched) -->
+<div class="ladclip">
+  <div class="ladcol">
+    <div class="lset">
+      <div class="lgf done"><div class="bar b1"></div><div class="bar b2"></div><div class="bar b3"></div><div class="ring"></div></div>
+      <div class="lgf"><div class="bar b1"></div><div class="bar b2"></div><div class="bar b3"></div><div class="ring"></div></div>
+      <div class="lgf"><div class="bar b1"></div><div class="bar b2"></div><div class="bar b3"></div><div class="ring"></div></div>
+      <div class="lgf done"><div class="bar b1"></div><div class="bar b2"></div><div class="bar b3"></div><div class="ring"></div></div>
+    </div>
+    <div class="lset">
+      <div class="lgf done"><div class="bar b1"></div><div class="bar b2"></div><div class="bar b3"></div><div class="ring"></div></div>
+      <div class="lgf"><div class="bar b1"></div><div class="bar b2"></div><div class="bar b3"></div><div class="ring"></div></div>
+      <div class="lgf"><div class="bar b1"></div><div class="bar b2"></div><div class="bar b3"></div><div class="ring"></div></div>
+      <div class="lgf done"><div class="bar b1"></div><div class="bar b2"></div><div class="bar b3"></div><div class="ring"></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="oz">
+  <svg class="ofig" viewBox="0 0 100 260">
+    <defs>
+      <linearGradient id="coneGrad" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0" stop-color="rgba(216,204,255,.4)"/>
+        <stop offset="1" stop-color="rgba(216,204,255,0)"/>
+      </linearGradient>
+      <radialGradient id="phoneGlowG">
+        <stop offset="0" stop-color="rgba(216,204,255,.55)"/>
+        <stop offset="1" stop-color="rgba(216,204,255,0)"/>
+      </radialGradient>
+      <clipPath id="scrO"><rect x="45.5" y="87" width="11" height="24" rx="1.2"/></clipPath>
+    </defs>
+    <g class="obreathe">
+      <path class="limb" d="M46 152 Q44 205 43 252"/>
+      <path class="limb" d="M54 152 Q56 205 56 252"/>
+      <path class="body" d="M34 152 L33 88 Q32 62 48 58 L60 58 Q70 62 70 88 L69 152 Z"/>
+      <path class="limb" d="M38 66 Q31 88 33 106"/>
+      <g class="oheadg">
+        <circle class="body" cx="50" cy="40" r="13"/>
+        <path class="body" d="M37 42 Q36 24 50 23 Q64 24 63 42 Q58 32 50 32 Q42 32 37 42 Z"/>
+      </g>
+      <path class="limb" d="M60 66 Q69 76 65 92 Q61 101 55 103"/>
+      <circle class="body" cx="54" cy="103" r="4"/>
+      <circle class="pglow" cx="51" cy="99" r="22" fill="url(#phoneGlowG)"/>
+      <polygon class="pglow" points="43,86 59,86 65,58 41,58" fill="url(#coneGrad)"/>
+      <g transform="rotate(-3 51 99)">
+        <rect x="43" y="84" width="16" height="30" rx="2" fill="#0d0810" stroke="rgba(216,204,255,.85)" stroke-width="1"/>
+        <rect x="45.5" y="87" width="11" height="24" rx="1.2" fill="#0b0712"/>
+        <g clip-path="url(#scrO)">
+          <g class="obars">
+            <rect x="46.5" y="89" width="8" height="3.5" rx="1.1" fill="rgba(216,204,255,.2)" stroke="rgba(216,204,255,.5)" stroke-width=".5"/>
+            <rect x="49" y="95" width="7" height="2.6" rx="1.1" fill="rgba(167,139,250,.25)" stroke="rgba(216,204,255,.45)" stroke-width=".5"/>
+            <rect x="46.5" y="101" width="8" height="3.5" rx="1.1" fill="rgba(216,204,255,.2)" stroke="rgba(216,204,255,.5)" stroke-width=".5"/>
+            <rect x="49" y="107" width="7" height="2.6" rx="1.1" fill="rgba(167,139,250,.25)" stroke="rgba(216,204,255,.45)" stroke-width=".5"/>
+            <rect x="46.5" y="113" width="8" height="3.5" rx="1.1" fill="rgba(216,204,255,.2)" stroke="rgba(216,204,255,.5)" stroke-width=".5"/>
+            <rect x="49" y="119" width="7" height="2.6" rx="1.1" fill="rgba(167,139,250,.25)" stroke="rgba(216,204,255,.45)" stroke-width=".5"/>
+            <rect x="46.5" y="125" width="8" height="3.5" rx="1.1" fill="rgba(216,204,255,.2)" stroke="rgba(216,204,255,.5)" stroke-width=".5"/>
+            <rect x="49" y="131" width="7" height="2.6" rx="1.1" fill="rgba(167,139,250,.25)" stroke="rgba(216,204,255,.45)" stroke-width=".5"/>
+            <rect x="46.5" y="137" width="8" height="3.5" rx="1.1" fill="rgba(216,204,255,.2)" stroke="rgba(216,204,255,.5)" stroke-width=".5"/>
+            <rect x="49" y="143" width="7" height="2.6" rx="1.1" fill="rgba(167,139,250,.25)" stroke="rgba(216,204,255,.45)" stroke-width=".5"/>
+            <rect x="46.5" y="149" width="8" height="3.5" rx="1.1" fill="rgba(216,204,255,.2)" stroke="rgba(216,204,255,.5)" stroke-width=".5"/>
+            <rect x="49" y="155" width="7" height="2.6" rx="1.1" fill="rgba(167,139,250,.25)" stroke="rgba(216,204,255,.45)" stroke-width=".5"/>
+          </g>
+        </g>
+        <polyline points="46,89 51,93 49,98 54,103 52,108" fill="none" stroke="#050308" stroke-width=".9"/>
+      </g>
+    </g>
+  </svg>
+</div>
+
+<div class="lampz">
+  <div class="shade2"></div>
+  <div class="lpole2"></div>
+  <div class="lbase2"></div>
+</div>
+<div class="poolL"></div>
+
+<!-- STUDY (untouched) -->
+<div class="slist">
+  <div class="slframe">
+    <div class="sfr f1"></div>
+    <div class="sfr f2"></div>
+    <div class="shead"></div>
+    <div class="srow done"><div class="slb a"></div><div class="slb b"></div><div class="sbox"><div class="scheck"></div></div></div>
+    <div class="srow done"><div class="slb a"></div><div class="slb b"></div><div class="sbox"><div class="scheck"></div></div></div>
+    <div class="srow done"><div class="slb a"></div><div class="slb b"></div><div class="sbox"><div class="scheck"></div></div></div>
+    <div class="srow fresh"><div class="slb a"></div><div class="slb b"></div><div class="sbox"><div class="scheck"></div></div></div>
+    <div class="srow open r6"><div class="slb a"></div><div class="slb b"></div><div class="sbox"></div></div>
+    <div class="srow open r7"><div class="slb a"></div><div class="slb b"></div><div class="sbox"></div></div>
+    <div class="sgl gl1"></div>
+    <div class="sgl gl2"></div>
+  </div>
+  <div class="sic ic1"></div>
+  <div class="sic ic2"></div>
+  <div class="spencil">
+    <div class="sstring"></div>
+    <div class="spencilB"></div>
+  </div>
+</div>
+
+<div class="calz">
   <div class="cpg p1"></div>
   <div class="cpg p2"></div>
   <div class="cpg p3"></div>
@@ -480,84 +766,53 @@ body{background:#04070d;font-family:'Outfit',sans-serif}
   </div>
 </div>
 
-<!-- the shelf: the starter, alive -->
-<div class="shelfzone">
-  <div class="sboard"><div class="sbr"></div></div>
-  <div class="jar">
-    <div class="liq">
-      <div class="bub b1"></div>
-      <div class="bub b2"></div>
-      <div class="bub b3"></div>
-    </div>
-  </div>
-  <div class="cloth"></div>
-  <div class="fjar"></div>
+<div class="books">
+  <div class="bk b1"></div><div class="bk b2"></div><div class="bk b3"></div><div class="bk b4"></div>
+  <div class="bk b5"></div><div class="bk b6"></div><div class="bk b7"></div>
+  <div class="shelfB"></div>
 </div>
 
-<!-- CLARA, kneading behind the counter -->
-<div class="clarazone">
-  <svg class="fig" viewBox="0 0 100 170">
-    <g class="breathe">
-      <path class="body" d="M33 60 Q35 46 50 44 L65 46 Q67 52 67 60 L69 170 L31 170 Z"/>
-      <path class="apron" d="M41 64 L59 64 L63 170 L37 170 Z"/>
-      <g class="headg">
-        <circle class="body" cx="61" cy="12" r="6"/>
-        <circle class="body" cx="50" cy="24" r="12"/>
-        <path class="body" d="M38 26 Q37 10 50 9 Q63 10 62 26 Q57 18 50 18 Q43 18 38 26 Z"/>
-      </g>
-      <g class="arms">
-        <path class="limb" d="M40 54 Q33 80 39 104 Q43 118 41 126"/>
-        <path class="limb" d="M60 54 Q67 80 61 104 Q57 118 59 126"/>
-        <circle class="body" cx="41" cy="128" r="4.5"/>
-        <circle class="body" cx="59" cy="128" r="4.5"/>
-      </g>
-      <g class="doughg">
-        <rect class="dough" x="31" y="132" width="38" height="18" rx="9"/>
-        <circle class="fl" cx="42" cy="137" r="1"/>
-        <circle class="fl" cx="55" cy="141" r=".8"/>
-      </g>
-    </g>
-  </svg>
+<!-- THE MESS -->
+<div class="tbin"></div>
+<div class="crum c1"></div>
+<div class="crum c2"></div>
+<div class="crum c3"></div>
+<div class="env e1"></div>
+<div class="env e2"></div>
+<div class="env e3"></div>
+<div class="env e4"></div>
+<div class="env e5"></div>
+<div class="fbox"></div>
+<div class="dtower">
+  <div class="dtpl t1"></div>
+  <div class="dtpl t2"></div>
+  <div class="dtpl t3"></div>
+  <div class="dtpl t4"></div>
+  <div class="dmug"></div>
 </div>
+<div class="fstain"></div>
+<div class="hood"></div>
+<div class="fpap f1"></div>
+<div class="fpap f2"></div>
+<div class="fpap f3"></div>
+<div class="sock"></div>
+<div class="bkflat k1"></div>
+<div class="bkflat k2"></div>
+<div class="bklean"></div>
+<div class="cwb k1"><i class="w1"></i><i class="w2"></i><i class="w3"></i></div>
+<div class="cwb k2"><i class="w1"></i><i class="w2"></i><i class="w3"></i></div>
 
-<!-- counter, in front of her -->
-<div class="cface">
-  <div class="oven">
-    <div class="ohandle"></div>
-    <div class="oglass">
-      <div class="bd b1"></div>
-      <div class="bd b2"></div>
-    </div>
-  </div>
-  <div class="dline"></div>
-  <div class="dline d2"></div>
-  <div class="okn o1"></div>
-  <div class="okn o2"></div>
-</div>
-<div class="slab"></div>
-
-<!-- phone face-down, dark -->
-<div class="ph"></div>
-
-<!-- the loaves -->
-<div class="rack">
-  <div class="loaf1"></div>
-  <div class="loaf2"></div>
-  <div class="rrail"></div>
-  <div class="rrail r2"></div>
-  <div class="rleg l"></div>
-  <div class="rleg r"></div>
-</div>
-
-<div class="steam ls1"></div>
-<div class="steam ls2"></div>
-<div class="steam ls3"></div>
+<!-- the smell -->
+<div class="wsp w3"></div>
+<div class="wsp w4"></div>
+<div class="wsp w5"></div>
+<div class="wsp w6"></div>
+<div class="wsp w7"></div>
+<div class="wsp w8"></div>
 
 <div class="dust">
   <span class="p p1"></span><span class="p p2"></span><span class="p p3"></span>
-  <span class="p p4"></span><span class="p p5"></span><span class="p p6"></span>
-  <span class="p p7"></span><span class="p p8"></span><span class="p p9"></span>
-  <span class="p p10"></span><span class="p p11"></span><span class="p p12"></span>
+  <span class="p p4"></span><span class="p p5"></span>
 </div>
 <div class="vignette"></div>
 </div>
