@@ -2,327 +2,326 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>How Humans Actually Work — The Full Notes</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pattern Decoder</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    background: #0e0f12; color: #d6d3cd;
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    line-height: 1.65; max-width: 880px; margin: 0 auto; padding: 28px 20px 80px;
-  }
-  header { text-align: center; padding: 30px 10px 10px; }
-  h1 { font-size: 1.7em; color: #f0ede6; letter-spacing: .5px; }
-  .sub { color: #8b8f98; margin-top: 8px; font-size: .95em; }
-  .engine { margin: 18px auto 0; max-width: 520px; border: 1px solid #2a2d35; border-radius: 12px;
-    padding: 14px 18px; background: #15171c; color: #e8b04b; font-weight: 600; text-align: center; }
-  nav { margin: 30px 0 10px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
-  nav a { color: #9aa0ab; text-decoration: none; font-size: .82em; border: 1px solid #2a2d35;
-    padding: 5px 11px; border-radius: 20px; }
-  nav a:hover { color: #e8b04b; border-color: #e8b04b; }
-  h2 { color: #f0ede6; font-size: 1.25em; margin: 52px 0 6px; padding-bottom: 8px;
-    border-bottom: 1px solid #2a2d35; }
-  h2 .num { color: #e8b04b; margin-right: 8px; }
-  .law { color: #e8b04b; font-weight: 700; margin: 12px 0; }
-  .card { background: #15171c; border: 1px solid #23262d; border-radius: 12px;
-    padding: 18px 20px; margin: 14px 0; }
-  .card h3 { color: #f0ede6; font-size: 1em; margin-bottom: 8px; }
-  ul { margin: 8px 0 8px 18px; }
-  li { margin: 6px 0; }
-  b, strong { color: #f0ede6; }
-  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: .93em; }
-  th { background: #1c1f26; color: #e8b04b; text-align: left; padding: 9px 12px; }
-  td { padding: 9px 12px; border-bottom: 1px solid #23262d; vertical-align: top; }
-  td:first-child { color: #f0ede6; font-weight: 600; white-space: nowrap; }
-  .sum { border-left: 3px solid #e8b04b; background: #15171c; padding: 12px 16px;
-    border-radius: 0 10px 10px 0; margin: 18px 0; font-style: italic; color: #c9c5bc; }
-  .note { color: #8b8f98; font-size: .88em; margin-top: 40px; text-align: center; border-top: 1px solid #2a2d35; padding-top: 20px; }
-  .laws li { margin: 10px 0; }
-  .q { color: #8b8f98; font-size: .88em; margin-bottom: 6px; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#04090d;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+.app{max-width:540px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;background-color:#0b141a;background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'><g fill='none' stroke='%23ffffff' stroke-opacity='0.032' stroke-width='1.6'><circle cx='24' cy='28' r='9'/><path d='M102 18v14M95 25h14'/><path d='M28 100l10 10M38 100l-10 10'/><circle cx='108' cy='112' r='4'/><path d='M68 60c6-8 18-8 24 0-6 8-18 8-24 0z'/></g></svg>");border-left:1px solid rgba(255,255,255,.05);border-right:1px solid rgba(255,255,255,.05)}
+header{position:sticky;top:0;z-index:10;background:#202c33;display:flex;align-items:center;gap:9px;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.05)}
+.back{width:24px;height:24px;flex:none}
+.avatar{width:37px;height:37px;border-radius:50%;background:#3b4a54;display:flex;align-items:center;justify-content:center;font-size:19px;flex:none}
+.who{flex:1;min-width:0}
+.who b{display:block;color:#e9edef;font-size:15.5px;font-weight:600}
+.who span{color:#8696a0;font-size:12px}
+.hicon{width:23px;height:23px;margin-left:14px;flex:none;cursor:pointer}
+.chat{flex:1;display:flex;flex-direction:column;padding:12px 4% 40px}
+.enc{align-self:center;max-width:88%;text-align:center;color:#ffd279;font-size:11.5px;line-height:1.5;margin:6px 0 8px;padding:0 10px}
+.day{align-self:center;background:#182229;color:#aebac1;padding:6px 13px;border-radius:8px;font-size:10.5px;letter-spacing:.4px;text-transform:uppercase;margin:24px 0 8px;text-align:center;font-weight:500}
+.m{position:relative;max-width:81%;padding:6px 9px 9px;border-radius:9px;font-size:14.3px;line-height:1.42;color:#e9edef;margin-top:2.5px;box-shadow:0 1px .5px rgba(0,0,0,.15);white-space:pre-wrap;word-wrap:break-word}
+.i{align-self:flex-start;background:#202c33}
+.o{align-self:flex-end;background:#005c4b}
+.i.f{border-top-left-radius:0;margin-top:14px}
+.o.f{border-top-right-radius:0;margin-top:14px}
+.day + .m.f{margin-top:4px}
+.i.f::before{content:"";position:absolute;top:0;left:-7px;border-top:8px solid #202c33;border-left:8px solid transparent}
+.o.f::after{content:"";position:absolute;top:0;right:-7px;border-top:8px solid #005c4b;border-right:8px solid transparent}
+.mt{float:right;margin:9px 0 -7px 9px;font-size:10.5px;color:rgba(233,237,239,.55);line-height:1}
+.tk{color:#53bdeb;font-weight:700;letter-spacing:-2.5px;font-style:normal;margin-left:2px}
+b{font-weight:700;color:#fff}
+.rc{position:absolute;bottom:-11px;right:10px;background:#111b21;border:1px solid #233138;border-radius:12px;padding:1px 7px 2px;font-size:12.5px;box-shadow:0 0 0 4px #0b141a}
+.rx{margin-bottom:15px}
+.typing{display:flex;gap:5px;align-items:center;padding:12px 14px}
+.typing i{width:7px;height:7px;border-radius:50%;background:#8696a0;animation:bl 1.2s infinite}
+.typing i:nth-child(2){animation-delay:.2s}
+.typing i:nth-child(3){animation-delay:.4s}
+@keyframes bl{0%,60%,100%{opacity:.25;transform:translateY(0)}30%{opacity:1;transform:translateY(-2px)}}
+.foot{align-self:center;color:#8696a0;font-size:11px;margin-top:26px;text-align:center;line-height:1.6}
 </style>
 </head>
 <body>
+<div class="app">
 
 <header>
-  <h1>How Humans Actually Work</h1>
-  <p class="sub">The complete notes — every question, every answer, every pattern.</p>
-  <div class="engine">Biology sets the floor. Psychology builds on it. Behavior is the output.</div>
+<svg class="back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="#aebac1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<div class="avatar">🧠</div>
+<div class="who"><b>Pattern Decoder</b><span>online</span></div>
+<svg class="hicon" viewBox="0 0 24 24" fill="#aebac1"><rect x="2" y="6.5" width="12.5" height="11" rx="2.5"/><path d="M15.5 10.2l5.5-3.2v10l-5.5-3.2z"/></svg>
+<svg class="hicon" viewBox="0 0 24 24" fill="#aebac1"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></svg>
+<svg class="hicon" viewBox="0 0 24 24" fill="#aebac1"><circle cx="5" cy="12" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="19" cy="12" r="1.9"/></svg>
 </header>
 
-<nav>
-  <a href="#s1">Learning</a><a href="#s2">Money</a><a href="#s3">Choosing People</a>
-  <a href="#s4">Attraction</a><a href="#s5">Walls</a><a href="#s6">Married Man</a>
-  <a href="#s7">Aggression</a><a href="#s8">Serial Likers</a><a href="#s9">Rich &amp; Poor</a>
-  <a href="#s10">The Seer</a><a href="#s11">Karma</a><a href="#s12">The Exit</a>
-  <a href="#laws">The Laws</a>
-</nav>
+<div class="chat">
 
-<!-- 1 -->
-<h2 id="s1"><span class="num">01</span>Why advice sinks in when you're broke and bounces off when you're rich</h2>
-<div class="law">Pain makes you porous. Comfort seals you shut.</div>
-<div class="card">
-<p>When you're struggling, every piece of advice is a possible exit. Listening is free. Promising is free. And the brain pays the reward at the promise, before anything is done — <b>the promise becomes the product.</b></p>
-<p>When you're winning, your current model "worked." The brain doesn't update what isn't broken. Advice that contradicts the results is processed as a threat, not data. Add wealth attracting agreement — the richer you get, the fewer people tell you the truth. Only a crash reopens the crack.</p>
+<div class="enc">🔒 Messages are end-to-end encrypted. No one outside of this chat can read or listen to them.</div>
+
+<div class="day">Monday · Lesson 01 · Why lessons don't stick</div>
+
+<div class="m o f">yo why does someone broke take advice and make all the promises… but once they're rich nothing sinks in? 🤔 <span class="mt">21:14<i class="tk">✓✓</i></span></div>
+<div class="m i f">short answer: <b>pain makes you porous. comfort seals you shut</b> <span class="mt">21:15</span></div>
+<div class="m i">when you're struggling, every advice is a possible exit. listening is free. promising is free. so you do both heavily <span class="mt">21:15</span></div>
+<div class="m i">but here's what nobody tells you 👇 <span class="mt">21:15</span></div>
+<div class="m i rx">making a promise <b>feels</b> like progress. your brain pays the reward before you've done anything. <b>the promise becomes the product</b><span class="rc">🤯</span> <span class="mt">21:15</span></div>
+<div class="m i">that's why struggling people promise more. not more committed. just more free dopamine <span class="mt">21:16</span></div>
+<div class="m i">the rich guy? his model already worked. the brain doesn't update what isn't broken. advice stops being information and becomes a threat. and humans don't process threats as data <span class="mt">21:16</span></div>
+<div class="m i">add the quiet killer: <b>wealth attracts agreement.</b> the richer you get, the fewer people tell you the truth <span class="mt">21:16</span></div>
+<div class="m i">that's why rich people usually only change after a crash. pain reopens the crack <span class="mt">21:16</span></div>
+<div class="m o f">is there a deeper layer tho? bc I've watched people relearn the SAME lesson three times 💀 <span class="mt">21:21<i class="tk">✓✓</i></span></div>
+<div class="m i f">yes. and the 'three times' is actually the door to it <span class="mt">21:22</span></div>
+<div class="m i">your brain isn't a library. <b>it's a scale.</b> cost of the behavior on one side, reward on the other <span class="mt">21:22</span></div>
+<div class="m i">when a lesson sticks, the cost side got heavy. and here's the catch: <b>pain fades faster than pleasure.</b> it's measured (fading affect bias). the lesson weighed 100 the day it happened. six months later it weighs 30. the reward that caused the mistake? still fully charged <span class="mt">21:22</span></div>
+<div class="m i">the scale tips back. you didn't forget. <b>the battery drained</b> 🔋 <span class="mt">21:23</span></div>
+<div class="m i">and once = luck. twice = coincidence. three times = <b>it's about you.</b> identity only updates from patterns <span class="mt">21:23</span></div>
+<div class="m i">you weren't repeating the lesson. you were carrying it deeper: head → gut → identity <span class="mt">21:23</span></div>
+<div class="m i">last thing. you make promises cold and break them hot. different circuits. the person who made the promise and the person who breaks it are not in the same state of mind <span class="mt">21:24</span></div>
+<div class="m i">you wrote the lesson in a language your excited self doesn't speak 💀 <span class="mt">21:24</span></div>
+<div class="m i">the fix: write it down while it hurts (capture the 100). reread it BEFORE the risky moment. and build rules, not memories. <b>rules don't drain</b> ✅ <span class="mt">21:25</span></div>
+<div class="m i">there's no permanently learned lesson. only a currently remembered one <span class="mt">21:25</span></div>
+
+<div class="day">Tuesday · Lesson 02 · Money: won vs earned</div>
+
+<div class="m o f">ok so: does this apply to the broke guy promising he won't misbehave or overspend once he's rich? is won money actually different from earned money? what's the real balance? and is 'money changes people' true? 😅 4 questions sorry <span class="mt">20:31<i class="tk">✓✓</i></span></div>
+<div class="m i f">4 questions, one engine 😂 <span class="mt">20:32</span></div>
+<div class="m i">the broke guy's promise fails bc his discipline was never discipline. <b>it was lack of options.</b> the walls were doing the work. so he believes he's disciplined when he's just caged <span class="mt">20:32</span></div>
+<div class="m i">money arrives, cage opens, whatever was actually inside walks out. a sober man writing rules for how he'll behave drunk <span class="mt">20:32</span></div>
+<div class="m i">won vs earned: <b>weightless money vs weighted money</b> <span class="mt">20:33</span></div>
+<div class="m i">earned money is glued to memory. the 6am alarms, the failed attempts. your brain files it 'expensive'. won money fell from the sky, brain files it 'free'. and free money burns <span class="mt">20:33</span></div>
+<div class="m i">that's why gamblers bet wild with winnings but never with their salary. same person, same money, different source <span class="mt">20:33</span></div>
+<div class="m i">deeper: earned means you built the machine that makes money. lose everything at 45, you're back by 50. won means you only got the output. lose it, gone forever. ask lottery winners and pro athletes <span class="mt">20:34</span></div>
+<div class="m i">the balance is NOT staying poor-minded either. that's just a new cage. sort every lesson poverty taught you into two piles 👇 <span class="mt">20:34</span></div>
+<div class="m i"><b>pile 1, survival lessons (fear in disguise):</b> never spend on anything nice, always expect the worst, trust nobody. drop them. rich, they turn you into a paranoid miser <span class="mt">20:35</span></div>
+<div class="m i"><b>pile 2, character lessons (true at any income):</b> never lend what you can't afford to lose. never sign what you haven't read. no deal is so good it needs deciding today. keep them forever <span class="mt">20:35</span></div>
+<div class="m i">the one who 'changed' threw out both piles. the miser kept both. the balanced one kept the rules and retired the fear <span class="mt">20:35</span></div>
+<div class="m i">and 'money changes people'? <b>money doesn't change people. it unmasks them.</b> the desire was always there. he just couldn't afford to act on it <span class="mt">20:36</span></div>
+<div class="m i">being good is cheap when you're broke. money raises the price of everything, including kindness. that's when you find out who was actually kind. it's an amplifier, not a transformer <span class="mt">20:36</span></div>
+
+<div class="day">Wednesday · Lesson 03 · Choosing people</div>
+
+<div class="m o f">that money example hit home. give me examples + safeguards that apply to how you actually choose people 🙏 <span class="mt">19:47<i class="tk">✓✓</i></span></div>
+<div class="m i f">that example is the template for almost every friendship mistake. watch <span class="mt">19:48</span></div>
+<div class="m i">a friend is amazing when things are good, ghosts you the moment you're going through something. you cut them off. a year later someone new is warm and funny and 'different'. six months in, same ghost <span class="mt">19:48</span></div>
+<div class="m i">why it keeps happening: <b>you're comparing their charm (100) to your faded memory of the last one (30). the new person wins that comparison every time. it's rigged</b> <span class="mt">19:48</span></div>
+<div class="m i"><b>charm is a spike. character is a line.</b> you keep judging spikes. friends are lines <span class="mt">19:49</span></div>
+<div class="m i">the safeguards 👇 <span class="mt">19:49</span></div>
+<div class="m i">1. <b>slow access.</b> nobody gets old-friend privileges fast. the one rushing closeness in week two is showing you how fast they'll exit <span class="mt">19:50</span></div>
+<div class="m i">2. <b>the waiter test.</b> how they treat someone who can do nothing for them is the preview of you, later, when you're no longer useful <span class="mt">19:50</span></div>
+<div class="m i">3. <b>small promises first.</b> 'sorry forgot lol' on small plans isn't carelessness. it's the factory setting. don't promote someone flunking small loyalty to big loyalty <span class="mt">19:50</span></div>
+<div class="m i">4. <b>watch the first no.</b> real people adjust. users punish: guilt trips, sudden coldness, drama. their reaction to your first no is the trailer for the whole relationship <span class="mt">19:51</span></div>
+<div class="m i">5. <b>judge the worst day, not the best one.</b> everyone's masked up while the show is running. you want them tired, stressed, bored. the default version is the real one <span class="mt">19:51</span></div>
+<div class="m i">6. <b>the common denominator test.</b> if every ex, old friend and boss in their story is the villain, there's one consistent character. it's them <span class="mt">19:51</span></div>
+<div class="m i">and flip it on yourself: if the same type keeps finding you in different bodies, the pattern isn't them. it's your filter <span class="mt">19:52</span></div>
+<div class="m i rx">7. <b>keep receipts. literally.</b> write down what they did while it hurts. one sentence. <b>pain fades, paper doesn't</b><span class="rc">📌</span> <span class="mt">19:52</span></div>
+<div class="m i">so when the new person feels 'different', don't compare their charm to your faded pain. compare their actions to your list <span class="mt">19:52</span></div>
+
+<div class="day">Thursday · Lesson 04 · How men and women like</div>
+
+<div class="m o f">when someone says they like you, what's actually running in their head? and real talk, your male vs female thing was textbook… bc it's rumored girls love tall cute face masculine body 💀 <span class="mt">22:03<i class="tk">✓✓</i></span></div>
+<div class="m i f">the rumor is true. I won't take it from you. but here's what it misses <span class="mt">22:04</span></div>
+<div class="m i">when most people say 'I like you', they don't mean you. they mean <b>'I like how I feel when I'm near you'</b> <span class="mt">22:04</span></div>
+<div class="m i">they're not looking at you. they're looking at what you dispense. attention, laughter, the feeling of being chosen. you're a vending machine, and the brain fires wanting chemicals in anticipation of the product <span class="mt">22:04</span></div>
+<div class="m i">the serial liker isn't a lover of people. he's an addict of a feeling. every new face is a fresh supplier. and the feeling decays (battery law), so the supplier gets replaced <span class="mt">22:05</span></div>
+<div class="m i">now the tall handsome thing 👇 <span class="mt">22:05</span></div>
+<div class="m i"><b>for men, looks are the verdict. for women, looks are the entry exam</b> <span class="mt">22:06</span></div>
+<div class="m i">he sees a beautiful stranger and the attraction is already complete. she could open her mouth and be terrible and it survives <span class="mt">22:06</span></div>
+<div class="m i">she sees a tall handsome stranger and what she has is a green light, not a decision. he still has to clear the behavior rounds: how he talks, the waiter test, how he handles her no <span class="mt">22:06</span></div>
+<div class="m i">that's why the handsome guy loses her in ten minutes of conversation and the average guy wins her over ten weeks of consistency <span class="mt">22:07</span></div>
+<div class="m i">and men's visual taste is a picture. women's is a video: how he moves, carries himself, enters a room. it's rarely a still photo that turns heads. it's a man in motion who knows where he's going <span class="mt">22:07</span></div>
+<div class="m i">the curses, honestly. her: one photo, 400 messages by midnight, zero way to tell which are real. drowning in quantity, starving for quality <span class="mt">22:08</span></div>
+<div class="m i">him: silence. invisible unless performing or winning. <b>both pay. different currencies</b> <span class="mt">22:08</span></div>
+<div class="m o f">ok and when someone names your body features and makes you feel special… does that get a vote? 😅 <span class="mt">22:15<i class="tk">✓✓</i></span></div>
+<div class="m i f">a small one. the entry ticket, not the prize <span class="mt">22:16</span></div>
+<div class="m i">body features = 'I like the wrapper'. anyone can name your eyes after five minutes. zero knowledge of you required. millions of people have nice eyes <span class="mt">22:16</span></div>
+<div class="m i">'you make me feel special' = still about them. the feeling you dispense <span class="mt">22:16</span></div>
+<div class="m i">the only full vote: <b>'the way you think, how you treat the waiter, that thing you do when you're excited'</b> — someone who's been watching WHO you are, not what you look like <span class="mt">22:17</span></div>
+<div class="m i">and the trap: <b>specificity mimics being known.</b> 'your nose scrunches when you laugh' beats ten 'you're pretty's. players know this cold <span class="mt">22:17</span></div>
+<div class="m i">test: ask 'why do you like me' at month one, again at month six. real answers get deeper and weirder. a person keeps being discovered. fake answers freeze. they stopped learning you at week two <span class="mt">22:18</span></div>
+<div class="m o f">and biology vs psychology on teens? why does that even happen <span class="mt">22:24<i class="tk">✓✓</i></span></div>
+<div class="m i f">biology reads bodies, not birth certificates. youth signals fire regardless of the age. the ancient attraction system is dumb. it fires on the signal <span class="mt">22:25</span></div>
+<div class="m i">but the judgment wiring, risk-reading, manipulation detection, isn't finished until around 25 <span class="mt">22:25</span></div>
+<div class="m i"><b>nature ships the hardware early and installs the software late.</b> and predators position themselves inside that gap <span class="mt">22:25</span></div>
+<div class="m i">the attraction being explainable never licenses using the gap. the body arriving early doesn't license the mind arriving late. that's the whole line <span class="mt">22:26</span></div>
+
+<div class="day">Friday · Lesson 05 · Walls and hunger</div>
+
+<div class="m o f">ok the wall thing I still don't fully get. why is a girl who plays hard to get suddenly soft for a guy? and what did you even mean by 'hunger' 🤨 <span class="mt">23:10<i class="tk">✓✓</i></span></div>
+<div class="m i f">the wall doesn't block everyone. <b>it only blocks the people she doesn't want</b> <span class="mt">23:11</span></div>
+<div class="m i">hard to get isn't armor against liking someone. it's a price tag. it filters the crowd and raises her value <span class="mt">23:11</span></div>
+<div class="m i">the flaw: the wall was calibrated against guys below her bar. a guy she rates highly never hits it. he was never its target. 'suddenly soft' isn't the wall failing. the game was always finding someone worth softening for <span class="mt">23:11</span></div>
+<div class="m i">and the skilled ones read the wall itself. it's a photograph of the last crime, so it displays the wound. it advertises exactly what she's starving for, and he supplies it on schedule. <b>the wall advertises the need</b> <span class="mt">23:12</span></div>
+<div class="m i">now hunger. loneliness works like starvation. literally <span class="mt">23:12</span></div>
+<div class="m i">a person who hasn't eaten in months finds plain rice delicious. not bc rice is delicious. bc the body is empty. hunger destroys judgment of food quality <span class="mt">23:12</span></div>
+<div class="m i rx">month eight alone, a moderately nice guy texts back fast and asks about her day, and it lands like a feast. it's not a feast. <b>he's plain rice. she's just starving</b><span class="rc">😂</span> <span class="mt">23:13</span></div>
+<div class="m i">the starving version thinks he's fate. the well-fed version rates him a six and keeps scrolling <span class="mt">23:13</span></div>
+<div class="m i"><b>you make your most important people decisions at your emptiest, exactly when your judgment is worst</b> <span class="mt">23:13</span></div>
+<div class="m i">rule: never judge a meal while starving. get baseline friendship in your life first so no single person carries your entire food supply <span class="mt">23:14</span></div>
+<div class="m o f">what about the girl who's like 'I don't care about boys, they're all the same, I can enter and leave anytime' 💅 she's seen every type <span class="mt">23:19<i class="tk">✓✓</i></span></div>
+<div class="m i f">that wall has a construction history. hurt once, she builds a wall against that specific crime. hurt again by a completely different crime, the wall fails. third time, her brain concludes walls don't work <span class="mt">23:20</span></div>
+<div class="m i">so she goes one level up. instead of blocking the men, she blocks <b>the caring itself</b>. 'if I never invest, nothing can be taken from me' <span class="mt">23:20</span></div>
+<div class="m i">here's what nobody tells her 👇 <span class="mt">23:21</span></div>
+<div class="m i"><b>genuinely indifferent people don't announce it.</b> the announcement IS the tell. she's not describing her state, she's marketing it <span class="mt">23:21</span></div>
+<div class="m i">and it's bait. 'all boys are the same' is fishing for the one who'll say 'I'm not'. players have that answer scripted. her armor handed him the exception role for free <span class="mt">23:21</span></div>
+<div class="m i">it's also pride armor. 'I wasn't played' is unbearable. 'I'm the one who plays' is livable. same wound, different marketing <span class="mt">23:22</span></div>
+<div class="m i">and this one falls the hardest. the armor guarantees starvation, so she has the deepest hunger in the game. and the one who finally gets through is the patient one who doesn't chase or flinch at exit threats. the first man she can't file under 'same as the others' <span class="mt">23:22</span></div>
+<div class="m i"><b>watch actions, never announcements. announcements are wishes</b> <span class="mt">23:22</span></div>
+
+<div class="day">Saturday · Lesson 06 · The married man</div>
+
+<div class="m o f">a man with a wife and child. what is he actually looking for?? <span class="mt">21:40<i class="tk">✓✓</i></span></div>
+<div class="m i f">picture him. 38, married ten years, kid is six. nothing is wrong exactly. the wife loves him, the job pays, the house is quiet <span class="mt">21:41</span></div>
+<div class="m i">but watch his day. everyone talks to him like a task manager. school fees, leaking tap, targets, permission <span class="mt">21:41</span></div>
+<div class="m i"><b>nobody in that house wants him. they all need him</b> <span class="mt">21:41</span></div>
+<div class="m i">wanting and needing are different foods. he's been eating 'needed' for ten years, starving for 'wanted' without knowing the name of the hunger <span class="mt">21:42</span></div>
+<div class="m i">at 25 he was a draft. a maybe. at 38 he's a finished document. his wife knows him completely, she's seen every failure, nothing left to discover. and people only look at a machine when it's broken <span class="mt">21:42</span></div>
+<div class="m i">then someone new looks at him with wanting eyes. someone who's never heard the jokes, doesn't know about the year he almost got fired. around her he's a draft again. editable. possible <span class="mt">21:43</span></div>
+<div class="m i"><b>he's not looking for a woman. he's looking for a mirror that doesn't know him yet</b> <span class="mt">21:43</span></div>
+<div class="m i">he's not escaping her. he's escaping the version of himself the marriage created: the reliable function. she sells him back to himself at 25 <span class="mt">21:44</span></div>
+<div class="m i">three endings. guilt wins: the marriage continues, slightly more dead. he leaves: in about three years the new one has heard all the jokes too. that's why second marriages fail more. he didn't leave his wife, he left the routine, and the routine regrows around anyone <span class="mt">21:44</span></div>
+<div class="m i">or he keeps both. family for respect, affair for feeling <span class="mt">21:45</span></div>
+<div class="m i">what he tells himself: 'I found real love'. the truth: <b>he fell in love with the version of himself she reflects</b> <span class="mt">21:45</span></div>
+
+<div class="day">Sunday · Lesson 07 · The aggressive woman</div>
+
+<div class="m o f">a woman who fights everyone, women, men, even her own kids. power drunk or childhood trauma? and the girl who grows up in a toxic house and becomes toxic, what's that? <span class="mt">20:05<i class="tk">✓✓</i></span></div>
+<div class="m i f">not two different conditions. <b>two stages of the same disease</b> <span class="mt">20:06</span></div>
+<div class="m i">stage one is trauma. she grew up where loudness was survival. the quiet ones got eaten. so her nervous system installed fight mode as the default. her body treats disagreement as danger <span class="mt">20:06</span></div>
+<div class="m i">mechanically it's a smoke detector that goes off when you make toast. not evil. calibrated by fire. the calibration made sense in childhood. she kept the setting into a life where it doesn't <span class="mt">20:06</span></div>
+<div class="m i">stage two is the graduation. aggression starts working. people back down. the room goes quiet when she enters. every win trains it deeper. other people's fear reads to her as respect, and respect feels like safety <span class="mt">20:07</span></div>
+<div class="m i">that's the moment it stops being trauma and becomes choice. <b>the wiring was inherited. the keeping of it is a decision</b> <span class="mt">20:07</span></div>
+<div class="m i">how to tell which one is in front of you: trauma fires under threat, power fires at mere inconvenience. trauma attacks bc it's scared. power attacks bc it enjoys the silence after. and afterward, the trauma one sometimes feels bad. the power one feels good <span class="mt">20:07</span></div>
+<div class="m i">the kids are the heavy part. they're installing the software right now. the daughter learns women explode to be heard. the son learns love and fear arrive together. in twenty years he'll either run from loud women or find calm boring. that's the inheritance <span class="mt">20:08</span></div>
+<div class="m i">the toxic-house girl: by around seven the environment already wrote what 'normal' sounds like. she didn't choose the script. she absorbed it before she could compare it to anything <span class="mt">20:09</span></div>
+<div class="m i">two locks keep her in: chaos feels like home, so calm feels foreign, even suspicious. and under pressure she reaches for the only software she owns. <b>inheritance plus a missing alternative script</b> <span class="mt">20:09</span></div>
+
+<div class="day">Monday · Lesson 08 · Spotting serial likers</div>
+
+<div class="m o f">give me the full tests for serial likers. and what do you mean 'stop dispensing' when advising a girl… she's not giving anything out?? 😅 <span class="mt">22:58<i class="tk">✓✓</i></span></div>
+<div class="m i f">tests first 👇 <span class="mt">22:59</span></div>
+<div class="m i">1. <b>the speed test.</b> 'never felt this before, it's been two weeks' = he's describing his high, not you. ask him to describe you. 'easy to talk to, you make me feel calm, you're different' is all about him and what you dispense. the real thing is weird and specific and takes months <span class="mt">22:59</span></div>
+<div class="m i">2. <b>the graveyard scan.</b> ten intense two-month stories, every single one 'the one', every ending 'it faded'. real love varies in shape bc people differ. <b>addiction is consistent. same high, same crash, new supplier</b> <span class="mt">23:00</span></div>
+<div class="m i">3. <b>the boredom test.</b> take them somewhere flat. no dinner, no party, nothing to consume. the feeling-lover gets itchy, phone comes out. the person-lover relaxes. nothing is happening and they're fine <span class="mt">23:00</span></div>
+<div class="m i">4. <b>the leak test.</b> you're mid-sentence about something that matters, someone very attractive walks in. watch THEIR eyes. attention leaks are automatic. they happen before manners can stop them <span class="mt">23:01</span></div>
+<div class="m i">5. <b>the type test.</b> everyone they've ever liked looks and vibes the same. you weren't chosen. the slot opened and you fit it <span class="mt">23:01</span></div>
+<div class="m i">6. <b>month six.</b> re-ask why they like you. deeper = real. frozen = nobody home <span class="mt">23:02</span></div>
+<div class="m i">now the dispensing part. she IS giving something out, daily 👇 <span class="mt">23:02</span></div>
+<div class="m i">her attention. her fast replies. her laughter at his jokes. the light in her eyes when he shows up. the feeling of being chosen <span class="mt">23:03</span></div>
+<div class="m i">he's not hooked on her body necessarily. he's hooked on <b>the version of himself he gets to be around her.</b> she's the machine, and the machine dispenses significance <span class="mt">23:03</span></div>
+<div class="m i">so 'stop dispensing' means withdraw the attention. go quiet. go flat. slow the replies, stop making him the main event. not as a game. as a test <span class="mt">23:03</span></div>
+<div class="m i">the one hooked on the feeling starves within weeks. he escalates to get the supply back or vanishes to find a new machine. the one hooked on her asks what's wrong and stays through the flatness <span class="mt">23:04</span></div>
+<div class="m i"><b>remove the product and watch who remains</b> <span class="mt">23:04</span></div>
+
+<div class="day">Tuesday · Lesson 09 · Rich girl, poor boy</div>
+
+<div class="m o f">and why does a rich girl fall for a poor boy 😅 <span class="mt">21:30<i class="tk">✓✓</i></span></div>
+<div class="m i f">money's vote is already cast. she has it. his wallet can't impress someone whose money problem is solved. so her attraction shifts to what she's actually missing <span class="mt">21:31</span></div>
+<div class="m i">what's she missing? <b>being chosen for herself.</b> her whole world is people whose niceness is bought. she can never be sure who likes her and who likes the money <span class="mt">21:31</span></div>
+<div class="m i">then a guy with empty pockets teases her, argues with her, treats her exactly like everyone else. first time in her life the background question goes silent. his attention can't be bought, so it's the first attention that feels real <span class="mt">21:32</span></div>
+<div class="m i">his confidence is load-bearing. rich-man confidence is backed by the account. a broke guy who still carries himself like a prize is showing you confidence with no scaffolding. rarer than rich. and rarity attracts <span class="mt">21:32</span></div>
+<div class="m i">he pays in her missing currency. resources are worthless to her, she owns those. time, attention, pursuit: effort is the one thing she can't buy. and the slope reads effort as investment <span class="mt">21:33</span></div>
+<div class="m i">sometimes it's also rebellion. her love life is the one room the family money doesn't control <span class="mt">21:33</span></div>
+<div class="m i">⚠️ but two versions of this guy exist <span class="mt">21:34</span></div>
+<div class="m i">the real one, who will build something. and the trained one who learned the script: act unimpressed by the wealth, never mention money, tease her, bc that's exactly what works on rich girls. he's not a poor boy in love. he's the smartest vending-machine customer she's ever had <span class="mt">21:34</span></div>
+<div class="m i">same test as always: <b>watch years, not months. watch what he builds when nobody impressive is looking</b> <span class="mt">21:34</span></div>
+
+<div class="day">Wednesday · Lesson 10 · The seer who can't build</div>
+
+<div class="m o f">ok personal one. why can I spot gaps, in people, in systems, name them even, but never USE them? it's all just 'reasonable in my head' 😭 <span class="mt">00:14<i class="tk">✓✓</i></span></div>
+<div class="m i f">now we're at the real one <span class="mt">00:15</span></div>
+<div class="m i">first: <b>the head is a frictionless simulator.</b> in your head the idea has no people saying no, no logistics, no rejection. 'reasonable in my head' means it never met reality. it's an unedited draft <span class="mt">00:15</span></div>
+<div class="m i">and an untested idea feels exactly like a tested one from the inside. you can't tell insight from comfortable fantasy until it touches the world <span class="mt">00:15</span></div>
+<div class="m i">second: the reward got collected at the spotting. the insight fires a small hit of 'I'm smart', the brain files it under done. <b>the idea became the achievement.</b> nobody builds for free, and your brain thinks it already paid you <span class="mt">00:16</span></div>
+<div class="m i">third: nobody asked. an unsolicited solution arrives as an attack. people are married to their systems, even the broken ones, bc they built them <span class="mt">00:16</span></div>
+<div class="m i">fourth, the honest math: your eyes got ten years of daily training. your hands got two tries. then you compared them and concluded 'I'm the seeing type, not the doing type'. <b>that's not a talent gap. that's an hours gap</b> <span class="mt">00:17</span></div>
+<div class="m i">and the quiet one: the you in your head has never lost. every idea worked. perfect record, bc nothing was ever tested. executing puts the first loss on the record. sometimes 'can't' is actually 'won't' <span class="mt">00:17</span></div>
+<div class="m i">last layer, the freeze. a gap in a person is usually their wound showing. using it means farming someone's wound. your hand freezes there <span class="mt">00:18</span></div>
+<div class="m i"><b>that freeze is the line between understanding people and operating people.</b> the players are the ones with your eyes who never freeze <span class="mt">00:18</span></div>
+<div class="m i">the test: would the person still be fine with it if they watched you do it? if yes, use your sight freely. if no, you found the line. and it was never a skill problem. it was the working part of your conscience <span class="mt">00:19</span></div>
+<div class="m i">and notice: you're already doing it. the pattern content IS your sight, shipped. same eyes the players have. different direction <span class="mt">00:19</span></div>
+<div class="m i rx"><b>spot a hundred, build one. that's a filter, not a failure.</b> a hundred seen and one built makes you a builder. a hundred seen and none built makes a spectator with full notebooks<span class="rc">🔥</span> <span class="mt">00:20</span></div>
+<div class="m i"><b>spectators die with the notebooks</b> <span class="mt">00:20</span></div>
+
+<div class="day">Yesterday · Lesson 11 · Karma without the sky court</div>
+
+<div class="m o f">what actually happens to scammers, prostitutes, pornstars? do they deserve pity? how do you read their misery so you know they're not just looking for their next fix? not the bible version. connect it to karma 🙏 <span class="mt">23:41<i class="tk">✓✓</i></span></div>
+<div class="m i f">first split the group. scammers chose predation. prostitutes mostly got eaten by the market before they learned to work it. pornstars sit between. different starts, shared engines <span class="mt">23:42</span></div>
+<div class="m i"><b>karma is not a court in the sky. it's three engines running</b> 👇 <span class="mt">23:42</span></div>
+<div class="m i">engine 1: <b>you become your habits.</b> the scammer trains his lying muscle until lying is his native language. now the price: a man who lies professionally can never fully believe anyone. he knows exactly what people are capable of. he built a paranoid world and now he lives inside it <span class="mt">23:43</span></div>
+<div class="m i">engine 2: <b>you harvest what you broadcast.</b> predatory signals attract predators. her world fills with men who pay and never men who stay. the pornstar trains thousands of men to see her as a category, then wants one who sees her as a person, and can't find him. you farm an environment, then you eat its crops <span class="mt">23:43</span></div>
+<div class="m i">engine 3: <b>the self-image tax.</b> everyone must believe they're decent. harming while feeling decent costs daily rationalization. 'they'd have scammed me first'. that tax never stops. it's why they're miserable even in good months. paid in alcohol, spending, numbness <span class="mt">23:44</span></div>
+<div class="m i">so when you see one of them broken, that's not the universe punishing them. <b>that's the engines running visibly. the bill arriving</b> <span class="mt">23:44</span></div>
+<div class="m i">pity? <b>pity the child, not the pattern.</b> almost every one of them was once a kid something happened to. that kid deserves compassion, full stop. the adult running the pattern is choosing daily <span class="mt">23:45</span></div>
+<div class="m i">the line: lightning explains the fire. but if it's still burning three years later, lightning is no longer the cause. <b>someone is feeding it every morning</b> <span class="mt">23:45</span></div>
+<div class="m i">at 14 she was taken. history. at 20 she's surviving in it. mostly history. at 28 she's recruiting the new 14 year olds. now she's not the victim of the pattern anymore. she IS the pattern. <b>she became someone else's history</b> <span class="mt">23:46</span></div>
+<div class="m i">reading the misery. the tells 👇 <span class="mt">23:46</span></div>
+<div class="m i">relief vs change: 'help me pay rent this month' funds the cycle. 'help me find other work' exits it <span class="mt">23:47</span></div>
+<div class="m i">the polished story: real suffering is messy, ashamed, avoids detail. a smooth, well-timed sob story is not a breakdown, it's a delivery. <b>rehearsal is a product. shame is real</b> <span class="mt">23:47</span></div>
+<div class="m i">audience: does the misery exist when nobody's watching? sadness that switches off when the observer leaves was a fishing rod <span class="mt">23:47</span></div>
+<div class="m i">small promises: hand them one tiny thing that costs effort. be here at nine, fill this form. the exit-seeker does it even from rock bottom. the cycler can't be bothered even from rock bottom. the plan was never exit. the plan was rescue <span class="mt">23:48</span></div>
+<div class="m i">blame direction: if everyone in their story wronged them, there's one recurring character. the genuine one says one specific sentence at some point: <b>'I did this to myself'</b>. that's the sound of the exit door opening <span class="mt">23:48</span></div>
+<div class="m i">and the most reliable: the move after rescue. lifeline used to climb, or runway used to dive back in. people reveal their direction after relief, never before <span class="mt">23:49</span></div>
+<div class="m i">and when you help and get burned, that's not bad karma. <b>you fed a machine that manufactures victims and acted surprised it produced one. not your karma. your lesson</b> <span class="mt">23:49</span></div>
+<div class="m o f">give me the 5 things that bring each of them down 👀 <span class="mt">23:52<i class="tk">✓✓</i></span></div>
+<div class="m i f">the cyclers fall from the outside. the exit-seekers fall from their own hand on the wheel <span class="mt">23:53</span></div>
+<div class="m i">cyclers 1: <b>they run the game on the wrong target.</b> confidence grows with every win, so they take bigger and bigger marks, until one day they con someone more protected or more predatory than them. every con man's career ends at the mark who wasn't a mark <span class="mt">23:53</span></div>
+<div class="m i">cyclers 2: <b>the pond dries.</b> their whole business runs on being unknown. numbers get shared, the town learns her face, the real name leaks. reputation travels faster than people. one day they starve inside their own pond <span class="mt">23:54</span></div>
+<div class="m i">cyclers 3: <b>escalation math.</b> like drug tolerance. the tenth con barely registers, so the dose grows until they're visible to the wrong people. they don't get caught bc they got sloppy. they get caught bc the old size stopped paying. boredom makes more criminals than greed <span class="mt">23:54</span></div>
+<div class="m i">cyclers 4: <b>the coping eats the earnings.</b> the self-image tax gets paid in substances. from outside they look rich. in the ledger the substance already owns everything. the collapse was internal years before it was external <span class="mt">23:55</span></div>
+<div class="m i">cyclers 5: <b>they fall alone on concrete.</b> every relationship was a transaction. when the money stopped, the room emptied. they built alone, so they fall alone <span class="mt">23:55</span></div>
+<div class="m i">exit-seekers 1: <b>they exit the behavior but keep the identity.</b> same self, new address. the first stressful week, the old program boots up. an exit isn't leaving a place, it's becoming someone who doesn't need the place. <b>relapse isn't an accident. it's a homecoming</b> <span class="mt">23:56</span></div>
+<div class="m i">exit-seekers 2: <b>same pond.</b> same neighborhood, same contacts, same phone. the old world doesn't just tempt, it recruits. the ones who make it out change three things at once: place, people, phone number. the ones who change only their mind go back <span class="mt">23:56</span></div>
+<div class="m i">exit-seekers 3: <b>money comparison.</b> honest work pays slowly, the old life paid fast. month three, rent late, and the brain does the quiet math: this month's salary equals two days of the old earnings. the relapse never comes in a good month. <b>it comes the exact week the money hurts</b> <span class="mt">23:57</span></div>
+<div class="m i">exit-seekers 4: <b>calm feels wrong.</b> a nervous system calibrated in chaos reads peace as danger. something must be about to go wrong. so it manufactures a crisis and runs back to the noise where at least it knows the rules. some people walk out of the fire and feel cold everywhere else <span class="mt">23:57</span></div>
+<div class="m i">exit-seekers 5: <b>sabotage at the threshold.</b> things actually start working. job, partner, ordinary Tuesdays. and right at the edge they blow it up. bc the deepest belief never changed: <b>'people like me don't get this.'</b> they destroy the exit bc they don't believe they're allowed to keep it <span class="mt">23:58</span></div>
+
+<div class="day">Last night · Lesson 12 · Knowing when she's ready</div>
+
+<div class="m o f">last one. how do I know a pornstar is actually ready to get out? 🤔 <span class="mt">01:12<i class="tk">✓✓</i></span></div>
+<div class="m i f">first clear the trap. a lot of 'exits' are just one customer instead of a market. she finds a boyfriend or sponsor who pays for everything. <b>that's not leaving. that's the same economy, privatized</b> <span class="mt">01:13</span></div>
+<div class="m i">ready isn't 'she wants out'. half of them want out every bad day. <b>ready is she's building something that doesn't need her body or a host</b> <span class="mt">01:13</span></div>
+<div class="m i">watch the catalog. the archive pays forever, it's her entire asset. what she does with it when there's no financial pressure is the truest signal you'll ever get <span class="mt">01:14</span></div>
+<div class="m i">deleting and scrubbing with no replacement income = the new identity outweighs real money. people only burn their old money for a new self <span class="mt">01:14</span></div>
+<div class="m i">keeping it 'just in case' = the door is open. <b>'just in case' is the whole answer</b> <span class="mt">01:14</span></div>
+<div class="m i">rebrand vs exit: keeping the following but changing the content is a business pivot. abandoning the name, the handle, the whole identity is an exit. <b>a rebrand keeps the pond</b> <span class="mt">01:15</span></div>
+<div class="m i">the recognition flinch. inside the industry, fans mean revenue and validation. it feels good. the ready one flinches. being recognized starts feeling like being seen in a costume she can't take off <span class="mt">01:15</span></div>
+<div class="m i">the defense stops. 'it's empowering, it's just work, I chose this' is labor for someone living in it. <b>residents defend the house. nobody packing boxes repaints the walls</b> <span class="mt">01:16</span></div>
+<div class="m i">grief vs nostalgia. the one going back tells the old stories with sparkle. the one leaving talks about it flat and tired, like describing weather. <b>grief is the exit being paid for in advance</b> <span class="mt">01:16</span></div>
+<div class="m i">what she asks about the after. money questions are lifestyle preservation. identity questions, 'who would even want me', sound like despair. they're actually the work happening. <b>despair pointed forward is the exit starting</b> <span class="mt">01:17</span></div>
+<div class="m i">the hidden one: <b>she quits the attention, not just the income.</b> her real drug was never the money. it was millions desiring her. the relapse never starts with a scene. it starts micro: checking fan DMs, posting 'just a little', keeping the handle alive. the ready one goes quiet <span class="mt">01:17</span></div>
+<div class="m i">voluntary disclosure. her past is permanently searchable. the internet is the pond that never drains. the ready one tells the new man herself, early, before any stranger can. that's ownership, and the only strategy that survives discovery <span class="mt">01:18</span></div>
+<div class="m i">and small boring steps. forms, classes, a resume with gaps she has to explain out loud. rock-bottom exit-seekers still fill forms <span class="mt">01:18</span></div>
+<div class="m i">the honest answer: you don't know. not from words, not from tears, not from the announcement. <b>you know after about 90 days of watching what she does when nothing is forcing her.</b> announcements are wishes. actions are truth <span class="mt">01:19</span></div>
+
+<div class="day">Today · The laws · The whole engine</div>
+
+<div class="m o f">ok. now compile the whole thing. the entire engine, everything we covered. I don't want to forget any of it 🙏 <span class="mt">23:59<i class="tk">✓✓</i></span></div>
+<div class="m i f">screenshot these 👇 <span class="mt">00:00</span></div>
+<div class="m i"><b>biology sets the floor. psychology builds on it. behavior is the output</b> <span class="mt">00:00</span></div>
+<div class="m i"><b>pain makes you porous. comfort seals you shut</b> <span class="mt">00:01</span></div>
+<div class="m i"><b>the promise becomes the product</b> <span class="mt">00:01</span></div>
+<div class="m i"><b>pain fades. rewards don't. rules don't drain</b> <span class="mt">00:01</span></div>
+<div class="m i"><b>once is luck. three times is you</b> <span class="mt">00:01</span></div>
+<div class="m i"><b>promises are made cold and broken hot</b> <span class="mt">00:02</span></div>
+<div class="m i rx"><b>effects over history. always</b><span class="rc">💯</span> <span class="mt">00:02</span></div>
+<div class="m i"><b>people don't love people. they love feelings.</b> everyone is someone's vending machine until proven otherwise <span class="mt">00:02</span></div>
+<div class="m i"><b>charm is a spike. character is a line</b> <span class="mt">00:03</span></div>
+<div class="m i"><b>walls are photographs of the last crime.</b> blind to the next one <span class="mt">00:03</span></div>
+<div class="m i"><b>hunger makes plain rice taste like fate</b> <span class="mt">00:03</span></div>
+<div class="m i"><b>everyone falls for what they're missing, in the currency they can't print</b> <span class="mt">00:04</span></div>
+<div class="m i"><b>money doesn't change people. it unmasks them</b> <span class="mt">00:04</span></div>
+<div class="m i"><b>announcements are wishes. actions are truth</b> <span class="mt">00:04</span></div>
+<div class="m i"><b>explanation is not excuse.</b> lightning explains the fire. someone still feeds it <span class="mt">00:05</span></div>
+<div class="m i"><b>the head is a frictionless simulator</b> <span class="mt">00:05</span></div>
+<div class="m i"><b>you become your habits. you harvest what you broadcast</b> <span class="mt">00:05</span></div>
+<div class="m i"><b>men spike. women slope.</b> his looks are the verdict, her looks are the entry exam <span class="mt">00:06</span></div>
+<div class="m i"><b>cyclers fall from the outside. exit-seekers fall from their own hand on the wheel</b> <span class="mt">00:06</span></div>
+<div class="m i"><b>spectators die with full notebooks. spot a hundred, build one</b> <span class="mt">00:06</span></div>
+<div class="m i">truth over comfort · effects over history · patterns over surface · real connection over numbers 🧠 <span class="mt">00:07</span></div>
+<div class="m i">now your turn 👇 <span class="mt">00:07</span></div>
+<div class="m i"><b>which one of these people have you actually met in real life? the married man, the wall girl, or the trained poor boy?</b> 👀 <span class="mt">00:07</span></div>
+<div class="m i f typing"><i></i><i></i><i></i></div>
+
+<div class="foot">🔒 compiled from every question you asked<br>keep adding pages as we go</div>
+
 </div>
-<div class="card">
-<h3>The deeper layer: lessons are stored as weight, not facts</h3>
-<p>Your brain is a scale — cost on one side, reward on the other. Pain fades faster than pleasure (fading affect bias). So the lesson that weighed 100 at the moment weighs 30 six months later, while the reward that caused the mistake stays fully charged. The scale tips back. You didn't forget. The battery drained.</p>
 </div>
-<table>
-  <tr><th></th><th>Cold state (making the promise)</th><th>Hot state (breaking it)</th></tr>
-  <tr><td>When</td><td>After the consequence — calm, regretful</td><td>In the moment — excited, impulsive</td></tr>
-  <tr><td>Who's running</td><td>The rational self</td><td>A different set of circuits</td></tr>
-  <tr><td>Lesson access</td><td>Crystal clear, feels obvious</td><td>Literally not loadable</td></tr>
-  <tr><td>Result</td><td>Writes the rule</td><td>Can't read the rule</td></tr>
-</table>
-<div class="card">
-<h3>Why the same lesson comes back three times</h3>
-<p>Identity doesn't update from events. It updates from patterns. Once = luck. Twice = coincidence. Three times = it's about you.</p>
-<ul>
-<li>First time hits the head — "I understand what happened."</li>
-<li>Second time hits the gut — "this actually costs me."</li>
-<li>Third time hits the identity — "this isn't who I am."</li>
-</ul>
-<p><b>What makes lessons stick:</b> write it down while it hurts (capture the weight at 100), reread it before hot states (the battery pack), build rules not memories (rules don't drain). There is no permanently learned lesson — only a currently remembered one.</p>
-</div>
-<div class="sum">Openness isn't a character trait. It's a condition. Pain makes cracks; comfort seals them.</div>
-
-<!-- 2 -->
-<h2 id="s2"><span class="num">02</span>Money: won vs earned, and why it "changes" people</h2>
-<div class="law">The broke person's discipline is a cage, not character.</div>
-<p>His promise to "spend wisely when rich" is written by a man who has never felt money — a sober man writing rules for how he'll behave drunk. When money arrives, the cage opens and whatever was inside walks out.</p>
-<table>
-  <tr><th></th><th>Earned money</th><th>Won money</th></tr>
-  <tr><td>Weight</td><td>Every dollar glued to memory — filed as "expensive"</td><td>No memory attached — filed as "free," burns fast</td></tr>
-  <tr><td>What you got</td><td>The machine that makes money — lose it, rebuild it</td><td>The output only — lose it, gone forever</td></tr>
-  <tr><td>Identity</td><td>Upgrades level by level</td><td>Overnight gap: poor-person software, rich-person permissions</td></tr>
-  <tr><td>Ending</td><td>Survives crashes</td><td>Lottery winners and athletes go broke</td></tr>
-</table>
-<div class="card">
-<h3>The balance between poor you and rich you</h3>
-<p><b>Pile 1 — survival lessons (fear in disguise):</b> never spend, always expect the worst, trust nobody. Drop them — they turn you into a paranoid miser.<br>
-<b>Pile 2 — character lessons (true at any income):</b> never lend what you can't lose, never sign unread, no deal needs deciding today. Keep them forever.</p>
-<p>The person who "changed" when rich threw out both piles. The miser kept both. The balanced one kept the rules and retired the fear.</p>
-</div>
-<div class="card">
-<h3>"Money changes people" — the truth</h3>
-<p><b>Money doesn't change people. It unmasks them.</b> It's an amplifier of who you already were. Being good is cheap when you're broke; money raises the price of every kind act — that's when you find out who was actually kind. And once rich, the world stops telling you the truth too. Mask off, mirrors removed.</p>
-</div>
-<div class="sum">The cage was the discipline. Won money is weightless. Money removes the locks and reveals what was locked in.</div>
-
-<!-- 3 -->
-<h2 id="s3"><span class="num">03</span>Choosing people: charm vs character</h2>
-<div class="law">Charm is a spike. Character is a line. You keep judging spikes.</div>
-<p>You compare their charm (100) to your faded memory of the last one (30). The new person wins that comparison every time — it's rigged.</p>
-<div class="card">
-<h3>The seven safeguards</h3>
-<ul>
-<li><b>Slow access.</b> Nobody gets old-friend privileges fast. Rushed closeness previews a rushed exit.</li>
-<li><b>The waiter test.</b> How they treat someone who can do nothing for them is the preview of you, later, when you're no longer useful.</li>
-<li><b>Small promises first.</b> Flunking small loyalty disqualifies from big loyalty. Same person, bigger stakes.</li>
-<li><b>Watch the first no.</b> Real people adjust. Users punish — guilt trips, coldness, drama. The trailer for the whole relationship.</li>
-<li><b>Judge the worst day.</b> Everyone's masked while the show runs. See them tired, stressed, bored. The default version is the real one.</li>
-<li><b>Common denominator test.</b> If every ex, friend, and boss in their story is the villain — there's one consistent character. Flip it on yourself too: the same type keeps finding you because the pattern is your filter.</li>
-<li><b>Keep receipts, literally.</b> Write down what they did while it hurts. Pain fades. Paper doesn't. Compare actions to the list, not charm to faded pain.</li>
-</ul>
-</div>
-<div class="sum">Your gut measures charm. Character is what they do after you say no, when you're down, or when you stop being useful.</div>
-
-<!-- 4 -->
-<h2 id="s4"><span class="num">04</span>Attraction: what "I like you" really means</h2>
-<div class="law">Most "I like you" means "I like how I feel when I'm near you."</div>
-<p>They're not looking at you. They're looking at what you dispense. The brain fires wanting-chemicals in anticipation of the feeling you hand out. The serial liker isn't a lover of people — he's an addict of a feeling, and every new face is a fresh supplier. The feeling decays (battery law), so the supplier must be replaced.</p>
-<table>
-  <tr><th></th><th>How men like</th><th>How women like</th></tr>
-  <tr><td>Shape</td><td>A spike — visual, instant, on/off</td><td>A slope — contextual, slow, evidence over time</td></tr>
-  <tr><td>Biology's reason</td><td>His minimum cost: minutes</td><td>Her minimum cost: nine months plus years</td></tr>
-  <tr><td>Looks mean</td><td>The verdict — nothing left to decide</td><td>The entry exam — behavior still has to close the sale</td></tr>
-  <tr><td>Visual taste is</td><td>A picture (still)</td><td>A video (in motion, carrying himself)</td></tr>
-  <tr><td>The curse</td><td>Silence — invisible unless performing or winning</td><td>Abundance — quantity with no way to filter quality</td></tr>
-</table>
-<div class="card">
-<h3>"Why do you like me?" — what gets a vote</h3>
-<ul>
-<li><b>Body features</b> = "I like the wrapper." Zero knowledge of you required. Entry ticket, not the prize.</li>
-<li><b>"You make me feel special"</b> = still about them. The feeling you dispense.</li>
-<li><b>"The way you think, how you treat the waiter"</b> = they've been watching who you are. The only full vote.</li>
-</ul>
-<p><b>Specificity mimics being known.</b> "Your nose scrunches when you laugh" beats ten "you're pretty"s. Players know this cold — and her test selects for skill, not sincerity.</p>
-<p><b>The test:</b> ask at month one and month six. The real answer gets deeper and weirder — a person keeps being discovered. The fake answer freezes — they stopped learning you at week two.</p>
-</div>
-<div class="card">
-<h3>Teen vs adult — where biology and psychology disagree</h3>
-<p>Biology reads bodies, not birth certificates — youth signals fire regardless of age. But the judgment circuits (risk-reading, manipulation detection) aren't installed until ~25. <b>Nature ships the hardware early and installs the software late — and predators position themselves inside that gap.</b> The attraction being explainable never licenses using the gap.</p>
-</div>
-<div class="sum">People don't fall for people. They fall for feelings — and everyone falls hardest for what they're missing, in the currency they can't print.</div>
-
-<!-- 5 -->
-<h2 id="s5"><span class="num">05</span>Walls &amp; hunger: why the armor fails</h2>
-<div class="law">A wall is a photograph of the last crime — blind to the next one.</div>
-<ul>
-<li><b>The wall is a signpost.</b> Built where the last person hurt you, it displays your wound. Anyone who reads people reads it like instructions.</li>
-<li><b>The door is shaped like the wound.</b> Whoever carries exactly what you were missing gets through — then owns it. That's why it hurts more the second time.</li>
-<li><b>It filters wrong.</b> Good people respect walls. Climbers climb. It rejects the respectful and selects the skilled.</li>
-<li><b>Hunger dissolves it.</b> The wall is a duty someone must enforce daily. Lonely people run out of that energy. The guard went home — uniform still on, asleep at the desk.</li>
-</ul>
-<div class="card">
-<h3>Hunger, plain</h3>
-<p>Loneliness works like starvation. The emptier you are, the better average food tastes. Month eight alone, a moderately nice guy is plain rice — and it lands like a feast. <b>You make your most important people decisions at your emptiest, which is exactly when your judgment is worst.</b> Never judge a meal while starving.</p>
-</div>
-<div class="card">
-<h3>The announced wall</h3>
-<p>"I don't care about boys, they're all the same, I can enter and leave anytime." Genuinely indifferent people don't announce it — <b>the announcement is the tell.</b> It's bait: fishing for the one who'll say "I'm not." Players have that answer scripted. And it's pride armor — "I wasn't played" is unbearable, "I'm the player" is livable.</p>
-<p>This one falls the hardest: the armor guarantees starvation, and the one who gets through is the patient one who doesn't flinch at exit threats — the first man she can't file under "same as the others."</p>
-</div>
-<div class="card">
-<h3>Hard to get</h3>
-<p>It isn't armor against liking someone — it's a price tag. The wall only blocks the people she doesn't want. The guy above her bar never hits it. "Suddenly soft" isn't failure; the game was always finding someone worth softening for.</p>
-</div>
-<div class="sum">Announcements are wishes. Actions are truth. The fix is never a taller wall — it's character checks, which stop all crimes, instead of a wound-shaped wall that stops only the last one.</div>
-
-<!-- 6 -->
-<h2 id="s6"><span class="num">06</span>The married man: what he's really shopping for</h2>
-<div class="law">He's not escaping his wife. He's escaping the version of himself the marriage created.</div>
-<p>Ten years in, he's a function: the provider, the task manager. Everyone in the house <b>needs</b> him; nobody <b>wants</b> him. His wife knows him completely — he's a finished document, nothing left to discover.</p>
-<p>The new person is a mirror that doesn't know him yet. No memory of his failures, no leverage, nothing to compare him to. Around her he's a draft again — editable, possible, chosen <i>today</i>. He falls in love with the version of himself she reflects.</p>
-<p><b>Three endings:</b> guilt wins and the marriage continues, slightly more dead. He leaves — and in ~3 years the new one has heard all the jokes too (why second marriages fail more: he left the routine, and the routine regrows around anyone). Or he keeps both — family for respect, affair for feeling.</p>
-<div class="sum">Wanting and needing are different foods. He's been eating "needed" for years, starving for "wanted" without knowing the name of the hunger.</div>
-
-<!-- 7 -->
-<h2 id="s7"><span class="num">07</span>The aggressive woman: trauma or power?</h2>
-<div class="law">Two stages of one disease — not two different conditions.</div>
-<table>
-  <tr><th></th><th>Stage 1: Trauma</th><th>Stage 2: Power</th></tr>
-  <tr><td>Origin</td><td>A home where loudness was survival; fight mode installed as default</td><td>Aggression started working — people back down, the room goes quiet</td></tr>
-  <tr><td>Fires when</td><td>Under threat</td><td>At mere inconvenience</td></tr>
-  <tr><td>Underneath</td><td>Fear</td><td>Satisfaction — other people's fear reads as respect</td></tr>
-  <tr><td>Afterward</td><td>Sometimes feels bad</td><td>Feels good — the moment it became choice</td></tr>
-</table>
-<p>Mechanically: a smoke detector that goes off when you make toast — not evil, calibrated by fire. The wiring was inherited. <b>The keeping of it is a decision.</b></p>
-<p><b>The children are installing the next version right now.</b> The daughter learns women explode to be heard. The son learns love and fear arrive together — he'll run from loud women or find calm boring.</p>
-<p><b>The girl from the toxic environment who becomes toxic:</b> by ~7 the environment wrote what "normal" sounds like — she didn't choose the script, she absorbed it before she could compare it to anything. Two locks keep her in: chaos feels like home (calm feels foreign, even suspicious), and under pressure she reaches for the only software she owns. Inheritance plus a missing alternative script.</p>
-<div class="sum">Trauma attacks because it's scared. Power attacks because it enjoys the silence after.</div>
-
-<!-- 8 -->
-<h2 id="s8"><span class="num">08</span>Serial likers: the six tests</h2>
-<div class="law">Remove the product and watch who remains.</div>
-<ul>
-<li><b>Speed test.</b> "Never felt this before, it's been two weeks" = he's describing his high, not you. Ask him to describe you: "easy to talk to, you make me feel calm" is all about what you dispense. The real thing is weird and specific and takes months.</li>
-<li><b>Graveyard scan.</b> Ten intense two-month stories, every one "the one," every ending "it faded." Real love varies in shape because people differ. Addiction is consistent — same high, same crash, new supplier.</li>
-<li><b>Boredom test.</b> A day with nothing in it. The feeling-lover gets itchy — the dose dropped. The person-lover relaxes: nothing is happening and they're fine.</li>
-<li><b>Leak test.</b> Mid-sentence, someone very attractive walks in. Watch their eyes, not the newcomer. Attention allocation happens before manners can stop it.</li>
-<li><b>Type test.</b> Everyone they've liked looks and vibes the same. You weren't chosen — the slot opened and you fit it.</li>
-<li><b>Month six.</b> Re-ask "why do you like me." Real answers deepen; a person keeps being discovered. Fake answers freeze; nobody home.</li>
-</ul>
-<div class="sum">And what she dispenses was never her body — it was attention, fast replies, laughter, the feeling of being chosen. The version of him she reflects. Withdraw it as a test: the feeling-hooked starve and vanish; the person-hooked ask what's wrong and stay through the flatness.</div>
-
-<!-- 9 -->
-<h2 id="s9"><span class="num">09</span>Rich girl, poor boy</h2>
-<div class="law">Money's vote is already cast — so her attraction shifts to what she's missing.</div>
-<ul>
-<li><b>Being chosen for herself.</b> Her whole life, niceness was purchasable. A poor boy's interest can't be bought — the first attention that feels real.</li>
-<li><b>Load-bearing confidence.</b> Rich-man confidence is backed by the account. His has no scaffolding — rarer than rich, and rarity attracts.</li>
-<li><b>He pays in her missing currency.</b> Resources are worthless to her — she owns those. Time, attention, pursuit: effort is the one thing she can't buy. And the slope reads effort as investment.</li>
-<li><b>Sometimes rebellion:</b> her love life is the one room the family money doesn't control.</li>
-</ul>
-<p><b>The risk — two versions of this guy exist.</b> The real one who builds. And the trained one running a script: act unimpressed, never mention money, tease her — exactly what works on rich girls. He's not a poor boy in love; he's the smartest vending-machine customer she's ever had.</p>
-<div class="sum">Same test as always: watch years, not months. Watch what he builds when nobody impressive is looking.</div>
-
-<!-- 10 -->
-<h2 id="s10"><span class="num">10</span>The seer who can't build (the you chapter)</h2>
-<div class="law">The stands train vision. The field trains execution. They don't transfer automatically.</div>
-<ul>
-<li><b>The head is a frictionless simulator.</b> "Reasonable in my head" means it never met reality — no people saying no, no logistics, no rejection. An untested idea feels identical to a tested one from the inside.</li>
-<li><b>The idea pays at the sighting.</b> The insight chemical fires, the brain files it as done, and the building never gets funded.</li>
-<li><b>Nobody asked.</b> Unsolicited solutions arrive as attacks — people are married to their systems because they built them. And the deal is rigged: credit if it works, blame if it fails.</li>
-<li><b>The eyes got ten years of training. The hands got two tries.</b> Then you called that a talent gap. It's an hours gap.</li>
-<li><b>The undefeated record.</b> The version of you in your head has never lost. Executing puts the first loss on the record. "Can't" is sometimes "won't."</li>
-<li><b>The freeze is a conscience, not a missing skill.</b> The test: would the person still be fine with it if they watched you do it? If yes, use your sight freely. The players are the ones who never freeze.</li>
-</ul>
-<p><b>The bridge you're already on:</b> the pattern-decoding content is your sight, shipped — the same eyes the players have, aimed at teaching instead of farming. You don't owe execution to everything you see: spot a hundred, build one. That's a filter, not a failure. And reps start embarrassingly small — one sentence, one person, one gap, offered once.</p>
-<div class="sum">A hundred seen and one built makes you a builder. A hundred seen and none built makes you a spectator with full notebooks.</div>
-
-<!-- 11 -->
-<h2 id="s11"><span class="num">11</span>Karma without the sky court: scammers, prostitutes, pornstars</h2>
-<div class="law">History explains them. It doesn't pay their rent or earn them access to your life.</div>
-<p><b>The line:</b> lightning explains the fire. If it's still burning three years later, someone is feeding it every morning. The child had no forks in the road; the adult passes fifty a week and keeps choosing the same one. <b>The day you become someone else's history, your own stops being an excuse.</b></p>
-<div class="card">
-<h3>The three engines of karma (no gods required)</h3>
-<ul>
-<li><b>You become your habits.</b> The scammer trains lying until it's his native language — then can never fully trust anyone, because he knows exactly what people are capable of. The action came home as identity.</li>
-<li><b>You harvest what you broadcast.</b> Predatory signals attract predators. Her world fills with men who pay and never men who stay. You farm an environment, then you eat its crops.</li>
-<li><b>The self-image tax.</b> Everyone must believe they're decent. Harming while feeling decent costs daily rationalization — paid in alcohol, spending, numbness. Why they're miserable even in good months.</li>
-</ul>
-</div>
-<div class="card">
-<h3>Pity the child, not the pattern</h3>
-<p>The kid something happened to deserves compassion. The adult running the pattern is choosing daily. Compassion and boundaries are a package deal — you can understand the machine and still not put your hand in it. When you help and get burned, that's not bad karma — you fed a machine that manufactures victims. Not your karma. Your lesson.</p>
-</div>
-<table>
-  <tr><th>The tell</th><th>Recycling (wants relief)</th><th>Exiting (wants out)</th></tr>
-  <tr><td>What they ask for</td><td>Help with consequences — "help me pay rent this month"</td><td>Help stopping the thing — "help me find other work"</td></tr>
-  <tr><td>The story</td><td>Polished, well-timed, improves with retelling</td><td>Messy, ashamed, tries not to tell it</td></tr>
-  <tr><td>Audience</td><td>Misery switches off when nobody watches</td><td>Exists with or without witnesses</td></tr>
-  <tr><td>Small promises</td><td>Can't be bothered even from rock bottom</td><td>Fills the forms even from rock bottom</td></tr>
-  <tr><td>Blame direction</td><td>Everyone in the story wronged them</td><td>At some point: "I did this to myself"</td></tr>
-  <tr><td>After rescue</td><td>Uses the lifeline to catch breath, dives back</td><td>Uses the lifeline to climb</td></tr>
-</table>
-<table>
-  <tr><th>The five falls</th><th>Cyclers — brought down by the world</th><th>Exit-seekers — brought down by themselves</th></tr>
-  <tr><td>1</td><td>Run the game on the wrong target — the mark who wasn't a mark</td><td>Exit the behavior, keep the identity — relapse is a homecoming</td></tr>
-  <tr><td>2</td><td>The pond dries — reputation travels, the market saturates with their name</td><td>Stay in the same pond — same place, people, phone. Can't leave water standing in it</td></tr>
-  <tr><td>3</td><td>Escalation math — tolerance; boredom makes more criminals than greed</td><td>Money comparison — relapse comes the exact week the money hurts, never a good month</td></tr>
-  <tr><td>4</td><td>The coping eats the earnings — the tool becomes the master; collapse internal years before external</td><td>Calm feels wrong — a system calibrated in chaos reads peace as danger, so it manufactures crisis</td></tr>
-  <tr><td>5</td><td>They fall alone — every relationship was a transaction; when money stopped, the room emptied</td><td>Sabotage at the threshold — "people like me don't get this"; they destroy the exit because they don't believe they're allowed to keep it</td></tr>
-</table>
-<div class="sum">The cyclers are brought down by outside pressure. The exit-seekers by inside gravity. One falls from the world. The other falls from their own hand on the wheel.</div>
-
-<!-- 12 -->
-<h2 id="s12"><span class="num">12</span>The exit: how you know a pornstar is actually ready</h2>
-<div class="law">"Out of the industry but still needs a host" isn't out. It's a transfer.</div>
-<ul>
-<li><b>The catalog.</b> Her archive pays forever. Deleting it with no replacement income = the new identity outweighs real money. Keeping it "just in case" = the door is still open. Rebrand keeps the following; exit abandons the name and the handle.</li>
-<li><b>The recognition flinch.</b> Inside, fans mean revenue — recognition feels good. Ready = being recognized feels like being seen in a costume she can't take off.</li>
-<li><b>The defense stops.</b> Residents defend the house. Nobody packing boxes repaints the walls.</li>
-<li><b>Grief vs nostalgia.</b> The one going back tells the old stories with sparkle. The one leaving talks about it flat and tired, like weather. Grief is the exit being paid for in advance.</li>
-<li><b>What she asks about after.</b> Money questions = lifestyle preservation. Identity questions — "who would even want me" — are the work happening. Despair pointed forward is the exit starting.</li>
-<li><b>She quits the attention, not just the income.</b> Her real drug was millions desiring her. Relapse never starts with a scene — it starts micro: fan DMs, posting "just a little," keeping the handle alive. The ready one goes quiet.</li>
-<li><b>Voluntary disclosure.</b> The past is permanently searchable. The ready one tells the new man herself, early, before a stranger can. Hiding and hoping = not ready.</li>
-<li><b>Small boring steps.</b> Forms, classes, a resume with gaps explained out loud. Rock-bottom exit-seekers still fill forms.</li>
-</ul>
-<p><b>The honest answer:</b> you don't know from words or tears. You know after ~90 days of watching what she does when nothing is forcing her. And the final tell, always: when real help arrives — lifeline used to climb, or runway used to dive back in.</p>
-<div class="sum">Ready isn't a feeling she has. It's a pattern you can count.</div>
-
-<!-- LAWS -->
-<h2 id="laws"><span class="num">∞</span>The Laws — the whole engine on one page</h2>
-<div class="card">
-<ul class="laws">
-<li><b>Biology sets the floor, psychology builds on it, behavior is the output.</b></li>
-<li><b>Pain makes you porous. Comfort seals you shut.</b></li>
-<li><b>The promise becomes the product.</b></li>
-<li><b>Pain fades. Rewards don't.</b> The battery drains — rules don't.</li>
-<li><b>Once is luck. Three times is you.</b> Identity updates from patterns only.</li>
-<li><b>Promises are made cold and broken hot.</b> Two different people share one body.</li>
-<li><b>Effects over history. Always.</b> Audit daily choices, not backstory.</li>
-<li><b>People don't love people. They love feelings.</b> Everyone is someone's vending machine until proven otherwise.</li>
-<li><b>Charm is a spike. Character is a line.</b></li>
-<li><b>Walls are photographs of the last crime</b> — blind to the next one.</li>
-<li><b>Hunger makes plain rice taste like fate.</b> Never judge a meal while starving.</li>
-<li><b>Everyone falls for what they're missing, in the currency they can't print.</b></li>
-<li><b>Money doesn't change people. It unmasks them.</b></li>
-<li><b>Announcements are wishes. Actions are truth.</b></li>
-<li><b>Explanation is not excuse.</b> Lightning explains the fire; someone still feeds it.</li>
-<li><b>The head is a frictionless simulator.</b> Untested ideas and tested ones feel identical from inside.</li>
-<li><b>You become your habits. You harvest what you broadcast.</b></li>
-<li><b>Nobody has a permanently learned lesson — only a currently remembered one.</b></li>
-<li><b>Spectators die with full notebooks.</b> Spot a hundred, build one.</li>
-<li><b>Men spike. Women slope.</b> His looks are the verdict; her looks are the entry exam.</li>
-<li><b>The wall only blocks the unwanted.</b> The wanted were never its target.</li>
-<li><b>Cyclers fall from the outside. Exit-seekers fall from their own hand on the wheel.</b></li>
-</ul>
-</div>
-
-<p class="note">Built from every question you asked. Truth over comfort · Effects over history · Patterns over surface · Real connection over numbers. Keep adding pages as we go.</p>
-
 </body>
 </html>
